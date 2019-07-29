@@ -1,8 +1,16 @@
 row {
   padding: 10px;
-  
+
 }
 
 col {
   padding: 10px
+}
+
+.user {
+  visibility: hidden
+}
+
+.organization {
+  visibility: visible
 }

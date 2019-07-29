@@ -6,12 +6,73 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c4975ec6d1e23ae5c8d23ee779096d7f2f26e313
 class User(ndb.Model):
     full_name = ndb.StringProperty()
     email = ndb.StringProperty()
     location = ndb.StringProperty()
     phone = ndb.IntegerProperty()
+<<<<<<< HEAD
+=======
+
+class Event(ndb.Model):
+    title = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = True)
+    time = ndb.StringProperty(required = True)
+    location = ndb.StringProperty(required = False)
+    def describe(self):
+        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
+
+
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
+
+class Donation(nbd.Model):
+    donation = nbd.IntegerProperty(required = True)
+    user = nbd.StringProperty
+
+class populateDatabase(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.redirect('/mainFeed')
+        self.response.write(template.render())
+
+class mainFeed(webapp2.RequestHandler):
+    def get(self):
+        event_query = Event.query()
+        event_list = event_query.fetch()
+        current_user = users.get_current_user()
+        signin_link = users.create_login_url('/')
+        template_vars = {
+            'event_list' : event_list,
+            'currentUser' : current_user
+        }
+        template = jinja_env.get_template('templates/mainFeed.html')
+        self.response.write(template.render(template_vars))
+    def post(self):
+        template = jinja_env.get_template('templates/mainFeed.html')
+        self.response.write(template.render())
+
+
+
+
+class addEvent(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.response.write(template.render())
+    def post(self):
+        title = self.request.get("title")
+        date = self.request.get("date")
+        time = self.request.get("time")
+        location = self.request.get("location")
+        event = Event(title = title, date = date, time = time, location = location)
+        event.put()
+        self.redirect('/mainFeed')
+
+>>>>>>> c4975ec6d1e23ae5c8d23ee779096d7f2f26e313
 
 
 
@@ -75,6 +136,7 @@ class MainHandler(webapp2.RequestHandler):
     orguser.put()
     self.redirect('/')
 
+<<<<<<< HEAD
 
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
@@ -242,6 +304,10 @@ class addEvent(webapp2.RequestHandler):
 #         self.redirect('/')
 
 
+=======
+
+
+>>>>>>> c4975ec6d1e23ae5c8d23ee779096d7f2f26e313
 app = webapp2.WSGIApplication([
 ('/', MainHandler),
 ('/addEvent', addEvent),
@@ -250,6 +316,7 @@ app = webapp2.WSGIApplication([
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/updateProfile', updateProfile)
 ], debug=True)
+<<<<<<< HEAD
 # =======
 # class MainPage(webapp2.RequestHandler):
 #     def get(self):
@@ -295,3 +362,5 @@ app = webapp2.WSGIApplication([
 # ('/addEvent', addEvent)
 # ])
 # >>>>>>> 7c40a38f2050eccdcb3be369013290eb415b8182
+=======
+>>>>>>> c4975ec6d1e23ae5c8d23ee779096d7f2f26e313
