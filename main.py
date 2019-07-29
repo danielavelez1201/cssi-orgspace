@@ -3,7 +3,6 @@ import jinja2
 import os
 import logging
 from google.appengine.api import users
-
 from google.appengine.ext import ndb
 
 
@@ -76,11 +75,10 @@ class MainPage(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/main.html')
         self.response.write(template.render())
 
-<<<<<<< HEAD
-class addMovie(webapp2.RequestHandler):
-=======
+
+
+
 class addEvent(webapp2.RequestHandler):
->>>>>>> e6828902e522dbc8ceea0276dca9ad1acc9970b1
     def get(self):
         star_query = Star.query()
         star_list = star_query.fetch()
@@ -104,10 +102,12 @@ class addEvent(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 ('/', MainPage),
 <<<<<<< HEAD
+<<<<<<< HEAD
 ('/profile',
 =======
+=======
+>>>>>>> fb9554bb73408674608e3e971f2de92c904dd40e
 ('/profile', Profile),
 ('/login', Login),
 ('/register', Register),
 ])
->>>>>>> e6828902e522dbc8ceea0276dca9ad1acc9970b1
