@@ -177,7 +177,7 @@ class MainHandler(webapp2.RequestHandler):
 
 class logout(webapp2.RequestHandler):
     def post(self):
-        self.redirect('/MainHandler')
+        self.redirect('/')
 
 
 app = webapp2.WSGIApplication([
