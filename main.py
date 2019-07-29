@@ -225,7 +225,7 @@ class mainFeed(webapp2.RequestHandler):
 
 class logout(webapp2.RequestHandler):
     def post(self):
-        self.redirect('/MainHandler')
+        self.redirect('/')
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
