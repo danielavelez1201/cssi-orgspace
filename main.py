@@ -18,9 +18,9 @@ class MainHandler(webapp2.RequestHandler):
       user = users.get_current_user()
       if user:
           signout_link_html = '<a href="%s">sign out</a>' % (
-                users.create_logout_url('/'))
-          email_address = user.nickname()
-          orguser = User.query().filter(User.email == email_address).get()
+                user.create_logout_url('/mainFeed'))
+          email_address = user.email()
+          orguser = user.query().filter(user.email == email_address).get()
           # If the user is registered...
           if orguser:
               # Greet them with their personal information
@@ -56,16 +56,16 @@ class MainHandler(webapp2.RequestHandler):
               ''' % (email_address, signout_link_html))
       else:
           # If the user isn't logged in...
-          login_url = users.create_login_url('/')
+          login_url = profile.create_login_url('/')
           login_html_element = '<a href="%s">Sign in</a>' % login_url
           # Prompt the user to sign in.
           self.response.write('Please log in.<br>' + login_html_element)
   def post(self):
     # Code to handle a first-time registration from the form:
-    user = users.get_current_user()
-    orguser = User(
+    user = user.get_current_user()
+    orguser = Profile(
         fullname=self.request.get('fullname'),
-        email=user.nickname(),
+        email=profile.email(),
         location=self.request.get('location'),
         phone= int(self.request.get('phone')))
 
@@ -90,7 +90,7 @@ class Donation(ndb.Model):
     user = ndb.StringProperty
 
     event = ndb.KeyProperty(kind = Event, repeated = True)
-    user = ndb.KeyProperty(kind = User,  repeated = True)
+    user = ndb.KeyProperty(kind = user,  repeated = True)
     def describe(self):
         return "%s donated %s to %s" % (donation.user.name, donation.donation, donation.event.title)
 
@@ -241,9 +241,9 @@ class addEvent(webapp2.RequestHandler):
         self.redirect('/mainFeed')
 
 app = webapp2.WSGIApplication([
-('/', MainHandler),
+('/', mainFeed),
 ('/addEvent', addEvent),
-('/mainFeed', mainFeed),
+# ('/mainFeed', mainFeed),
 ('/populateDatabase', populateDatabase),
 ('/donate', donate),
 ('/signup', signup),
