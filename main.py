@@ -42,19 +42,10 @@ class populateDatabase(webapp2.RequestHandler):
         lawrence_key = Star(name = "Jennifer Lawrence", birthyear= 1990, birthplace = 'Kentucky', wins = 117).put()
         Movie(title = "The Hunger Games", runtime = 142, rating = 7.2, star_keys = [hemsworth_key, lawrence_key]).put()
         Movie(title = "Independence Day: Resurgence", runtime = 120, rating = 5.2, star_keys = [hemsworth_key]).put()
-        template = jinja_env.get_template('templates/main.html')
+        # template = jinja_env.get_template('templates/main.html')
         self.redirect('/')
         # self.response.write(template.render(template_vars))
 
-
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> e6828902e522dbc8ceea0276dca9ad1acc9970b1
 class MainPage(webapp2.RequestHandler):
     def get(self):
         movie_query = Movie.query()
@@ -69,11 +60,11 @@ class MainPage(webapp2.RequestHandler):
             'currentUser' : current_user
         }
         logging.info('***')
-        template = jinja_env.get_template('templates/main.html')
-        self.response.write(template.render(template_vars))
+        # template = jinja_env.get_template('templates/main.html')
+        # self.response.write(template.render(template_vars))
     def post(self):
-        template = jinja_env.get_template('templates/main.html')
-        self.response.write(template.render())
+        # template = jinja_env.get_template('templates/main.html')
+        # self.response.write(template.render())
 
 
 
@@ -85,8 +76,8 @@ class addEvent(webapp2.RequestHandler):
         template_vars = {
             'star_list' : star_list
         }
-        template = jinja_env.get_template('templates/addMovie.html')
-        self.response.write(template.render(template_vars))
+        # template = jinja_env.get_template('templates/addMovie.html')
+        # self.response.write(template.render(template_vars))
     def post(self):
         title = self.request.get("title")
         runtime = float(self.request.get("runtime"))
@@ -100,14 +91,5 @@ class addEvent(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-('/', MainPage),
-<<<<<<< HEAD
-<<<<<<< HEAD
-('/profile',
-=======
-=======
->>>>>>> fb9554bb73408674608e3e971f2de92c904dd40e
-('/profile', Profile),
-('/login', Login),
-('/register', Register),
+('/', MainPage)
 ])
