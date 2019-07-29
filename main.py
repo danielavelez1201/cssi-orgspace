@@ -48,11 +48,6 @@ class populateDatabase(webapp2.RequestHandler):
         # self.response.write(template.render(template_vars))
 
 
-
-
-
-
-
 class MainPage(webapp2.RequestHandler):
     def get(self):
         movie_query = Movie.query()
@@ -73,7 +68,7 @@ class MainPage(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/main.html')
         self.response.write(template.render())
 
-class addMovie(webapp2.RequestHandler):
+class addEvent(webapp2.RequestHandler):
     def get(self):
         star_query = Star.query()
         star_list = star_query.fetch()
@@ -96,4 +91,7 @@ class addMovie(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
 ('/', MainPage),
-('/profile', 
+('/profile', Profile),
+('/login', Login),
+('/register', Register),
+])
