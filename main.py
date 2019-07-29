@@ -23,11 +23,11 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
-        template = jinja_env.get_template('templates/main.html')
-        self.redirect('/')
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.redirect('/mainFeed')
         self.response.write(template.render())
 
-class MainPage(webapp2.RequestHandler):
+class mainFeed(webapp2.RequestHandler):
     def get(self):
         event_query = Event.query()
         event_list = event_query.fetch()
@@ -37,10 +37,10 @@ class MainPage(webapp2.RequestHandler):
             'event_list' : event_list,
             'currentUser' : current_user
         }
-        template = jinja_env.get_template('templates/main.html')
+        template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render(template_vars))
     def post(self):
-        template = jinja_env.get_template('templates/main.html')
+        template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render())
 
 
@@ -57,7 +57,8 @@ class addEvent(webapp2.RequestHandler):
         location = self.request.get("location")
         event = Event(title = title, date = date, time = time, location = location)
         event.put()
-        self.redirect('/')
+        self.redirect('/mainFeed')
+
 class CssiUser(ndb.Model):
     first_name = ndb.StringProperty()
     last_name = ndb.StringProperty()
@@ -80,6 +81,7 @@ class MainHandler(webapp2.RequestHandler):
               cssi_user.last_name,
               email_address,
               signout_link_html))
+              self.redirect('/mainFeed')
               # If the user isn't registered...
           else:
               # Offer a registration form for a first-time visitor:
@@ -97,7 +99,6 @@ class MainHandler(webapp2.RequestHandler):
           login_html_element = '<a href="%s">Sign in</a>' % login_url
           # Prompt the user to sign in.
           self.response.write('Please log in.<br>' + login_html_element)
-
   def post(self):
     # Code to handle a first-time registration from the form:
     user = users.get_current_user()
@@ -217,9 +218,9 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
 ('/', MainHandler),
-# ('/profile', Profile),
-# ('/login', Login),
-# ('/register', Register),
+('/addEvent', addEvent),
+('/mainFeed', mainFeed),
+('/populateDatabase', populateDatabase)
 ], debug=True)
 # =======
 # class MainPage(webapp2.RequestHandler):
