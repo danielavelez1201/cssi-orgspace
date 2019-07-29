@@ -18,6 +18,7 @@ handlers:
 - url: /populateDatabase
   script: main.app
   login: admin
+
 libraries:
 - name: jinja2
   version: latest
