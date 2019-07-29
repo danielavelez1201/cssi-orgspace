@@ -104,7 +104,7 @@ class addEvent(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 ('/', MainPage),
 <<<<<<< HEAD
-('/profile', 
+('/profile',
 =======
 ('/profile', Profile),
 ('/login', Login),
