@@ -63,6 +63,24 @@ class CssiUser(ndb.Model):
     last_name = ndb.StringProperty()
     email = ndb.StringProperty()
 
+class OrgProfilePage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render())
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        name = self.request.get("name")
+        location = self.request.get("location")
+        category = self.request.get("date")
+        bio = self.request.get("bio")
+        update = Update(name = title, location = location, category = category,  bio = bio)
+        update.put()
+        self.redirect('/organizationProfilePage')
+
 class MainHandler(webapp2.RequestHandler):
   def get(self):
       user = users.get_current_user()
@@ -217,6 +235,10 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
 ('/', MainHandler),
+('/organizationProfilePage', OrgProfilePage),
+('/updateProfile', Update),
+
+
 # ('/profile', Profile),
 # ('/login', Login),
 # ('/register', Register),
