@@ -3,7 +3,6 @@ import jinja2
 import os
 import logging
 from google.appengine.api import users
-
 from google.appengine.ext import ndb
 
 
@@ -48,6 +47,14 @@ class populateDatabase(webapp2.RequestHandler):
         # self.response.write(template.render(template_vars))
 
 
+<<<<<<< HEAD
+
+
+
+
+
+=======
+>>>>>>> e6828902e522dbc8ceea0276dca9ad1acc9970b1
 class MainPage(webapp2.RequestHandler):
     def get(self):
         movie_query = Movie.query()
@@ -67,6 +74,9 @@ class MainPage(webapp2.RequestHandler):
     def post(self):
         template = jinja_env.get_template('templates/main.html')
         self.response.write(template.render())
+
+
+
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
