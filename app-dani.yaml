@@ -1,0 +1,20 @@
+print "hello there"
+
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+- url: /images
+  static_dir: images
+- url: /.*
+  script: main.app
+  login: required
+- url: /populateDatabase
+  script: main.app
+  login: admin
+libraries:
+- name: jinja2
+  version: latest
