@@ -51,7 +51,7 @@ class addEvent(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/addEvent.html')
         self.response.write(template.render())
     def post(self):
-        name = self.request.get("name")
+        title = self.request.get("title")
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
@@ -220,7 +220,9 @@ app = webapp2.WSGIApplication([
 ('/', MainHandler),
 ('/addEvent', addEvent),
 ('/mainFeed', mainFeed),
-('/populateDatabase', populateDatabase)
+('/populateDatabase', populateDatabase),
+# ('/organizationProfilePage', organizationProfilePage),
+# ('/updateProfile', updateProfile)
 ], debug=True)
 # =======
 # class MainPage(webapp2.RequestHandler):
