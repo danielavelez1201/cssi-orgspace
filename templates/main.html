@@ -1,0 +1,27 @@
+!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+      <title>Add Event</title>
+  </head>
+
+  <body>
+    <ul>
+        {% for movie in event_list: %}
+        <li>{{movie.title}}<li>
+          <ul>
+            {% for star_key in movie.star_keys %}
+            <li>{{star_key.get().name}} : {{star_key.get().wins}}</li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+  </body>
+</html>

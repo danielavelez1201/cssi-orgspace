@@ -7,12 +7,6 @@ from google.appengine.ext import ndb
 
 
 
-def addStar():
-    name = raw_input("What is the star name?")
-    birthyear = raw_input("What year were they born in?")
-    birthplace = raw_input("Where were they born?")
-    wins = raw_input("How many wins do they have?")
-
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
     date = ndb.StringProperty(required = True)
@@ -20,14 +14,6 @@ class Event(ndb.Model):
     location = ndb.StringProperty(required = False)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
-
-class Movie(ndb.Model):
-    title = ndb.StringProperty(required = True)
-    runtime = ndb.IntegerProperty(required = True)
-    rating = ndb.FloatProperty(required= False, default = 0)
-    star_keys = ndb.KeyProperty(kind = Star, required=False, repeated = True)
-    def describe(self):
-        return "%s is %d minute(s) long, with a rating of %f" % (self.title, self.runtime, self.rating)
 
 
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -37,13 +23,9 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
-        hemsworth_key = Star(name = "Liam Hemsworth", birthyear= 1990, birthplace = 'Australia', wins = 6).put()
-        lawrence_key = Star(name = "Jennifer Lawrence", birthyear= 1990, birthplace = 'Kentucky', wins = 117).put()
-        Movie(title = "The Hunger Games", runtime = 142, rating = 7.2, star_keys = [hemsworth_key, lawrence_key]).put()
-        Movie(title = "Independence Day: Resurgence", runtime = 120, rating = 5.2, star_keys = [hemsworth_key]).put()
-        # template = jinja_env.get_template('templates/main.html')
+        template = jinja_env.get_template('templates/main.html')
         self.redirect('/')
-        # self.response.write(template.render(template_vars))
+        self.response.write(template.render())
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -66,14 +48,8 @@ class MainPage(webapp2.RequestHandler):
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
-        star_query = Star.query()
-        star_list = star_query.fetch()
-
-        template_vars = {
-            'time': time
-        }
         template = jinja_env.get_template('templates/addEvent.html')
-        self.response.write(template.render(template_vars))
+        self.response.write(template.render())
     def post(self):
         name = self.request.get("name")
         date = self.request.get("date")
