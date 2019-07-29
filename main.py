@@ -58,9 +58,211 @@ class addEvent(webapp2.RequestHandler):
         event = Event(title = title, date = date, time = time, location = location)
         event.put()
         self.redirect('/')
+class CssiUser(ndb.Model):
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    email = ndb.StringProperty()
+
+class MainHandler(webapp2.RequestHandler):
+  def get(self):
+      user = users.get_current_user()
+      if user:
+          signout_link_html = '<a href="%s">sign out</a>' % (
+                users.create_logout_url('/'))
+          email_address = user.nickname()
+          cssi_user = CssiUser.query().filter(CssiUser.email == email_address).get()
+          # If the user is registered...
+          if cssi_user:
+              # Greet them with their personal information
+              self.response.write('''
+              Welcome %s %s (%s)! <br> %s <br>''' % (
+              cssi_user.first_name,
+              cssi_user.last_name,
+              email_address,
+              signout_link_html))
+              # If the user isn't registered...
+          else:
+              # Offer a registration form for a first-time visitor:
+              self.response.write('''
+              Welcome to our site, %s!  Please sign up! <br>
+              <form method="post" action="/">
+              <input type="text" name="first_name">
+              <input type="text" name="last_name">
+              <input type="submit">
+              </form><br> %s <br>
+              ''' % (email_address, signout_link_html))
+      else:
+          # If the user isn't logged in...
+          login_url = users.create_login_url('/')
+          login_html_element = '<a href="%s">Sign in</a>' % login_url
+          # Prompt the user to sign in.
+          self.response.write('Please log in.<br>' + login_html_element)
+
+  def post(self):
+    # Code to handle a first-time registration from the form:
+    user = users.get_current_user()
+    cssi_user = CssiUser(
+        first_name=self.request.get('first_name'),
+        last_name=self.request.get('last_name'),
+        email=user.nickname())
+    cssi_user.put()
+    self.response.write('Thanks for signing up, %s! <br><a href="/">Home</a>' %
+        cssi_user.first_name)
+
+
+
+
+#
+# class Star(ndb.Model):
+#     name = ndb.StringProperty(required = True)
+#     birthyear = ndb.IntegerProperty(required = True)
+#     birthplace = ndb.StringProperty(required = True)
+#     wins = ndb.IntegerProperty(required = False)
+#
+#     def describe(self):
+#         return "%s was born in %s in %s and has had %s wins" % (star.name, star.birthyear, star.birthplace, star.wins)
+#
+# class Movie(ndb.Model):
+#     title = ndb.StringProperty(required = True)
+#     runtime = ndb.IntegerProperty(required = True)
+#     rating = ndb.FloatProperty(required= False, default = 0)
+#     star_keys = ndb.KeyProperty(kind = Star, required=False, repeated = True)
+#     def describe(self):
+#         return "%s is %d minute(s) long, with a rating of %f" % (self.title, self.runtime, self.rating)
+#
+# def addStar():
+#     name = raw_input("What is the star name?")
+#     birthyear = raw_input("What year were they born in?")
+#     birthplace = raw_input("Where were they born?")
+#     wins = raw_input("How many wins do they have?")
+#
+# class Event(ndb.Model):
+#     title = ndb.StringProperty(required = True)
+#     date = ndb.StringProperty(required = True)
+#     time = ndb.StringProperty(required = True)
+#     location = ndb.StringProperty(required = False)
+#     def describe(self):
+#         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
+#
+# class Movie(ndb.Model):
+#     title = ndb.StringProperty(required = True)
+#     runtime = ndb.IntegerProperty(required = True)
+#     rating = ndb.FloatProperty(required= False, default = 0)
+#     star_keys = ndb.KeyProperty(kind = Star, required=False, repeated = True)
+#     def describe(self):
+#         return "%s is %d minute(s) long, with a rating of %f" % (self.title, self.runtime, self.rating)
+#
+#
+# jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
+#
+#
+#
+#
+# class populateDatabase(webapp2.RequestHandler):
+#     def get(self):
+#         hemsworth_key = Star(name = "Liam Hemsworth", birthyear= 1990, birthplace = 'Australia', wins = 6).put()
+#         lawrence_key = Star(name = "Jennifer Lawrence", birthyear= 1990, birthplace = 'Kentucky', wins = 117).put()
+#         Movie(title = "The Hunger Games", runtime = 142, rating = 7.2, star_keys = [hemsworth_key, lawrence_key]).put()
+#         Movie(title = "Independence Day: Resurgence", runtime = 120, rating = 5.2, star_keys = [hemsworth_key]).put()
+#         # template = jinja_env.get_template('templates/main.html')
+#         self.redirect('/')
+#         # self.response.write(template.render(template_vars))
+
+
+#
+#
+# class MainPage(webapp2.RequestHandler):
+#     def get(self):
+#         movie_query = Movie.query()
+#         movie_list = movie_query.fetch()
+#         star_query = Star.query()
+#         star_list = star_query.fetch()
+#         current_user = users.get_current_user()
+#         signin_link = users.create_login_url('/')
+#         template_vars = {
+#             'star_list' : star_list,
+#             'movies': movie_list,
+#             'currentUser' : current_user
+#         }
+#         logging.info('***')
+#         template = jinja_env.get_template('templates/main.html')
+#         self.response.write(template.render(template_vars))
+#     def post(self):
+#         template = jinja_env.get_template('templates/main.html')
+#         self.response.write(template.render())
+#
+#
+#
+#
+# class addEvent(webapp2.RequestHandler):
+#     def get(self):
+#         star_query = Star.query()
+#         star_list = star_query.fetch()
+#         template_vars = {
+#             'star_list' : star_list
+#         }
+#         template = jinja_env.get_template('templates/addMovie.html')
+#         self.response.write(template.render(template_vars))
+#     def post(self):
+#         title = self.request.get("title")
+#         runtime = float(self.request.get("runtime"))
+#         rating = float(self.request.get("rating"))
+#         star_keys = self.request.get("star_keys")
+#         movie = Movie(title = title, runtime = runtime, rating = rating, star_keys = star_keys)
+#         logging.info("Reaching this line")
+#         logging.info(star_keys)
+#         movie.put()
+#         self.redirect('/')
 
 
 app = webapp2.WSGIApplication([
-('/', MainPage),
-('/addEvent', addEvent)
-])
+('/', MainHandler),
+# ('/profile', Profile),
+# ('/login', Login),
+# ('/register', Register),
+], debug=True)
+# =======
+# class MainPage(webapp2.RequestHandler):
+#     def get(self):
+#         event_query = Event.query()
+#         event_list = event_query.fetch()
+#         current_user = users.get_current_user()
+#         signin_link = users.create_login_url('/')
+#         template_vars = {
+#             'event_list' : event_list,
+#             'currentUser' : current_user
+#         }
+#         template = jinja_env.get_template('templates/main.html')
+#         self.response.write(template.render(template_vars))
+#     def post(self):
+#         template = jinja_env.get_template('templates/main.html')
+#         self.response.write(template.render())
+#
+#
+#
+#
+# class addEvent(webapp2.RequestHandler):
+#     def get(self):
+#         star_query = Star.query()
+#         star_list = star_query.fetch()
+#
+#         template_vars = {
+#             'time': time
+#         }
+#         template = jinja_env.get_template('templates/addEvent.html')
+#         self.response.write(template.render(template_vars))
+#     def post(self):
+#         name = self.request.get("name")
+#         date = self.request.get("date")
+#         time = self.request.get("time")
+#         location = self.request.get("location")
+#         event = Event(title = title, date = date, time = time, location = location)
+#         event.put()
+#         self.redirect('/')
+#
+#
+# app = webapp2.WSGIApplication([
+# ('/', MainPage),
+# ('/addEvent', addEvent)
+# ])
+# >>>>>>> 7c40a38f2050eccdcb3be369013290eb415b8182
