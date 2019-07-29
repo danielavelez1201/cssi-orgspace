@@ -223,6 +223,9 @@ class mainFeed(webapp2.RequestHandler):
 
 
 
+class logout(webapp2.RequestHandler):
+    def post(self):
+        self.redirect('/MainHandler')
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
@@ -246,10 +249,10 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
-()
+('/logout', logout),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/updateProfile', updateProfile),
-('/thankyou', thankyou)
+('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/updateProfile', updateProfile)
 ], debug=True)
