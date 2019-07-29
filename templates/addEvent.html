@@ -9,26 +9,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css">
-      <title>Quiz</title>
+      <title>Add Event</title>
   </head>
   <body>
-    <h1 class="jumbotron">Which CSSI member are you?</h1>
-    <h3>Answer the following questions to find out which member of CSSI you are!</h3>
+    <h1>Add event</h1>
+    <h3>Fill out the information for your event!</h3>
     <div class="form-group">
     <form method="POST" action="/">
-
-      <h4> Name Event </h4>
+      <br>
+      <h4> Name of Event </h4>
 
       <div class="form-check">
         <br>
         <input type="text" value="name">
       </div>
+      <br>
+      <h4> Date of Event </h4>
+
+      <div class="form-check">
+        <br>
+        <input type="date" value="date">
+      </div>
+      <br>
+      <h4> Time of Event </h4>
+
+      <div class="form-check">
+        <br>
+        <input type="time" value="time">
+      </div>
+      <br>
 
 
 
 <br>
 
-      <input class="form-control" type="submit" name="submit" value="Calculate my Result" style="background-color:lightblue"/>
+      <input class="form-control" type="submit" name="submit" value="Create Event" style="background-color:lightblue"/>
 
   </form>
 
