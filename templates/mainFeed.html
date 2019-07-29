@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+      <title>Main Feed</title>
+  </head>
+<h1> Main Feed</h1>
+  <body>
+    <ul>
+        {% for event in event_list: %}
+        <li>{{event.title}} <br>
+        <table>
+          <row>
+            <col>Where: {{event.location}} </col>
+            <col> When: {{event.time}}</col>
+          </row>
+          <br>
+          <!-- Only the user sees these options -->
+          <div class="user">
+          <row>
+            <col><a href= "/signup">Sign Up </a></col>
+            <col><a href= "/donate"> Donate</a></col>
+            <col><a href = "/comment">Comment</a></col>
+          </row>
+        </div>
+        <!-- Only the organizations see thes options -->
+          <div class="organization">
+          <row>
+            <col><a href= "/collaborate"> Collaborate </a></col>
+            <col><a href= "/comment"> Comment </a></col>
+          </row>
+        </li>
+        {% endfor %}
+      </ul>
+  </body>
+  <br>
+<a href="/addEvent">Add Event</a>
+<a href="/organizationProfilePage"> Profile Page</a>
+</html>
