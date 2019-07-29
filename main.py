@@ -13,14 +13,13 @@ def addStar():
     birthplace = raw_input("Where were they born?")
     wins = raw_input("How many wins do they have?")
 
-class Star(ndb.Model):
-    name = ndb.StringProperty(required = True)
-    birthyear = ndb.IntegerProperty(required = True)
-    birthplace = ndb.StringProperty(required = True)
-    wins = ndb.IntegerProperty(required = False)
-
+class Event(ndb.Model):
+    title = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = True)
+    time = ndb.StringProperty(required = True)
+    location = ndb.StringProperty(required = False)
     def describe(self):
-        return "%s was born in %s in %s and has had %s wins" % (star.name, star.birthyear, star.birthplace, star.wins)
+        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
 class Movie(ndb.Model):
     title = ndb.StringProperty(required = True)
@@ -48,23 +47,19 @@ class populateDatabase(webapp2.RequestHandler):
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        movie_query = Movie.query()
-        movie_list = movie_query.fetch()
-        star_query = Star.query()
-        star_list = star_query.fetch()
+        event_query = Event.query()
+        event_list = event_query.fetch()
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         template_vars = {
-            'star_list' : star_list,
-            'movies': movie_list,
+            'event_list' : event_list,
             'currentUser' : current_user
         }
-        logging.info('***')
-        # template = jinja_env.get_template('templates/main.html')
-        # self.response.write(template.render(template_vars))
+        template = jinja_env.get_template('templates/main.html')
+        self.response.write(template.render(template_vars))
     def post(self):
-        # template = jinja_env.get_template('templates/main.html')
-        # self.response.write(template.render())
+        template = jinja_env.get_template('templates/main.html')
+        self.response.write(template.render())
 
 
 
@@ -73,23 +68,23 @@ class addEvent(webapp2.RequestHandler):
     def get(self):
         star_query = Star.query()
         star_list = star_query.fetch()
+
         template_vars = {
-            'star_list' : star_list
+            'time': time
         }
-        # template = jinja_env.get_template('templates/addMovie.html')
-        # self.response.write(template.render(template_vars))
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.response.write(template.render(template_vars))
     def post(self):
-        title = self.request.get("title")
-        runtime = float(self.request.get("runtime"))
-        rating = float(self.request.get("rating"))
-        star_keys = self.request.get("star_keys")
-        movie = Movie(title = title, runtime = runtime, rating = rating, star_keys = star_keys)
-        logging.info("Reaching this line")
-        logging.info(star_keys)
-        movie.put()
+        name = self.request.get("name")
+        date = self.request.get("date")
+        time = self.request.get("time")
+        location = self.request.get("location")
+        event = Event(title = title, date = date, time = time, location = location)
+        event.put()
         self.redirect('/')
 
 
 app = webapp2.WSGIApplication([
-('/', MainPage)
+('/', MainPage),
+('/addEvent', addEvent)
 ])
