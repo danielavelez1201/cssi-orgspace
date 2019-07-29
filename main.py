@@ -97,6 +97,24 @@ class addEvent(webapp2.RequestHandler):
         self.redirect('/mainFeed')
 
 
+class OrgProfilePage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render())
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        name = self.request.get("name")
+        location = self.request.get("location")
+        category = self.request.get("date")
+        bio = self.request.get("bio")
+        update = Update(name = title, location = location, category = category,  bio = bio)
+        update.put()
+        self.redirect('/organizationProfilePage')
+
 class MainHandler(webapp2.RequestHandler):
   def get(self):
       user = users.get_current_user()
