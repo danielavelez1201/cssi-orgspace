@@ -5,6 +5,8 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /
+  script: main.app
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
@@ -12,12 +14,12 @@ handlers:
   static_dir: stylesheets
 - url: /images
   static_dir: images
-- url: /.*
-  script: main.app
-  login: required
 - url: /populateDatabase
   script: main.app
   login: admin
+- url: /.*
+  script: main.app
+  login: required
 
 libraries:
 - name: jinja2
