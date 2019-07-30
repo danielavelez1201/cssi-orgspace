@@ -56,6 +56,9 @@ class Image(ndb.Model):
         else:
             self.response.out.write('No image')
 
+def encodedKey(self):
+    return (self.key.urlsafe())
+
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
     date = ndb.StringProperty(required = True)
@@ -119,14 +122,14 @@ class signup(webapp2.RequestHandler):
         template_vars = {
             'event' : event
         }
-    def post(self):
         user = users.get_current_user().nickname()
         user = User.query().filter(user == User.email).get()
         logging.info(user)
         eventKey = self.request.get("event")
-        event = eventKey.get()
         event.attendees = event.attendees.append(user)
+        event.put()
         self.redirect('/mainFeed')
+
 
 class comment(webapp2.RequestHandler):
     def get(self):
