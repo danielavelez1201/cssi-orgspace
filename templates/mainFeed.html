@@ -25,7 +25,8 @@
           <div class="user">
           <row>
             <col><a href= "/signup">Sign Up </a></col>
-            <col><a href= "/donate?event={{event.title}}"> Donate</a></col>
+            <col><a href= "/donate?event={{event.encodedKey}}"> Donate</a></col>
+            {{event.key}}
             <col><a href = "/comment">Comment</a></col>
           </row>
         </div>
