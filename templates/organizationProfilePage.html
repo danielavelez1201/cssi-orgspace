@@ -12,11 +12,14 @@
     <img id="profile_pic" src="">
     <div id="profile_info">
       <ul>
-        <li>Name: {{full_name}}</li>
-        <li>Location:{{location}}</li>
-        <li>Category: {{category}}</li>
-        <li>Bio:{{bio}}</li>
-        <li>Contact:{{phone}}</li>
+        <li>Name: {{profile.full_name}}</li>
+        <li>Location:{{profile.location}}</li>
+        <li>Category: {{profile.category}}</li>
+        {% if profile.bio %}
+        <li>Bio:{{profile.bio}}</li>
+        {% endif %}
+        <li>Contact:{{profile.phone}}</li>
+        <li> {{profile.usertype}} </li>
       </ul>
     </div>
     <button type="submit" value="Update Profile">Update Profile</button>

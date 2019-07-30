@@ -8,39 +8,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css">
-      <title>Main Feed</title>
+      <title>Join!</title>
   </head>
-<h1> Sign Up</h1>
+<h1 style="text-align:center;"><strong> Create an Account</strong></h1>
   <body>
     <ul>
+      <div class="flex-signup">
+        <div>
+          <form method="POST" action="/mainhandler">
+            <label  style="color:black";> Full Name:
+              <input type="text" name="fullname">
+            </label></div>
+            <div><label style="color:black"; style="font-size:300%";> Password:
+              <input type="text" name="password">
+            </label></div>
+            <div><label  style="color:black";> Location:
+              <input type="text" name="location">
+            </label></div>
+            <div><label  style="color:black";> Category:
+              <input type="text" name="category">
+            </label></div>
+            <div><label  style="color:black";> Phone:
+              <input type="integer" name="phone">
+            </label></div>
+            <div><label  style="color:black";> User Type: Organization
+              <input type="radio" name="usertype" value = "organization">
+            </label></div>
+            <div><label  style="color:black"; style="font-size:300%;">  User Type: Individual
+              <input type="radio" name="usertype2" value = "individual" >
+            </label></div>
+            <div class="signupbutton"><input type="submit"></div>
+          </form>
+        </div>
 
-      <form method="POST" action="/mainhandler">
-      <label> Full Name:
-      <input type="text" name="fullname">
-      </label>
-      <label> Email:
-      <input type="text" name="email">
-      </label>
-      <label> Password:
-      <input type="text" name="password">
-      </label>
-      <label> Location:
-      <input type="text" name="location">
-      </label>
-      <label> Category:
-      <input type="text" name="category">
-      </label>
-      <label> Phone:
-      <input type="integer" name="phone">
-      </label>
-      <label> User Type: Organization
-      <input type="radio" name="organization" value = "organization">
-      </label>
-      <label>  User Type: User
-      <input type="radio" name="organization" value = "user" >
-      </label>
-      <input type="submit">
-      </form><br><br>
+        <br><br>
       </ul>
   </body>
   <br>

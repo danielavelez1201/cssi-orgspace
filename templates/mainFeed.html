@@ -39,17 +39,8 @@
     </nav>
   </div>
   <main class="mdl-layout__content">
-  </main>
-</div>
-<br>
-<br>
-<br>
-<br>
-<h1> Main Feed</h1>
 
-
-
-</div>
+    <h1> Main Feed</h1>
     <ul>
         {% for event in event_list: %}
         <li>
@@ -65,7 +56,7 @@
                 {{event.title}} <br>
                 {{event.location}} <br>
                 {{event.time}}
-                {% for attendee in {{event.attendees}}: %}
+
                   {{attendee.fullname}}
               </h4>
             </div>
@@ -106,15 +97,28 @@
 
       </ul>
 
+    <a href="/addEvent">Add Event</a>
+    <a href="/organizationProfilePage"> Profile Page</a>
+    <a href="/logout">Log out</a>
+    <a href="/">Log out</a>
+    <a href="/signupprofile">Sign Up</a>
+    <a href="{{signin_link}}">Log In</a>
+
+  </main>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+</div>
+
 
 
   <br>
-  <a href="/addEvent">Add Event</a>
-  <a href="/organizationProfilePage"> Profile Page</a>
-  <a href="/logout">Log out</a>
-  <a href="/">Log out</a>
-  <a href="/signupprofile">Sign Up</a>
-  <a href="{{signin_link}}">Log In</a>
 
 </body>
 

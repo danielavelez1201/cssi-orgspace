@@ -12,29 +12,27 @@
     <button type="submit" value="change_photo">Change Profile Photo</button>
     <div id="profile_info">
       <ul>
-        <form method="POST" action="/updateProfile">
-          <label> Full Name:
-          <input type="text" name="fullname">
-          </label>
-          <label> Email:
-          <input type="text" name="email">
-          </label>
-          <label> Password:
-          <input type="text" name="password">
-          </label>
-          <label> Location:
-          <input type="text" name="location">
-          </label>
-          <label> Phone:
-          <input type="integer" name="phone">
-          </label>
-          <label> Category:
-          <input type="text" name="category">
-          </label>
-          <label> Bio:
-          <input type = "text" name = "bio">
-          <button type="submit" value="Submit">Update</button>
-        </form><br><br>
+        <div class="flex-signup">
+            <div><form method="POST" action="/mainhandler">
+              <label  style="color:black";> Full Name:
+                <input type="text" name="fullname">
+              </label></div>
+              <div><label style="color:black"; style="font-size:300%";> Password:
+                <input type="text" name="password">
+              </label></div>
+              <div><label  style="color:black";> Location:
+                <input type="text" name="location">
+              </label></div>
+              <div><label  style="color:black";> Category:
+                <input type="text" name="category">
+              </label></div>
+              <div><label  style="color:black";> Phone:
+                <input type="integer" name="phone">
+              </label></div>
+              <div><label> Bio:
+                <input type = "text" name = "bio">
+                <button style="50%"type="submit" value="Submit">Update</button></div>
+              </form><br><br>
 
       </ul>
     </div>
