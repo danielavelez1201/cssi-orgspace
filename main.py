@@ -257,10 +257,8 @@ app = webapp2.WSGIApplication([
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
-<<<<<<< HEAD
-=======
 
->>>>>>> fc983e41a02f2dc9feb6f001e2acfff5cf0b5d55
+
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
