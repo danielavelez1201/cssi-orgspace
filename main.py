@@ -2,11 +2,9 @@ import webapp2
 import jinja2
 import os
 import logging
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 559119715ddadb780e875dcc551d98e3a691da51
+
 from google.appengine.api import images
 
 from google.appengine.api import users
