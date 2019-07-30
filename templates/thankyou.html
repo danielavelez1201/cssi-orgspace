@@ -8,13 +8,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
       <title>Thank you</title>
   </head>
 
   <body>
-    <h2>You have donated {{event.title}} dollars. Thank you for your donation!</h2>
+    <h2>You have donated {{donation}} dollars to {{event}}. Thank you for your donation!</h2>
     <a href='/mainFeed'>Go back to feed</a>
-    <a href='/donate'>Donate more</a>
+    <a href='/donate?event={{event.encodedKey}}'>Donate more</a>
 
   </body>
 </html>
