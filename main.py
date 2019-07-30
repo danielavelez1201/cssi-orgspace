@@ -9,70 +9,38 @@ from google.appengine.ext import ndb
 
 
 
-class User(ndb.Model):
+class Profile(ndb.Model):
     fullname = ndb.StringProperty(required = True)
+    email = ndb.StringProperty(required = True)
+    password = ndb.StringProperty(required = True)
     email = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = True)
     phone = ndb.IntegerProperty(required = True)
 
-class MainHandler(webapp2.RequestHandler):
-  def get(self):
-      user = users.get_current_user()
-      if user:
-          signout_link_html = '<a href="%s">sign out</a>' % (
-                user.create_logout_url('/mainFeed'))
-          email_address = user.email()
-          orguser = user.query().filter(user.email == email_address).get()
-          # If the user is registered...
-          if orguser:
-              # Greet them with their personal information
-              self.response.write('''
-              Welcome %s (%s)! <br> %s <br>''' % (
-              orguser.fullname,
-              email_address,
-              signout_link_html))
-              self.redirect('/mainFeed')
-              # If the user isn't registered...
-          else:
-              # Offer a registration form for a first-time visitor:
-                   self.response.write('''
-                   Welcome to our site, %s!  Please sign up! <br>
-                   <form method="post" action="/">
-                   <label> Full Name:
-                   <input type="text" name="fullname">
-                   </label>
-                   <label> Location:
-                   <input type="text" name="location">
-                   </label>
-                   <label> Phone:
-                   <input type="integer" name="phone">
-                   </label>
-                   <label> User Type: Organization
-                   <input type="radio" name="organization" value = "organization">
-                   </label>
-                   <label>  User Type: User
-                   <input type="radio" name="organization" value = "user" >
-                   </label>
-                   <input type="submit">
-                   </form><br> %s <br>
-              ''' % (email_address, signout_link_html))
-      else:
-          # If the user isn't logged in...
-          login_url = profile.create_login_url('/')
-          login_html_element = '<a href="%s">Sign in</a>' % login_url
-          # Prompt the user to sign in.
-          self.response.write('Please log in.<br>' + login_html_element)
-  def post(self):
-    # Code to handle a first-time registration from the form:
-    user = user.get_current_user()
-    orguser = Profile(
-        fullname=self.request.get('fullname'),
-        email=profile.email(),
-        location=self.request.get('location'),
-        phone= int(self.request.get('phone')))
+class signupprofile (webapp2.RequestHandler):
+     def get(self):
+         mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
+         self.response.write(mainFeed_template.render())  # the response
 
-    orguser.put()
-    self.redirect('/mainFeed')
+
+
+class MainHandler(webapp2.RequestHandler):
+#   def get(self):
+#
+    def post(self):
+        # Code to handle a first-time registration from the form:
+        print 'MainHandler POST!!!!!!!!!'
+        user = users.get_current_user()
+        orguser = Profile(
+            fullname=self.request.get('fullname'),
+            email=user.email(),
+            password=self.request.get('password'),
+            location=self.request.get('location'),
+            phone= int(self.request.get('phone')))
+
+        orguser.put()
+        self.redirect('/')
+
 
 
 
@@ -102,10 +70,15 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
-    user = ndb.StringProperty
+    # user = ndb.StringProperty
 
+<<<<<<< HEAD
     event = ndb.KeyProperty(kind = Event, repeated = True)
     user = ndb.KeyProperty(kind = User,  repeated = True)
+=======
+    event = ndb.KeyProperty(kind=Event, repeated = True)
+    user = ndb.KeyProperty(kind=Profile,  repeated = True)
+>>>>>>> 886cf6032bbee6d24c439bbdff0c55bd01284263
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -124,7 +97,8 @@ class mainFeed(webapp2.RequestHandler):
         signin_link = users.create_login_url('/')
         template_vars = {
             'event_list' : event_list,
-            'currentUser' : current_user
+            'currentUser' : current_user,
+            'signin_link' : signin_link,
         }
         template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render(template_vars))
@@ -231,10 +205,6 @@ class Update(webapp2.RequestHandler):
         update.put()
         self.redirect('/organizationProfilePage')
 
-class MainHandler(webapp2.RequestHandler):
-  def get(self):
-      user = users.get_current_user()
-
 
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
@@ -256,27 +226,6 @@ class populateDatabase(webapp2.RequestHandler):
         self.redirect('/mainFeed')
         self.response.write(template.render())
 
-class mainFeed(webapp2.RequestHandler):
-    def get(self):
-        event_query = Event.query()
-        event_list = event_query.fetch()
-        current_user = users.get_current_user()
-        signin_link = users.create_login_url('/')
-        template_vars = {
-            'event_list' : event_list,
-            'currentUser' : current_user
-        }
-        template = jinja_env.get_template('templates/mainFeed.html')
-        self.response.write(template.render(template_vars))
-    def post(self):
-        template = jinja_env.get_template('templates/mainFeed.html')
-        self.response.write(template.render())
-
-
-
-class logout(webapp2.RequestHandler):
-    def post(self):
-        self.redirect('/')
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
@@ -293,6 +242,7 @@ class addEvent(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
+('/mainhandler', MainHandler),
 ('/addEvent', addEvent),
 # ('/mainFeed', mainFeed),
 ('/populateDatabase', populateDatabase),
@@ -300,8 +250,13 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
+<<<<<<< HEAD
+('/signupprofile', signupprofile),
+# ('/organizationProfilePage', organizationProfilePage),
+=======
 ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
+>>>>>>> 2ae2a5335e652675a806274db8d4adcc5e03136e
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
