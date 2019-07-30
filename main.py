@@ -22,8 +22,6 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
-
-
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
 #
@@ -40,9 +38,6 @@ class MainHandler(webapp2.RequestHandler):
 
         orguser.put()
         self.redirect('/')
-
-
-
 
 class Image(ndb.Model):
     def get(self):
@@ -68,14 +63,11 @@ class Event(ndb.Model):
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
-
-<<<<<<< HEAD
     event = ndb.KeyProperty(kind = Event, repeated = True)
     user = ndb.KeyProperty(kind = User,  repeated = True)
-=======
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 886cf6032bbee6d24c439bbdff0c55bd01284263
+
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -166,8 +158,6 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-
-
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -182,7 +172,6 @@ class addEvent(webapp2.RequestHandler):
         self.redirect('/mainFeed')
 
 # photo = images.resize(self.request.get("pic", 250, 250))
-
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
@@ -210,12 +199,6 @@ class Event(ndb.Model):
     location = ndb.StringProperty(required = False)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
-
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
-
-
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -248,8 +231,7 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
-<<<<<<< HEAD
-=======
+
 ('/signupprofile', signupprofile),
 # ('/organizationProfilePage', organizationProfilePage),
 
@@ -257,7 +239,6 @@ app = webapp2.WSGIApplication([
 ('/organizationProfilePage', OrgProfilePage),
 
 # ('/updateProfile', updateProfile),
->>>>>>> fc983e41a02f2dc9feb6f001e2acfff5cf0b5d55
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/updateProfile', updateProfile)
