@@ -2,6 +2,11 @@ import webapp2
 import jinja2
 import os
 import logging
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 559119715ddadb780e875dcc551d98e3a691da51
 from google.appengine.api import images
 
 from google.appengine.api import users
@@ -252,6 +257,10 @@ app = webapp2.WSGIApplication([
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
+<<<<<<< HEAD
+=======
+
+>>>>>>> fc983e41a02f2dc9feb6f001e2acfff5cf0b5d55
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
