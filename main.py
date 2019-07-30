@@ -2,7 +2,9 @@ import webapp2
 import jinja2
 import os
 import logging
-import google.appengine.api import images
+
+
+from google.appengine.api import images
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -229,13 +231,12 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
-<<<<<<< HEAD
 ('/signupprofile', signupprofile),
 # ('/organizationProfilePage', organizationProfilePage),
-=======
-('/logout', logout),
+
+# ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
->>>>>>> 2ae2a5335e652675a806274db8d4adcc5e03136e
+
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
