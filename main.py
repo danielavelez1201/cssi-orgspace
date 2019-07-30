@@ -16,7 +16,7 @@ class Profile(ndb.Model):
     fullname = ndb.StringProperty(required = True)
     email = ndb.StringProperty(required = True)
     password = ndb.StringProperty(required = True)
-    email = ndb.StringProperty(required = True)
+    category = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = True)
     phone = ndb.IntegerProperty(required = True)
 
@@ -45,6 +45,27 @@ class Donation(ndb.Model):
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
 
+class updateProfile(ndb.Model):
+    fullname = ndb.StringProperty(required = False)
+    email = ndb.StringProperty(required = False)
+    password = ndb.StringProperty(required = False)
+    category = ndb.StringProperty(required = False)
+    location = ndb.StringProperty(required = False)
+    bio = ndb.StringProperty(required = False)
+    phone = ndb.IntegerProperty(required = False)
+    def post(self):
+        template_vars = {
+            "fullname": self.request.get("classmate"),
+            "category": self.request.get("category"),
+            "bio": self.request.get("bio"),
+            "phone": self.request.get("phone"),
+        }
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render(template_vars))
+        self.redirect('/organizationProfilePage')
+
+
+>>>>>>> 1b1df9af353aeb187e0e24ad0d0acab1e30ace84
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
 #
@@ -57,13 +78,11 @@ class MainHandler(webapp2.RequestHandler):
             email=user.email(),
             password=self.request.get('password'),
             location=self.request.get('location'),
-            phone= int(self.request.get('phone')))
+            phone= int(self.request.get('phone'))
+            )
 
         orguser.put()
         self.redirect('/')
-
-
-
 
 class Image(ndb.Model):
     def get(self):
@@ -83,6 +102,14 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 
 
+class Donation(ndb.Model):
+    donation = ndb.IntegerProperty(required = True)
+    event = ndb.KeyProperty(kind=Event, repeated = True)
+    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
+    user = ndb.KeyProperty(kind=Profile,  repeated = True)
+    def describe(self):
+        user = Profile.query().filter(self.user == Profile.key).get().full_name
+        return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -188,8 +215,6 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-
-
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -207,11 +232,19 @@ class addEvent(webapp2.RequestHandler):
 
 # photo = images.resize(self.request.get("pic", 250, 250))
 
-
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render())
+
+    def post(self):
+        template_vars = {
+            "fullname": self.request.get("fullname"),
+            "location": self.request.get("location"),
+            "phone": self.request.get("phone"),
+        }
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render(template_vars))
 
 class Update(webapp2.RequestHandler):
     def get(self):
@@ -228,8 +261,34 @@ class Update(webapp2.RequestHandler):
 
 
 
+class Event(ndb.Model):
+    title = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = True)
+    time = ndb.StringProperty(required = True)
+    location = ndb.StringProperty(required = False)
+    def describe(self):
+        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
+
+class populateDatabase(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.redirect('/mainFeed')
+        self.response.write(template.render())
 
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
+class addEvent(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/addEvent.html')
+        self.response.write(template.render())
+    def post(self):
+        title = self.request.get("title")
+        date = self.request.get("date")
+        time = self.request.get("time")
+        location = self.request.get("location")
+        event = Event(title = title, date = date, time = time, location = location)
+        event.put()
+        self.redirect('/mainFeed')
 
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
@@ -241,7 +300,10 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
+
 ('/signupprofile', signupprofile),
+('/updateProfile', updateProfile),
+
 # ('/organizationProfilePage', organizationProfilePage),
 
 # ('/logout', logout),
