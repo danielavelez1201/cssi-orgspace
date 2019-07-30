@@ -70,17 +70,14 @@ class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
     event = ndb.KeyProperty(kind = Event, repeated = True)
-<<<<<<< HEAD
     user = ndb.KeyProperty(kind = User,  repeated = True)
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
 
-=======
     # user = ndb.KeyProperty(kind = User,  repeated = True)
 
     event = ndb.KeyProperty(kind=Event, repeated = True)
     # user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 8a39ec94b55b2d02dbdd59d6d4ae0d83a7161947
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
