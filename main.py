@@ -25,8 +25,7 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
-<<<<<<< HEAD
-=======
+
 class updateProfile(ndb.Model):
     fullname = ndb.StringProperty(required = False)
     email = ndb.StringProperty(required = False)
@@ -46,8 +45,6 @@ class updateProfile(ndb.Model):
         self.response.write(template.render(template_vars))
         self.redirect('/organizationProfilePage')
 
-
->>>>>>> 1b1df9af353aeb187e0e24ad0d0acab1e30ace84
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
 #
@@ -89,20 +86,14 @@ class Event(ndb.Model):
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     event = ndb.KeyProperty(kind = Event, repeated = True)
-<<<<<<< HEAD
     user = ndb.KeyProperty(kind = User,  repeated = True)
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
 
-=======
-<<<<<<< HEAD
->>>>>>> 1b1df9af353aeb187e0e24ad0d0acab1e30ace84
     # user = ndb.KeyProperty(kind = User,  repeated = True)
     event = ndb.KeyProperty(kind=Event, repeated = True)
     # user = ndb.KeyProperty(kind=Profile,  repeated = True)
-=======
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 768ded8f6c1cf8d0fb900d311633ef9bcee7b53b
     def describe(self):
         user = Profile.query().filter(self.user == Profile.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -242,7 +233,7 @@ class Update(webapp2.RequestHandler):
         self.redirect('/organizationProfilePage')
 
 
-<<<<<<< HEAD
+
 
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
@@ -251,10 +242,7 @@ class Event(ndb.Model):
     location = ndb.StringProperty(required = False)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
-=======
->>>>>>> 768ded8f6c1cf8d0fb900d311633ef9bcee7b53b
 
-<<<<<<< HEAD
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -276,11 +264,10 @@ class addEvent(webapp2.RequestHandler):
         event.put()
         self.redirect('/mainFeed')
 
-=======
+
 
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
->>>>>>> 1b1df9af353aeb187e0e24ad0d0acab1e30ace84
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
 ('/mainhandler', MainHandler),
