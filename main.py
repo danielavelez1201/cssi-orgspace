@@ -71,14 +71,11 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
-
-<<<<<<< HEAD
     event = ndb.KeyProperty(kind = Event, repeated = True)
-    user = ndb.KeyProperty(kind = User,  repeated = True)
-=======
+    # user = ndb.KeyProperty(kind = User,  repeated = True)
+
     event = ndb.KeyProperty(kind=Event, repeated = True)
-    user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 886cf6032bbee6d24c439bbdff0c55bd01284263
+    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -250,13 +247,11 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
-<<<<<<< HEAD
 ('/signupprofile', signupprofile),
 # ('/organizationProfilePage', organizationProfilePage),
-=======
-('/logout', logout),
+
+# ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
->>>>>>> 2ae2a5335e652675a806274db8d4adcc5e03136e
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
