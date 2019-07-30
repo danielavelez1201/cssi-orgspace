@@ -66,7 +66,6 @@ class updateProfile(ndb.Model):
         self.redirect('/organizationProfilePage')
 
 
-<<<<<<< HEAD
 class Orgprofilepage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user().email()
@@ -80,9 +79,6 @@ class Orgprofilepage(webapp2.RequestHandler):
 
 
 
-=======
->>>>>>> 1b1df9af353aeb187e0e24ad0d0acab1e30ace84
->>>>>>> 843c3c994223066828e3f79770718046e615d925
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
 #
@@ -121,24 +117,6 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 
 
-class Donation(ndb.Model):
-    donation = ndb.IntegerProperty(required = True)
-<<<<<<< HEAD
-    event = ndb.KeyProperty(kind = Event, repeated = True)
-    # user = ndb.KeyProperty(kind = User,  repeated = True)
-    event = ndb.KeyProperty(kind=Event, repeated = True)
-    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
-    user = ndb.KeyProperty(kind=Profile,  repeated = True)
-
-=======
-    event = ndb.KeyProperty(kind=Event, repeated = True)
-    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
-    user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 843c3c994223066828e3f79770718046e615d925
-    def describe(self):
-        user = Profile.query().filter(self.user == Profile.key).get().full_name
-        return "%s donated %s to %s" % (user, self.donation, self.event.title)
-
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -148,7 +126,6 @@ class populateDatabase(webapp2.RequestHandler):
 class mainFeed(webapp2.RequestHandler):
     def get(self):
         event_query = Event.query()
-
         event_list = event_query.fetch()
         for event in event_list:
             event.total = 0
@@ -261,8 +238,7 @@ class addEvent(webapp2.RequestHandler):
 
 # photo = images.resize(self.request.get("pic", 250, 250))
 
-<<<<<<< HEAD
-=======
+
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/organizationProfilePage.html')
@@ -291,15 +267,6 @@ class Update(webapp2.RequestHandler):
         self.redirect('/organizationProfilePage')
 
 
->>>>>>> 843c3c994223066828e3f79770718046e615d925
-
-class Event(ndb.Model):
-    title = ndb.StringProperty(required = True)
-    date = ndb.StringProperty(required = True)
-    time = ndb.StringProperty(required = True)
-    location = ndb.StringProperty(required = False)
-    def describe(self):
-        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):

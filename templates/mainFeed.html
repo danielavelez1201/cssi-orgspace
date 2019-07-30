@@ -42,30 +42,7 @@
 
     <h1> Main Feed</h1>
     <ul>
-        {% for event in event_list: %}
-<<<<<<< HEAD
-        <li>{{event.title}} <br>
-        <table>
-            <row>
-              <col>Where: {{event.location}} </col>
-              <col> When: {{event.time}}</col>
-            </row>
-          <br>
-          <!-- Only the user sees these options -->
-          <div class="user">
-            <row>
-              <col><a href= "/signup">Sign Up </a></col>
-              <col><a href= "/donate?event={{event.title}}"> Donate</a></col>
-              <col><a href = "/comment">Comment</a></col>
-            </row>
-          </div>
-        <!-- Only the organizations see these options -->
-          <div class="organization">
-            <row>
-              <col><a href= "/collaborate"> Collaborate </a></col>
-              <col><a href= "/comment"> Comment </a></col>
-            </row>
-=======
+    {% for event in event_list: %}
         <li>
           <div class="demo-card-image mdl-card mdl-shadow--2dp">
             <div class="mdl-card__title mdl-card--expand"></div>
@@ -76,20 +53,15 @@
           <div class="demo-card-event mdl-card mdl-shadow--2dp">
             <div class="mdl-card__title mdl-card--expand">
               <h4>
-<<<<<<< HEAD
-                {{event.title}} <br>
-                {{event.location}} <br>
-                {{event.time}}
 
-                  {{attendee.fullname}}
-=======
                 <table>
                   <td>
-                    {{event.title}} <br>
-                    {{event.location}} <br>
-                    {{event.time}} <br>
-                    Funds raised:
-                    {{event.total}}
+
+                      {{event.title}} <br>
+                      {{event.location}} <br>
+                      {{event.time}} <br>
+                      Funds raised:
+                      {{event.total}}
                   </td>
                   <td> <ul>
                     <h4>Who's Attending:</h4>
@@ -100,10 +72,8 @@
                   </td>
                 </table>
 
-
->>>>>>> 843c3c994223066828e3f79770718046e615d925
               </h4>
-            </div>
+
             <!-- Only user can see this -->
             <div class="mdl-card__actions mdl-card--border" class = "user">
               <a href= "/signup?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -127,6 +97,8 @@
                 </a>
 
                 <i class="material-icons">event</i>
+              
+                </div>
               </div>
           </div>
           <br>
@@ -135,7 +107,6 @@
           <br>
           <br>
           <br>
->>>>>>> fc983e41a02f2dc9feb6f001e2acfff5cf0b5d55
         </li>
         {% endfor %}
 
