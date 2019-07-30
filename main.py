@@ -16,7 +16,7 @@ class Profile(ndb.Model):
     fullname = ndb.StringProperty(required = True)
     email = ndb.StringProperty(required = True)
     password = ndb.StringProperty(required = True)
-    email = ndb.StringProperty(required = True)
+    category = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = True)
     phone = ndb.IntegerProperty(required = True)
 
@@ -25,6 +25,24 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
+class updateProfile(ndb.Model):
+    fullname = ndb.StringProperty(required = False)
+    email = ndb.StringProperty(required = False)
+    password = ndb.StringProperty(required = False)
+    category = ndb.StringProperty(required = False)
+    location = ndb.StringProperty(required = False)
+    bio = ndb.StringProperty(required = False)
+    phone = ndb.IntegerProperty(required = False)
+    def post(self):
+        template_vars = {
+            "fullname": self.request.get("classmate"),
+            "category": self.request.get("category"),
+            "bio": self.request.get("bio"),
+            "phone": self.request.get("phone"),
+        }
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render(template_vars))
+        self.redirect('/organizationProfilePage')
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -39,13 +57,11 @@ class MainHandler(webapp2.RequestHandler):
             email=user.email(),
             password=self.request.get('password'),
             location=self.request.get('location'),
-            phone= int(self.request.get('phone')))
+            phone= int(self.request.get('phone'))
+            )
 
         orguser.put()
         self.redirect('/')
-
-
-
 
 class Image(ndb.Model):
     def get(self):
@@ -79,7 +95,6 @@ class Donation(ndb.Model):
     # user = ndb.StringProperty
     event = ndb.KeyProperty(kind = Event, repeated = True)
     # user = ndb.KeyProperty(kind = User,  repeated = True)
-
     event = ndb.KeyProperty(kind=Event, repeated = True)
     # user = ndb.KeyProperty(kind=Profile,  repeated = True)
     def describe(self):
@@ -195,6 +210,15 @@ class OrgProfilePage(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render())
 
+    def post(self):
+        template_vars = {
+            "fullname": self.request.get("fullname"),
+            "location": self.request.get("location"),
+            "phone": self.request.get("phone"),
+        }
+        template = jinja_env.get_template('templates/organizationProfilePage.html')
+        self.response.write(template.render(template_vars))
+
 class Update(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/updateProfile.html')
@@ -207,6 +231,7 @@ class Update(webapp2.RequestHandler):
         update = Update(name = title, location = location, category = category,  bio = bio)
         update.put()
         self.redirect('/organizationProfilePage')
+
 
 
 class Event(ndb.Model):
@@ -254,6 +279,8 @@ app = webapp2.WSGIApplication([
 ('/collaborate', collaborate),
 ('/comment', comment),
 ('/signupprofile', signupprofile),
+('/updateProfile', updateProfile),
+
 # ('/organizationProfilePage', organizationProfilePage),
 
 # ('/logout', logout),
