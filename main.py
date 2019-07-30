@@ -20,9 +20,6 @@ class Event(ndb.Model):
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
-
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     event = ndb.KeyProperty(kind = Event, repeated = True)
@@ -175,6 +172,7 @@ class MainHandler(webapp2.RequestHandler):
     orguser.put()
     self.redirect('/')
 
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
 app = webapp2.WSGIApplication([
@@ -186,9 +184,6 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
-
-# ('/organizationProfilePage', organizationProfilePage),
-# ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/updateProfile', updateProfile)
