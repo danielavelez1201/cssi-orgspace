@@ -45,7 +45,6 @@ class Donation(ndb.Model):
         user = Profile.query().filter(self.user == Profile.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
-
 class updateProfile(ndb.Model):
     fullname = ndb.StringProperty(required = False)
     email = ndb.StringProperty(required = False)
@@ -54,28 +53,6 @@ class updateProfile(ndb.Model):
     location = ndb.StringProperty(required = False)
     bio = ndb.StringProperty(required = False)
     phone = ndb.IntegerProperty(required = False)
-    def post(self):
-        template_vars = {
-            "fullname": self.request.get("classmate"),
-            "category": self.request.get("category"),
-            "bio": self.request.get("bio"),
-            "phone": self.request.get("phone"),
-        }
-        template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render(template_vars))
-        self.redirect('/organizationProfilePage')
-
-
-class Orgprofilepage(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user().email()
-        profile = Profile.query().filter(user == Profile.email).get()
-        template_vars = {
-            'profile' : profile,
-        }
-        template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render(template_vars))
-
 
 
 
@@ -241,8 +218,13 @@ class addEvent(webapp2.RequestHandler):
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user().email()
+        profile = Profile.query().filter(user == Profile.email).get()
+        template_vars = {
+            'profile' : profile,
+        }
         template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_vars))
 
     def post(self):
         template_vars = {
@@ -252,6 +234,7 @@ class OrgProfilePage(webapp2.RequestHandler):
         }
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))
+
 
 class Update(webapp2.RequestHandler):
     def get(self):
@@ -301,12 +284,11 @@ app = webapp2.WSGIApplication([
 ('/comment', comment),
 
 ('/signupprofile', signupprofile),
-('/updateProfile', updateProfile),
-
+('/updateProfile', Update),
 # ('/organizationProfilePage', organizationProfilePage),
 
 # ('/logout', logout),
-('/Organizationprofilepage', Orgprofilepage),
+('/Organizationprofilepage', OrgProfilePage),
 
 
 # ('/updateProfile', updateProfile),
