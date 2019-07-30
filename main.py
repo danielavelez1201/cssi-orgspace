@@ -2,11 +2,9 @@ import webapp2
 import jinja2
 import os
 import logging
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 559119715ddadb780e875dcc551d98e3a691da51
+
 from google.appengine.api import images
 
 from google.appengine.api import users
@@ -77,13 +75,13 @@ class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
 
-<<<<<<< HEAD
+
     event = ndb.KeyProperty(kind = Event, repeated = True)
-    user = ndb.KeyProperty(kind = User,  repeated = True)
-=======
+    user = ndb.KeyProperty(kind = Profile,  repeated = True)
+
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
->>>>>>> 886cf6032bbee6d24c439bbdff0c55bd01284263
+
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
