@@ -56,8 +56,6 @@ class Image(ndb.Model):
         else:
             self.response.out.write('No image')
 
-def encodedKey(self):
-    return (self.key.urlsafe())
 
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
@@ -65,9 +63,7 @@ class Event(ndb.Model):
     time = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = False)
     photo = ndb.BlobProperty(required=False)
-    @property
-    def encodedKey(self):
-        return (self.key.urlsafe())
+    attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
@@ -76,20 +72,16 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
-    # user = ndb.StringProperty
     event = ndb.KeyProperty(kind = Event, repeated = True)
-    # user = ndb.KeyProperty(kind = User,  repeated = True)
-
-    event = ndb.KeyProperty(kind=Event, repeated = True)
-    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
+    user = ndb.KeyProperty(kind=Profile,  repeated = True)
     def describe(self):
-        user = User.query().filter(self.user == User.key).get().full_name
+        user = Profile.query().filter(self.user == Profile.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
-        self.redirect('/mainFeed')
+        self.redirect('/')
         self.response.write(template.render())
 
 class mainFeed(webapp2.RequestHandler):
@@ -100,7 +92,7 @@ class mainFeed(webapp2.RequestHandler):
         signin_link = users.create_login_url('/')
         template_vars = {
             'event_list' : event_list,
-            'currentUser' : current_user,
+            'currentProfile' : current_user,
             'signin_link' : signin_link,
         }
         template = jinja_env.get_template('templates/mainFeed.html')
@@ -122,13 +114,17 @@ class signup(webapp2.RequestHandler):
         template_vars = {
             'event' : event
         }
-        user = users.get_current_user().nickname()
-        user = User.query().filter(user == User.email).get()
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
         logging.info(user)
         eventKey = self.request.get("event")
-        event.attendees = event.attendees.append(user)
+        if not(user.key in event.attendees):
+            if (event.attendees):
+                event.attendees.append(user.key)
+            else:
+                event.attendees = [user.key]
         event.put()
-        self.redirect('/mainFeed')
+        self.redirect('/')
 
 
 class comment(webapp2.RequestHandler):
@@ -138,19 +134,16 @@ class comment(webapp2.RequestHandler):
 
 class donate(webapp2.RequestHandler):
     def get(self):
-        event = self.request.get("event")
-        eventKey = ndb.Key(urlsafe=event)
-        event = eventKey.get()
+
         template = jinja_env.get_template('templates/donate.html')
         template_vars = {
-            'event' : event
+            'urlsafeEvent' : self.request.get("event")
         }
         self.response.write(template.render(template_vars))
-
     def post(self):
         logging.info("POINT 1")
         user = users.get_current_user().nickname()
-        user = User.query().filter(user == User.email).get()
+        user = Profile.query().filter(user == Profile.email).get()
         logging.info(user)
         eventKey = self.request.get("event")
         logging.info(eventKey)
@@ -159,12 +152,16 @@ class donate(webapp2.RequestHandler):
         donation = int(self.request.get("donation"))
         # donation = Donation(donation = donation, event = eventKey, user = user)
         # donation.put()
-        self.redirect('/thankyou')
+        self.redirect('/thankyou?event=' + eventKey + '&donation=' + str(donation))
 
 class thankyou(webapp2.RequestHandler):
     def get(self):
-        donation = self.request.get("donation")
         event = self.request.get("event")
+        logging.info("EVENT HERE")
+        logging.info(event)
+        eventKey = ndb.Key(urlsafe=event)
+        event = eventKey.get()
+        donation = self.request.get("donation")
         template = jinja_env.get_template('templates/thankyou.html')
         template_vars = {
             'donation' : donation,
@@ -183,9 +180,10 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        event = Event(title = title, date = date, time = time, location = location, attendees = [])
+        attendees = []
+        event = Event(title = title, date = date, time = time, location = location, attendees = attendees)
         event.put()
-        self.redirect('/mainFeed')
+        self.redirect('/')
 
 # photo = images.resize(self.request.get("pic", 250, 250))
 
@@ -209,39 +207,9 @@ class Update(webapp2.RequestHandler):
         self.redirect('/organizationProfilePage')
 
 
-class Event(ndb.Model):
-    title = ndb.StringProperty(required = True)
-    date = ndb.StringProperty(required = True)
-    time = ndb.StringProperty(required = True)
-    location = ndb.StringProperty(required = False)
-    def describe(self):
-        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
 
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
-
-
-
-class populateDatabase(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template('templates/addEvent.html')
-        self.redirect('/mainFeed')
-        self.response.write(template.render())
-
-
-class addEvent(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template('templates/addEvent.html')
-        self.response.write(template.render())
-    def post(self):
-        title = self.request.get("title")
-        date = self.request.get("date")
-        time = self.request.get("time")
-        location = self.request.get("location")
-        event = Event(title = title, date = date, time = time, location = location)
-        event.put()
-        self.redirect('/mainFeed')
 
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
