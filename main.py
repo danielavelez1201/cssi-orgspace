@@ -53,18 +53,6 @@ class updateProfile(ndb.Model):
     location = ndb.StringProperty(required = False)
     bio = ndb.StringProperty(required = False)
     phone = ndb.IntegerProperty(required = False)
-    def post(self):
-        template_vars = {
-            "fullname": self.request.get("classmate"),
-            "category": self.request.get("category"),
-            "bio": self.request.get("bio"),
-            "phone": self.request.get("phone"),
-        }
-        template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render(template_vars))
-        self.redirect('/organizationProfilePage')
-
-
 
 
 
@@ -261,7 +249,6 @@ class Update(webapp2.RequestHandler):
         self.redirect('/organizationProfilePage')
 
 
-
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -295,12 +282,11 @@ app = webapp2.WSGIApplication([
 ('/comment', comment),
 
 ('/signupprofile', signupprofile),
-('/updateProfile', updateProfile),
-
+('/updateProfile', Update),
 # ('/organizationProfilePage', organizationProfilePage),
 
 # ('/logout', logout),
-('/Organizationprofilepage', Orgprofilepage),
+('/Organizationprofilepage', OrgProfilePage),
 
 
 # ('/updateProfile', updateProfile),
