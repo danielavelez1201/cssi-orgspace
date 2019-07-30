@@ -16,7 +16,8 @@
     <h1>Donate to this event!</h1>
     <form method="POST" action="/donate">
       <h3> How much would you like to donate?</h3>
-      <input type = "number"></input>
+      <input type = "number" name = "donation"></input>
+      <input type = "hidden" name = "event" value = "{{event.key.urlsafe()}}"></input>
       <input class="form-control" type="submit" name="submit" value="Submit donation" style="background-color:lightblue"/>
 
 </div>

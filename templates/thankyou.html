@@ -12,9 +12,9 @@
   </head>
 
   <body>
-    <h2>You have donated {{event.title}} dollars. Thank you for your donation!</h2>
+    <h2>You have donated {{donation}} dollars to {{event}}. Thank you for your donation!</h2>
     <a href='/mainFeed'>Go back to feed</a>
-    <a href='/donate'>Donate more</a>
+    <a href='/donate?event={{event.encodedKey}}'>Donate more</a>
 
   </body>
 </html>

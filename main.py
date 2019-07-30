@@ -2,6 +2,8 @@ import webapp2
 import jinja2
 import os
 import logging
+import google.appengine.api import images
+
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
@@ -12,11 +14,24 @@ class User(ndb.Model):
     location = ndb.StringProperty()
     phone = ndb.IntegerProperty()
 
+class Image(ndb.Model):
+    def get(self):
+        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
+        if product.photo:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(product.photo)
+        else:
+            self.response.out.write('No image')
+
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
     date = ndb.StringProperty(required = True)
     time = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = False)
+    photo = ndb.BlobProperty(required=False)
+    @property
+    def encodedKey(self):
+        return (self.key.urlsafe())
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
@@ -28,7 +43,8 @@ class Donation(ndb.Model):
     event = ndb.KeyProperty(kind = Event, repeated = True)
     user = ndb.KeyProperty(kind = User,  repeated = True)
     def describe(self):
-        return "%s donated %s to %s" % (donation.user.name, donation.donation, donation.event.title)
+        user = User.query().filter(self.user == User.key).get().full_name
+        return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -68,18 +84,35 @@ class comment(webapp2.RequestHandler):
 
 class donate(webapp2.RequestHandler):
     def get(self):
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        event = eventKey.get()
         template = jinja_env.get_template('templates/donate.html')
-        self.response.write(template.render())
+        template_vars = {
+            'event' : event
+        }
+        self.response.write(template.render(template_vars))
+
     def post(self):
-        donation = self.request.get("donation")
-        donation = Donation(donation = donation, event = event, user = user)
+        user = users.get_current_user().nickname()
+        user = User.query().filter(user == User.email).get()
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        donation = int(self.request.get("donation"))
+        donation = Donation(donation = donation, event = eventKey, user = user)
         donation.put()
         self.redirect('/thankyou')
 
 class thankyou(webapp2.RequestHandler):
     def get(self):
+        donation = self.request.get("donation")
+        event = self.request.get("event")
         template = jinja_env.get_template('templates/thankyou.html')
-        self.response.write(template.render())
+        template_vars = {
+            'donation' : donation,
+            'event' : event
+        }
+        self.response.write(template.render(template_vars))
 
 
 
@@ -91,11 +124,13 @@ class addEvent(webapp2.RequestHandler):
         title = self.request.get("title")
         date = self.request.get("date")
         time = self.request.get("time")
+
         location = self.request.get("location")
         event = Event(title = title, date = date, time = time, location = location)
         event.put()
         self.redirect('/mainFeed')
 
+# photo = images.resize(self.request.get("pic", 250, 250))
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
@@ -190,7 +225,7 @@ app = webapp2.WSGIApplication([
 ('/collaborate', collaborate),
 ('/comment', comment),
 ('/logout', logout),
-# ('/organizationProfilePage', organizationProfilePage),
+('/organizationProfilePage', OrgProfilePage),
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
 # ('/organizationProfilePage', organizationProfilePage),
