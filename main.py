@@ -2,8 +2,11 @@ import webapp2
 import jinja2
 import os
 import logging
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 559119715ddadb780e875dcc551d98e3a691da51
 from google.appengine.api import images
 
 from google.appengine.api import users
@@ -74,8 +77,13 @@ class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
 
+<<<<<<< HEAD
+    event = ndb.KeyProperty(kind = Event, repeated = True)
+    user = ndb.KeyProperty(kind = User,  repeated = True)
+=======
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
+>>>>>>> 886cf6032bbee6d24c439bbdff0c55bd01284263
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -110,8 +118,21 @@ class collaborate(webapp2.RequestHandler):
 
 class signup(webapp2.RequestHandler):
     def get(self):
-        template = jinja_env.get_template('templates/signup.html')
-        self.response.write(template.render())
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        event = eventKey.get()
+        template_vars = {
+            'event' : event
+        }
+    def post(self):
+        user = users.get_current_user().nickname()
+        user = User.query().filter(user == User.email).get()
+        logging.info(user)
+        eventKey = self.request.get("event")
+        event = eventKey.get()
+        event.attendees = event.attendees.append(user)
+        self.redirect('/mainFeed')
+
 class comment(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/comment.html')
@@ -129,13 +150,17 @@ class donate(webapp2.RequestHandler):
         self.response.write(template.render(template_vars))
 
     def post(self):
+        logging.info("POINT 1")
         user = users.get_current_user().nickname()
         user = User.query().filter(user == User.email).get()
-        event = self.request.get("event")
-        eventKey = ndb.Key(urlsafe=event)
+        logging.info(user)
+        eventKey = self.request.get("event")
+        logging.info(eventKey)
+        logging.info("DONATION HERE")
+        logging.info(self.request.get("donation"))
         donation = int(self.request.get("donation"))
-        donation = Donation(donation = donation, event = eventKey, user = user)
-        donation.put()
+        # donation = Donation(donation = donation, event = eventKey, user = user)
+        # donation.put()
         self.redirect('/thankyou')
 
 class thankyou(webapp2.RequestHandler):
@@ -159,9 +184,8 @@ class addEvent(webapp2.RequestHandler):
         title = self.request.get("title")
         date = self.request.get("date")
         time = self.request.get("time")
-
         location = self.request.get("location")
-        event = Event(title = title, date = date, time = time, location = location)
+        event = Event(title = title, date = date, time = time, location = location, attendees = [])
         event.put()
         self.redirect('/mainFeed')
 
