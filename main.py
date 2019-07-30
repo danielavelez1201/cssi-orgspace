@@ -2,6 +2,9 @@ import webapp2
 import jinja2
 import os
 import logging
+
+
+
 from google.appengine.api import images
 
 from google.appengine.api import users
@@ -48,6 +51,9 @@ class Image(ndb.Model):
         else:
             self.response.out.write('No image')
 
+def encodedKey(self):
+    return (self.key.urlsafe())
+
 class Event(ndb.Model):
     title = ndb.StringProperty(required = True)
     date = ndb.StringProperty(required = True)
@@ -64,10 +70,17 @@ class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     # user = ndb.StringProperty
     event = ndb.KeyProperty(kind = Event, repeated = True)
+<<<<<<< HEAD
     user = ndb.KeyProperty(kind = User,  repeated = True)
     event = ndb.KeyProperty(kind=Event, repeated = True)
     user = ndb.KeyProperty(kind=Profile,  repeated = True)
 
+=======
+    # user = ndb.KeyProperty(kind = User,  repeated = True)
+
+    event = ndb.KeyProperty(kind=Event, repeated = True)
+    # user = ndb.KeyProperty(kind=Profile,  repeated = True)
+>>>>>>> 8a39ec94b55b2d02dbdd59d6d4ae0d83a7161947
     def describe(self):
         user = User.query().filter(self.user == User.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
@@ -108,14 +121,14 @@ class signup(webapp2.RequestHandler):
         template_vars = {
             'event' : event
         }
-    def post(self):
         user = users.get_current_user().nickname()
         user = User.query().filter(user == User.email).get()
         logging.info(user)
         eventKey = self.request.get("event")
-        event = eventKey.get()
         event.attendees = event.attendees.append(user)
+        event.put()
         self.redirect('/mainFeed')
+
 
 class comment(webapp2.RequestHandler):
     def get(self):
@@ -237,6 +250,7 @@ app = webapp2.WSGIApplication([
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
+
 
 # ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
