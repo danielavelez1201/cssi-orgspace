@@ -62,11 +62,24 @@
           <div class="demo-card-event mdl-card mdl-shadow--2dp">
             <div class="mdl-card__title mdl-card--expand">
               <h4>
-                {{event.title}} <br>
-                {{event.location}} <br>
-                {{event.time}}
-                {% for attendee in {{event.attendees}}: %}
-                  {{attendee.fullname}}
+                <table>
+                  <td>
+                    {{event.title}} <br>
+                    {{event.location}} <br>
+                    {{event.time}} <br>
+                    Funds raised:
+                    {{event.total}}
+                  </td>
+                  <td> <ul>
+                    <h4>Who's Attending:</h4>
+                      {% for attendee in event.attendees: %}
+                        <li>{{attendee.get().fullname}}</li>
+                      {% endfor %}
+                    </ul>
+                  </td>
+                </table>
+
+
               </h4>
             </div>
             <!-- Only user can see this -->
