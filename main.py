@@ -124,7 +124,10 @@ class mainFeed(webapp2.RequestHandler):
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
         template_vars = {
+            'user' : user,
             'post_list' : post_list,
             'event_list' : event_list,
             'currentProfile' : current_user,
