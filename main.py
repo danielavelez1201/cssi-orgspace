@@ -123,11 +123,13 @@ class mainFeed(webapp2.RequestHandler):
                 post.total += donation.get().donation
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'post_list' : post_list,
             'event_list' : event_list,
             'currentProfile' : current_user,
             'signin_link' : signin_link,
+            'signout_link': signout_link,
         }
         template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render(template_vars))
