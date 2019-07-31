@@ -126,7 +126,7 @@ class MainHandler(webapp2.RequestHandler):
         orguser = Profile(
             fullname=self.request.get('fullname'),
             email=user.email(),
-            password=self.request.get('password'),
+
             location=self.request.get('location'),
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
@@ -174,8 +174,10 @@ class mainFeed(webapp2.RequestHandler):
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
-        user = users.get_current_user().email()
-        user = Profile.query().filter(user == Profile.email).get()
+        user = ""
+        if (users.get_current_user()):
+            user = users.get_current_user().email()
+            user = Profile.query().filter(user == Profile.email).get()
         template_vars = {
             'user' : user,
             'post_list' : post_list,
@@ -310,6 +312,7 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
+
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
@@ -324,10 +327,6 @@ class thankyouPost(webapp2.RequestHandler):
             'donation' : donation
         }
         self.response.write(template.render(template_vars))
-
-
-
-
 
 class addEvent(webapp2.RequestHandler):
     def get(self):
@@ -364,6 +363,11 @@ class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
         self.redirect('/')
+        self.response.write(template.render())
+
+class About(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/about.html')
         self.response.write(template.render())
 
 class createPost(webapp2.RequestHandler):
@@ -403,8 +407,9 @@ app = webapp2.WSGIApplication([
 ('/signupprofile', signupprofile),
 ('/updateProfile', UpdateProfile),
 ('/thankyouPost', thankyouPost),
-# ('/organizationProfilePage', organizationProfilePage),
+('/about', About),
 
+# ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
 
