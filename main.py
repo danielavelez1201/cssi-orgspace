@@ -328,10 +328,6 @@ class thankyouPost(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-
-
-
-
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -367,6 +363,11 @@ class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
         self.redirect('/')
+        self.response.write(template.render())
+
+class About(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/about.html')
         self.response.write(template.render())
 
 class createPost(webapp2.RequestHandler):
@@ -406,6 +407,8 @@ app = webapp2.WSGIApplication([
 ('/signupprofile', signupprofile),
 ('/updateProfile', UpdateProfile),
 ('/thankyouPost', thankyouPost),
+('/about', About),
+
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
