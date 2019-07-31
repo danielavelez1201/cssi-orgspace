@@ -47,8 +47,15 @@ class Event(ndb.Model):
     photo = ndb.BlobProperty(required=False)
     attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
+    collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
+
+class Collaborator(ndb.Model):
+    organization = ndb.KeyProperty(kind = Profile)
+    description = ndb.StringProperty(required = True)
+    event = ndb.KeyProperty(kind = Event)
+
 
 class Post(ndb.Model):
     text = ndb.StringProperty(required = True)
@@ -142,8 +149,25 @@ class mainFeed(webapp2.RequestHandler):
 
 class collaborate(webapp2.RequestHandler):
     def get(self):
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        event = eventKey.get()
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        template_vars = {
+            'user' : user,
+            'event' : event
+        }
+        eventKey = self.request.get("event")
+        if not(user.key in event.collaborators):
+            if (event.collaborators):
+                event.collaborators.append(user.key)
+            else:
+                event.collaborators = [user.key]
+        event.put()
         template = jinja_env.get_template('templates/collaborate.html')
         self.response.write(template.render())
+
 
 class signup(webapp2.RequestHandler):
     def get(self):
@@ -278,7 +302,8 @@ class addEvent(webapp2.RequestHandler):
         # photo = images.resize(self.request.get("photo", 250, 250))
         attendees = []
         donations = []
-        event = Event(organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations)
+        collaborators = []
+        event = Event(organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
 
