@@ -104,7 +104,7 @@
             {% elif user.usertype == "organization": %}
             <!-- Only organizations can see this -->
               <div class="mdl-card__actions mdl-card--border" class = "organization">
-                <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href= "/collaborate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Collaborate
                 </a>
                 <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -148,7 +148,7 @@
               <div class="mdl-card__title mdl-card--expand">
                 {{post.text}}
               </div>
-
+              {% if user.usertype == "organization" or user.usertype == "individual": %}
               <!-- Only user can see this -->
               <div class="mdl-card__actions mdl-card--border" class = "user">
                 <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -163,6 +163,7 @@
                   </a>
                 </div>
                 {% endif %}
+              {% endif %}
 
                 <div class="mdl-card__actions mdl-card--border" class = "organization">
                   <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">

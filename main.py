@@ -99,7 +99,7 @@ class MainHandler(webapp2.RequestHandler):
         orguser = Profile(
             fullname=self.request.get('fullname'),
             email=user.email(),
-            password=self.request.get('password'),
+            
             location=self.request.get('location'),
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
@@ -279,8 +279,7 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-<<<<<<< HEAD
-=======
+
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
@@ -300,7 +299,6 @@ class thankyouPost(webapp2.RequestHandler):
 
 
 
->>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -373,13 +371,13 @@ app = webapp2.WSGIApplication([
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
-<<<<<<< HEAD
+
 ('/updateProfile', UpdateProfile),
-=======
-('/updateProfile', Update),
+
+
 ('/thankyouPost', thankyouPost),
 # ('/organizationProfilePage', organizationProfilePage),
->>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
+
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
