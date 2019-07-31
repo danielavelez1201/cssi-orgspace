@@ -7,10 +7,13 @@ row {
   padding: 10px;
 
 }
+.mdl-mini-footer {
+  justify-content: flex-end;
+}
 
 .form-control {
   width: 50%;
-  
+
 }
 .container-fluid {
   background-color: lightgray;
