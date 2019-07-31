@@ -93,6 +93,7 @@ class Image(ndb.Model):
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
+
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -102,7 +103,6 @@ class populateDatabase(webapp2.RequestHandler):
 class mainFeed(webapp2.RequestHandler):
     def get(self):
         event_query = Event.query()
-
         event_list = event_query.fetch()
         for event in event_list:
             event.total = 0
@@ -215,6 +215,7 @@ class addEvent(webapp2.RequestHandler):
 
 # photo = images.resize(self.request.get("pic", 250, 250))
 
+
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user().email()
@@ -247,6 +248,7 @@ class Update(webapp2.RequestHandler):
         update = Update(name = title, location = location, category = category,  bio = bio)
         update.put()
         self.redirect('/organizationProfilePage')
+
 
 
 class populateDatabase(webapp2.RequestHandler):
