@@ -15,36 +15,71 @@
 <<<<<<< HEAD
     <ul>
       <div class="flex-signup">
-        <div>
           <form method="POST" action="/mainhandler">
-            <label  style="color:black";> Full Name:
-              <input type="text" name="fullname">
-            </label></div>
-            <div><label style="color:black"; style="font-size:300%";> Password:
+            <div>
+              <label  style="color:black";> Full Name:
+                <input type="text" name="fullname">
+              </label>
+            </div>
+
+            <div>
+              <label style="color:black"; style="font-size:300%";> Password:
               <input type="text" name="password">
-            </label></div>
-            <div><label  style="color:black";> Location:
-              <input type="text" name="location">
-            </label></div>
-            <div><label  style="color:black";> Category:
+              </label>
+            </div>
+
+            <div>
+                <select class="" >
+                  <option class="" disabled="" value="-1">Choose a category</option>
+                  <option value="2">Accidents &amp; Emergencies</option>
+                  <option value="3">Animals &amp; Pets</option>
+                  <option value="4">Children &amp; Family</option>
+                  <option value="5">Business &amp; Entrepreneurs</option>
+                  <option value="7">Community &amp; Neighbours</option>
+                  <option value="8">Creative Arts, Music &amp; Film</option>
+                  <option value="9">Volunteer &amp; Service</option>
+                  <option value="10">Dreams, Hopes &amp; Wishes</option>
+                  <option value="11">Education &amp; Learning</option>
+                  <option value="11">Medical, Illness &amp; Healing</option>
+                  <option value="12">Missions, Faith &amp; Church</option>
+                  <option value="13">Sports, Teams &amp; Clubs</option>
+                  <option value="14">Travel &amp; Adventure</option>
+                  <option value="15">Other</option>
+                </select>
+            </div>
+
+            <div>
+              <label  style="color:black";> Category:
               <input type="text" name="category">
-            </label></div>
-            <div><label  style="color:black";> Phone:
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> Phone:
               <input type="integer" name="phone">
-            </label></div>
-            <div><label  style="color:black";> User Type: Organization
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> User Type: Organization
               <input type="radio" name="usertype" value = "organization">
-            </label></div>
-            <div><label  style="color:black"; style="font-size:300%;">  User Type: Individual
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black"; style="font-size:300%;">  User Type: Individual
               <input type="radio" name="usertype2" value = "individual" >
-            </label></div>
-            <div class="signupbutton"><input type="submit"></div>
+              </label>
+            </div>
+
+            <div class="signupbutton">
+              <input type="submit">
+            </div>
           </form>
         </div>
 
         <br><br>
       </ul>
-=======
 
 
       <form method="POST" action="/mainhandler">
