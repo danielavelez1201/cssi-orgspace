@@ -38,6 +38,11 @@ col {
   width: 40px;
   height: 40px;
 }
+.title{
+  display: flex;
+  flex-direction: row;
+  color: white;
+}
 .user {
   visibility: visible
 }
