@@ -48,6 +48,8 @@
 <br>
 <div class = "container-fluid">
   <br>
+  <div class = "row">
+    <div class = "col-lg-6">
 
     <ul>
         {% for event in event_list: %}
@@ -113,8 +115,9 @@
         </li>
 
 </div>
+</ul>
+<div class="col-lg-6">
 
-      </ul>
 
       <ul>
           {% for post in post_list: %}
@@ -131,7 +134,7 @@
               </div>
               <!-- Only user can see this -->
               <div class="mdl-card__actions mdl-card--border" class = "user">
-                <a href= "/donate?event={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Donate
                 </a>
               </div>
@@ -140,8 +143,6 @@
                   <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Collaborate
                   </a>
-
-                  <i class="material-icons">event</i>
                 </div>
             </div>
             <br>
@@ -149,8 +150,12 @@
 
           </li>
           {% endfor %}
+        </ul>
       </div>
-    </ul>
+
+</div>
+</div>
+
   <br>
 <footer class="mdl-mini-footer">
   <div class="mdl-mini-footer__left-section">

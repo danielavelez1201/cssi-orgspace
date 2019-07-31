@@ -62,7 +62,7 @@ col {
   visibility: visible
 }
 .demo-card-image.mdl-card {
-  width: 1000px;
+  width: 500px;
   height: 256px;
   background: url('../assets/demos/image_card.jpg') center / cover;
 }
@@ -78,7 +78,7 @@ col {
 }
 
 .demo-card-event.mdl-card {
-  width: 1000px;
+  width: 500px;
   height: 300px;
   background: #3E4EB8;
   align-self: center;
