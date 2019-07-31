@@ -15,23 +15,41 @@ from google.appengine.ext import ndb
 class Profile(ndb.Model):
     fullname = ndb.StringProperty(required = True)
     email = ndb.StringProperty(required = True)
-    password = ndb.StringProperty(required = True)
     category = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = True)
     phone = ndb.IntegerProperty(required = True)
+    bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
 
-class Update(webapp2.RequestHandler):
+class UpdateProfile(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user().email()
+        profile = Profile.query().filter(user == Profile.email).get()
+        template_vars={
+            "profile" : profile
+        }
         template = jinja_env.get_template('templates/updateProfile.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_vars))
+
     def post(self):
         location = self.request.get("location")
         category = self.request.get("category")
         bio = self.request.get("bio")
-        update = Update(name = name, location = location, category = category,  bio = bio)
-        self.redirect('/organizationProfilePage')
-        user = Profile.query().filter
+        phone = self.request.get("phone")
+        fullname = self.request.get("fullname")
+
+        user = users.get_current_user().email()
+        profile = Profile.query().filter(user == Profile.email).get()
+
+        profile.location = self.request.get("location")
+        profile.category = self.request.get("category")
+        profile.bio = self.request.get("bio")
+        profile.phone = int(self.request.get("phone"))
+
+        profile.put()
+
+        self.redirect("/organizationProfilePage")
+        # user = Profile.query().filter
 
 class signupprofile (webapp2.RequestHandler):
      def get(self):
@@ -72,11 +90,8 @@ class Donation(ndb.Model):
     user = ndb.KeyProperty(kind=Profile)
 
 
-
-
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
-#
     def post(self):
         # Code to handle a first-time registration from the form:
         print 'MainHandler POST!!!!!!!!!'
@@ -103,10 +118,7 @@ class Image(ndb.Model):
         else:
             self.response.out.write('No image')
 
-
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
-
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -189,7 +201,6 @@ class signup(webapp2.RequestHandler):
         event.put()
         self.redirect('/')
 
-
 class comment(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/comment.html')
@@ -268,6 +279,8 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
+<<<<<<< HEAD
+=======
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
@@ -287,6 +300,7 @@ class thankyouPost(webapp2.RequestHandler):
 
 
 
+>>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -318,13 +332,11 @@ class OrgProfilePage(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))
 
-
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
         self.redirect('/')
         self.response.write(template.render())
-
 
 class createPost(webapp2.RequestHandler):
     def get(self):
@@ -361,9 +373,13 @@ app = webapp2.WSGIApplication([
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
+<<<<<<< HEAD
+('/updateProfile', UpdateProfile),
+=======
 ('/updateProfile', Update),
 ('/thankyouPost', thankyouPost),
 # ('/organizationProfilePage', organizationProfilePage),
+>>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
