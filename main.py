@@ -177,12 +177,9 @@ class donate(webapp2.RequestHandler):
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
         logging.info(user)
+        amount = int(self.request.get("donation"))
         eventKey = self.request.get("event")
         eventKey = ndb.Key(urlsafe=eventKey)
-        logging.info(eventKey)
-        logging.info("DONATION HERE")
-        logging.info(self.request.get("donation"))
-        amount = int(self.request.get("donation"))
         donation = Donation(donation = amount, event = eventKey, user = user.key)
         donation.put()
         event = eventKey.get()
@@ -193,6 +190,36 @@ class donate(webapp2.RequestHandler):
                 event.donations = [donation.key]
         event.put()
         self.redirect('/thankyou?event=' + str(eventKey.urlsafe()) + '&donation=' + str(amount))
+
+class donatePost(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/donatePost.html')
+        logging.info("GET POST HERE")
+        logging.info(self.request.get("postItem"))
+        template_vars = {
+            'urlsafePost' : self.request.get("postItem")
+        }
+        self.response.write(template.render(template_vars))
+    def post(self):
+        logging.info("POST POST HERE")
+        logging.info(self.request.get("postItem"))
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        logging.info(user)
+        amount = int(self.request.get("donation"))
+        postKey = self.request.get("postItem")
+        postKey = ndb.Key(urlsafe=postKey)
+        donation = Donation(donation = amount, post = postKey, user = user.key)
+        donation.put()
+        postItem = postKey.get()
+        if not(donation.key in postItem.donations):
+            if (postItem.donations):
+                postItem.donations.append(donation.key)
+            else:
+                postItem.donations = [donation.key]
+        postItem.put()
+        self.redirect('/thankyouPost?postItem=' + str(postKey.urlsafe()) + '&donation=' + str(amount))
+
 
 class thankyou(webapp2.RequestHandler):
     def get(self):
@@ -207,6 +234,20 @@ class thankyou(webapp2.RequestHandler):
         template_vars = {
             'donation' : donation,
             'event' : event
+        }
+        self.response.write(template.render(template_vars))
+
+class thankyouPost(webapp2.RequestHandler):
+    def get(self):
+        postKey = self.request.get("postItem")
+        logging.info("EVENT HERE")
+        eventKey = ndb.Key(urlsafe=eventKey)
+        logging.info(eventKey)
+        event = eventKey.get()
+        donation = self.request.get("donation")
+        template = jinja_env.get_template('templates/thankyouPost.html')
+        template_vars = {
+            'donation' : donation
         }
         self.response.write(template.render(template_vars))
 
@@ -265,9 +306,9 @@ class createPost(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/createPost.html')
         self.response.write(template.render())
     def post(self):
-        text = self.request.get("text")
+        postText = self.request.get("postText")
         logging.info("TEXT HERE")
-        logging.info(text)
+        logging.info(postText)
         photo = self.request.get("photo")
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
@@ -275,7 +316,7 @@ class createPost(webapp2.RequestHandler):
         time = now.hour
         date = now.date
         donations = []
-        post = Post(text = text, author = userKey, time = str(time), date = str(date), photo = photo, donations = donations)
+        post = Post(text = postText, author = userKey, time = str(time), date = str(date), photo = photo, donations = donations)
         post.put()
         self.redirect('/')
 
@@ -292,9 +333,11 @@ app = webapp2.WSGIApplication([
 ('/signup', signup),
 ('/collaborate', collaborate),
 ('/comment', comment),
+('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
 ('/updateProfile', Update),
+('/thankyouPost', thankyouPost),
 # ('/organizationProfilePage', organizationProfilePage),
 
 # ('/logout', logout),
