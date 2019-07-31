@@ -10,70 +10,83 @@
     <link rel="stylesheet" href="stylesheets/style.css">
       <title>Join!</title>
   </head>
-<h1 style="text-align:center; color: white"><strong> Create an Account</strong></h1>
+
+  <div class="container-fluid">
+<h1 style="text-align:center;"><strong> Create an Account</strong></h1>
   <body>
     <ul>
-      <div class="flex-signup">
+      <div class="flex-signup" >
           <form method="POST" action="/mainhandler">
-
-            <div class="form-group">
-               <label for="formGroupExampleInput" style:>Full Name: </label>
-               <input type="text" class="form-control" id="fullnameinput" placeholder="fullname" name= "fullname">
-             </div>
-            <div class="form-group">
-               <label for="formGroupExampleInput">Password: </label>
-               <input type="text" class="form-control" id="passinput" placeholder="password" name= "password">
-             </div>
-            </div>
-            <div class="form-group">
-               <label for="formGroupExampleInput">Location: </label>
-               <input type="text" class="form-control" id="locationinput" placeholder="location" name= "location">
-             </div>
-             <div>
-               <div class="form-group">
-                 <label for="formGroupExampleInput2">Category: </label>
-
-                 <select class="" >
-                   <option class="" disabled="" value="-1">Choose a category</option>
-                   <option value="2">Accidents &amp; Emergencies</option>
-                   <option value="3">Animals &amp; Pets</option>
-                   <option value="4">Children &amp; Family</option>
-                   <option value="5">Business &amp; Entrepreneurs</option>
-                   <option value="7">Community &amp; Neighbours</option>
-                   <option value="8">Creative Arts, Music &amp; Film</option>
-                   <option value="9">Volunteer &amp; Service</option>
-                   <option value="10">Dreams, Hopes &amp; Wishes</option>
-                   <option value="11">Education &amp; Learning</option>
-                   <option value="11">Medical, Illness &amp; Healing</option>
-                   <option value="12">Missions, Faith &amp; Church</option>
-                   <option value="13">Sports, Teams &amp; Clubs</option>
-                   <option value="14">Travel &amp; Adventure</option>
-                   <option value="15">Other</option>
-                 </select>
-               </div>
-             <div class="form-group">
-               <label for="formGroupExampleInput2">Phone: </label>
-               <input type="integer" class="form-control" id="phoneinput" placeholder="phone" name= "phone">
-             </div>
-            <div class="form-check">
-              <input  class="form-check-input" type="radio" name="usertype" id="usertype" value="organization">
-              <label class="form-check-label" for="exampleRadios1" >
-                User Type: Organization
+            <div>
+              <label  style="color:black;"> Full Name:
+                <input type="text" name="fullname" class="form-control">
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="usertype" id="usertype2" value="individual">
-              <label class="form-check-label" for="exampleRadios2">
-                User Type: Individual
+
+            <div>
+              <label style="color:black;" style="font-size:300%";> Password:
+              <input type="password" name="password" class="form-control">
               </label>
             </div>
-            <button type= "submit" class="btn btn-primary btn-sm">Submit</button>
+
+
+              <label  style="color:black;"> Category:
+              </label>
+            <div>
+                <select class="form-control" >
+                  <option class="" disabled="" value="-1">Choose a category</option>
+                  <option value="2">Accidents &amp; Emergencies</option>
+                  <option value="3">Animals &amp; Pets</option>
+                  <option value="4">Children &amp; Family</option>
+                  <option value="5">Business &amp; Entrepreneurs</option>
+                  <option value="7">Community &amp; Neighbours</option>
+                  <option value="8">Creative Arts, Music &amp; Film</option>
+                  <option value="9">Volunteer &amp; Service</option>
+                  <option value="10">Dreams, Hopes &amp; Wishes</option>
+                  <option value="11">Education &amp; Learning</option>
+                  <option value="11">Medical, Illness &amp; Healing</option>
+                  <option value="12">Missions, Faith &amp; Church</option>
+                  <option value="13">Sports, Teams &amp; Clubs</option>
+                  <option value="14">Travel &amp; Adventure</option>
+                  <option value="15">Other</option>
+                </select>
+            </div>
+          
+
+            <div>
+              <label  style="color:black";> Phone:
+              <input type="integer" name="phone" class="form-control" placeholder = "Phone">
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> Location:
+              <input type="text" name="location" class="form-control" placeholder = "Location">
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> User Type: Organization
+              <input type="radio" name="usertype" value = "organization" class="form-control">
+            </label>
+            </div>
+
+            <div>
+              <label  style="color:black"; style="font-size:300%;">  User Type: Individual
+              <input type="radio" name="usertype" value = "individual"  class="form-control">
+              </label>
+            </div>
+
+              <input type="submit" class="form-control">
           </form>
 
 
         <br><br>
       </ul>
+
+
   </body>
+
   <br>
 
 </html>

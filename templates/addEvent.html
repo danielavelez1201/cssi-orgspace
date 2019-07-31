@@ -13,38 +13,30 @@
     <link rel="stylesheet" href="stylesheets/style.css">
       <title>Add Event</title>
   </head>
-  <body style="text-align:center; color: white;">
-    <h1>Add Event!</h1>
+  <body style="text-align:center; color: black;">
+    <div class="container-fluid">
+    <h1>Add event</h1>
     <h3>Fill out the information for your event!</h3>
 
-          <form method="POST" action="/addEvent">
+          <form method="POST" action="/addEvent"  style="color:black;">
             <br>
-
+    <div class="black-text">
     <div class="form-group" style="text-align:center; color: white;">
-    <form method="POST" action="/addEvent">
       <br>
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="title" name="title">
-    <label class="mdl-textfield__label" for="title">Title of Event</label>
-    </div>
+      Title of Event
+    <input class="form-control" type="text" id="title" name="title" placeholder = "Title of Event">
       <br>
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="date" id="date" name="date">
-    <label class="mdl-textfield__label" for="date">Date</label>
-    </div>
+      Date
+    <input class="form-control" type="date" id="date" name="date">
     <br>
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-  <input class="mdl-textfield__input" type="time" id="time" name="time">
-  <label class="mdl-textfield__label" for="time">Time</label>
-  </div>
+    Time
+  <input class="form-control" type="time" id="time" name="time">
   <br>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-<input class="mdl-textfield__input" type="location" id="location" name="location">
-<label class="mdl-textfield__label" for="location">Location</label>
-</div>
+  Location
+<input class="form-control" type="location" id="location" name="location" placeholder = "Location">
 
-<h3> Upload Image</h3>
-<input class= "imageup" type="file" name="pic" accept="image/*" value="image">
+        <h3> Upload Image</h3>
+        <input type="file" name="pic" accept="image/*" value="photo" style="align: center">
 
 
 
