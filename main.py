@@ -270,7 +270,7 @@ class addEvent(webapp2.RequestHandler):
         location = self.request.get("location")
         event = Event(title = title, date = date, time = time, location = location)
         event.put()
-        self.redirect('/mainFeed')
+        self.redirect('/')
 
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
