@@ -1,6 +1,6 @@
 body {
   background-color: lightblue;
-  background-image: url(https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjw5rDq4N3jAhXVJzQIHXadCsIQjRx6BAgBEAU&url=https%3A%2F%2Fwallpaperaccess.com%2Fblue-galaxy&psig=AOvVaw0LbyDNCkxt1zEER3LRU9pU&ust=1564614341777776)
+  background-image: url(https://wallpaperaccess.com/full/39632.jpg)
 }
 
 row {
@@ -8,6 +8,15 @@ row {
 
 }
 
+.form-control {
+  width: 50%;
+  
+}
+.container-fluid {
+  background-color: lightgray;
+  align-self: center;
+  width: 90%;
+}
 col {
   padding: 10px
 }
@@ -45,7 +54,7 @@ col {
 
 .demo-card-event.mdl-card {
   width: 1000px;
-  height: 256px;
+  height: 300px;
   background: #3E4EB8;
   align-self: center;
   justify-content: center;
