@@ -2,12 +2,40 @@
 <html lang="" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="stylesheets/about.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="stylesheets/about.css">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
     <title>About Page</title>
   </head>
   <body>
-
+    <div class="demo-layout-transparent mdl-layout mdl-js-layout">
+      <header class="mdl-layout__header mdl-layout__header--transparent">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">OrgSpace</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation -->
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/about">About</a>
+            <a class="mdl-navigation__link" href="/">Main Feed</a>
+            <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">OrgSpace</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/" >Main Feed</a>
+          <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
+          <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
+          <a class="mdl-navigation__link" href="/createPost">Create Post</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+      </main>
+    </div>
         <div>
           <h1>Welcome to OrgSpace</h1>
         <div>
@@ -40,6 +68,12 @@
         <div class="">
           <h1>Donate to Good Causes</h1>
           <p>Give a helping hand and support organizers having events in your community. You never know whose life you will impact.</p>
+        </div>
+
+        <div class="">
+          <a href="meetTheTeam.html">
+            <h3>Meet the Developers of Good Causes</h3>
+          </a>
         </div>
 
         <footer class="">
