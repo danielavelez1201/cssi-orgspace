@@ -14,11 +14,37 @@
   <div class="container-fluid">
 <h1 style="text-align:center;"><strong> Search Results</strong></h1>
   <body>
+    <form method= "GET" action= "/searchresults">
+      <div>
+          <select class="form-control" name="Category" >
+            <option class="" disabled="" value="-1">Choose a category</option>
+            <option value="2">Accidents &amp; Emergencies</option>
+            <option value="3">Animals &amp; Pets</option>
+            <option value="4">Children &amp; Family</option>
+            <option value="5">Business &amp; Entrepreneurs</option>
+            <option value="7">Community &amp; Neighbours</option>
+            <option value="8">Creative Arts, Music &amp; Film</option>
+            <option value="9">Volunteer &amp; Service</option>
+            <option value="10">Dreams, Hopes &amp; Wishes</option>
+            <option value="11">Education &amp; Learning</option>
+            <option value="11">Medical, Illness &amp; Healing</option>
+            <option value="12">Missions, Faith &amp; Church</option>
+            <option value="13">Sports, Teams &amp; Clubs</option>
+            <option value="14">Travel &amp; Adventure</option>
+            <option value="15">Other</option>
+          </select>
+          <input type= "text" name= "search_query" value="{{search_query}}"></input>
+          <input type= "submit" name= "submit"></input>
+
+      </div>
+    </form>
+
     <ul>
     {% for profile in profiles %}
-        <li> {{profile.fullname}}</li>
-        <li> <a href"/profile?userkey={{profile.key.urlsafe()}}"></a></li>
+        <li> {{profile.fullname}}<br>
 
+        <!-- <a href= "/profile?profile={{profile.key.urlsafe()}}" > View Profile
+        </a></li> -->
     {% endfor %}
   </ul>
 <!-- POSSIBLE FOR LOOP, LINK PROFILES -->
