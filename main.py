@@ -351,11 +351,12 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        # photo = images.resize(self.request.get("photo", 250, 250))
+        photo = images.resize(self.request.get("photo"), 250, 250)
+        logging.info(self.request.get("photo"))
         attendees = []
         donations = []
         collaborators = []
-        event = Event(organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
 
@@ -392,11 +393,12 @@ class createPost(webapp2.RequestHandler):
         photo = self.request.get("photo")
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
+        photo = images.resize(self.request.get("photo"), 250, 250)
         userKey = user.key
         time = now.hour
         date = now.date
         donations = []
-        post = Post(text = postText, author = userKey, time = str(time), date = str(date), photo = photo, donations = donations)
+        post = Post(photo = photo, text = postText, author = userKey, time = str(time), date = str(date), donations = donations)
         post.put()
         self.redirect('/')
 
