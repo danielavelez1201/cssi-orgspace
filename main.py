@@ -116,12 +116,30 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
+class searchresults(webapp2.RequestHandler):
+    def get(self):
+        search_query = self.request.get('search_query')
+        profiles = Profile.query().filter(search_query == Profile.fullname).fetch()
+        template_vars = {
+            'profiles' : profiles,
+        }
+        template = jinja_env.get_template('templates/searchresults.html')
+        self.response.write(template.render(template_vars))
+
+class viewprofile(webapp2.RequestHandler):
+    def get(self):
+        profile=ndb.Key(urlsafe=self.request.get("userkey")).get()
+        template_vars = {
+        'profile' : profile,
+        }
+        template = jinja_env.get_template('templates/searchresults.html')
+        self.response.write(template.render(template_vars))
+
 
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
     def post(self):
         # Code to handle a first-time registration from the form:
-        print 'MainHandler POST!!!!!!!!!'
         user = users.get_current_user()
         orguser = Profile(
             fullname=self.request.get('fullname'),
@@ -408,6 +426,8 @@ app = webapp2.WSGIApplication([
 ('/updateProfile', UpdateProfile),
 ('/thankyouPost', thankyouPost),
 ('/about', About),
+('/searchresults', searchresults),
+('/viewprofile', viewprofile),
 
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
