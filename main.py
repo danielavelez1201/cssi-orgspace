@@ -255,8 +255,7 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-<<<<<<< HEAD
-=======
+
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
@@ -272,11 +271,6 @@ class thankyouPost(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-
-
-
-
->>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
@@ -311,6 +305,11 @@ class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
         self.redirect('/')
+        self.response.write(template.render())
+
+class About(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/about.html')
         self.response.write(template.render())
 
 class createPost(webapp2.RequestHandler):
@@ -348,13 +347,11 @@ app = webapp2.WSGIApplication([
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
-<<<<<<< HEAD
 ('/updateProfile', UpdateProfile),
-=======
-('/updateProfile', Update),
 ('/thankyouPost', thankyouPost),
+('/about', About),
+
 # ('/organizationProfilePage', organizationProfilePage),
->>>>>>> ae289590598fea08def1642b79472488a0e7a1a6
 
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
