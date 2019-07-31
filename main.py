@@ -207,13 +207,13 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
+        photo = images.resize(self.request.get("pic", 250, 250))
         attendees = []
         donations = []
-        event = Event(title = title, date = date, time = time, location = location, attendees = attendees, donations = donations)
+        event = Event(title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, photo = photo)
         event.put()
         self.redirect('/')
 
-# photo = images.resize(self.request.get("pic", 250, 250))
 
 
 class OrgProfilePage(webapp2.RequestHandler):
