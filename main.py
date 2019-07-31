@@ -201,17 +201,28 @@ class collaborate(webapp2.RequestHandler):
         user = Profile.query().filter(user == Profile.email).get()
         template_vars = {
             'user' : user,
+            'urlsafeEvent' : self.request.get("event"),
             'event' : event
         }
         eventKey = self.request.get("event")
-        if not(user.key in event.collaborators):
-            if (event.collaborators):
-                event.collaborators.append(user.key)
-            else:
-                event.collaborators = [user.key]
-        event.put()
         template = jinja_env.get_template('templates/collaborate.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_vars))
+    def post(self):
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        event = eventKey.get()
+        description = self.request.get("description")
+        collaborator = Collaborator(organization = user.key, event = event.key, description = description).put()
+        if not(collaborator in event.collaborators):
+            if (event.collaborators):
+                event.collaborators.append(collaborator)
+            else:
+                event.collaborators = [collaborator]
+        event.put()
+        self.redirect('/collaborators?event=' + str(eventKey.urlsafe()))
+
 
 
 class signup(webapp2.RequestHandler):
@@ -389,6 +400,20 @@ class createPost(webapp2.RequestHandler):
         post.put()
         self.redirect('/')
 
+class collaborators(webapp2.RequestHandler):
+    def get(self):
+        eventKey = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=eventKey)
+        logging.info(eventKey)
+        event = eventKey.get()
+        template_vars = {
+            'event': event
+        }
+        template = jinja_env.get_template('templates/collaborators.html')
+        self.response.write(template.render(template_vars))
+
+
+
 
 
 
@@ -408,6 +433,7 @@ app = webapp2.WSGIApplication([
 ('/updateProfile', UpdateProfile),
 ('/thankyouPost', thankyouPost),
 ('/about', About),
+('/collaborators', collaborators),
 
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
