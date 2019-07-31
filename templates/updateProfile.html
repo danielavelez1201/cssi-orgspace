@@ -13,27 +13,55 @@
     <div id="profile_info">
       <ul>
         <div class="flex-signup">
-            <div><form method="POST" action="/mainhandler">
-              <label  style="color:black";> Full Name:
-                <input type="text" name="fullname">
-              </label></div>
-              <div><label style="color:black"; style="font-size:300%";> Password:
-                <input type="text" name="password">
-              </label></div>
-              <div><label  style="color:black";> Location:
-                <input type="text" name="location">
-              </label></div>
-              <div><label  style="color:black";> Category:
-                <input type="text" name="category">
-              </label></div>
-              <div><label  style="color:black";> Phone:
-                <input type="integer" name="phone">
-              </label></div>
-              <div><label> Bio:
-                <input type = "text" name = "bio">
-                <button style="50%"type="submit" value="Submit">Update</button></div>
-              </form><br><br>
+                <form method="POST" action="/mainhandler">
+                  <div>
+                    <label>Name:
+                      {{name}}
+                    </label>
+                  </div>
 
+                  <div>
+                    <label> Location:
+                    <input type="text" name="password" placeholder={{location}}>
+                    </label>
+                  </div>
+
+                  <div>
+                    <label> Category:
+                      <select class="" name="category" placeholder={{category}}>
+                        <option class="" disabled="" value="-1">Choose a category</option>
+                        <option value="2">Accidents &amp; Emergencies</option>
+                        <option value="3">Animals &amp; Pets</option>
+                        <option value="4">Children &amp; Family</option>
+                        <option value="5">Business &amp; Entrepreneurs</option>
+                        <option value="7">Community &amp; Neighbours</option>
+                        <option value="8">Creative Arts, Music &amp; Film</option>
+                        <option value="9">Volunteer &amp; Service</option>
+                        <option value="10">Dreams, Hopes &amp; Wishes</option>
+                        <option value="11">Education &amp; Learning</option>
+                        <option value="11">Medical, Illness &amp; Healing</option>
+                        <option value="12">Missions, Faith &amp; Church</option>
+                        <option value="13">Sports, Teams &amp; Clubs</option>
+                        <option value="14">Travel &amp; Adventure</option>
+                        <option value="15">Other</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div>
+                    <label> Phone:
+                    <input type="integer" name="phone">
+                    </label>
+                  </div>
+
+                  <div>
+                    <label> Bio:
+                    <input type = "text" name = "bio">
+                    </label>
+                  </div>
+                </form>
+              <br>
+                <button type="submit" value="Submit">Update</button>
       </ul>
     </div>
   </body>
