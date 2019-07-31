@@ -15,8 +15,14 @@ row {
   justify-content: flex-end;
 }
 
+.h1{
+  color: white;
+}
 .form-control {
 
+}
+.form-group{
+  color: white;
 }
 .container-fluid {
   background-color: lightgray;
@@ -29,16 +35,24 @@ col {
 .flex-signup {
   display: flex;
   flex-direction: column;
+  color: white;
 }
 
 .user {
   visibility: visible
 }
+.imageup{
+  width: 200px;
+  text-align: center;
+  margin:0 auto;
+}
+.form-check{
+  color: white;
+}
 
 .organization {
   visibility: visible
 }
-
 .demo-card-image.mdl-card {
   width: 1000px;
   height: 256px;
