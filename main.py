@@ -21,8 +21,6 @@ class Profile(ndb.Model):
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
 
-<<<<<<< HEAD
-=======
 class UpdateProfile(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user().email()
@@ -58,7 +56,6 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
->>>>>>> c533427f0f6bf641a8e40ca5e1c9c3dcd30af40a
 class Event(ndb.Model):
     organization = ndb.KeyProperty(kind = Profile)
     title = ndb.StringProperty(required = True)
@@ -313,10 +310,7 @@ class thankyou(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 2209e545ab4f97d8c7ad0756811c38ddf9249f6a
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
@@ -332,13 +326,7 @@ class thankyouPost(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-<<<<<<< HEAD
-=======
 
-
-
-
->>>>>>> 2209e545ab4f97d8c7ad0756811c38ddf9249f6a
 class addEvent(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
