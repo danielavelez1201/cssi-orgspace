@@ -7,6 +7,10 @@ row {
   padding: 10px;
 
 }
+
+.black-text {
+  color: black;
+}
 .mdl-mini-footer {
   justify-content: flex-end;
 }
@@ -15,7 +19,6 @@ row {
   color: white;
 }
 .form-control {
-  width: 50%;
 
 }
 .form-group{
@@ -34,10 +37,7 @@ col {
   flex-direction: column;
   color: white;
 }
-.signupbutton {
-  width: 40px;
-  height: 40px;
-}
+
 .user {
   visibility: visible
 }

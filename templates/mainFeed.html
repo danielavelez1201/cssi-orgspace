@@ -35,6 +35,7 @@
       <a class="mdl-navigation__link" href="/" >Main Feed</a>
       <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
       <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
+      <a class="mdl-navigation__link" href="/createPost">Create Post</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -102,17 +103,54 @@
                 </a>
 
                 <i class="material-icons">event</i>
+
               </div>
           </div>
           <br>
           <br>
-
+          {% endfor %}
         </li>
-        {% endfor %}
+
 </div>
 
       </ul>
 
+      <ul>
+          {% for post in post_list: %}
+          <li>
+            <div class="demo-card-image mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title mdl-card--expand"></div>
+              <div class="mdl-card__actions">
+                <img src = "{{post.photo}}">
+            </div>
+          </div>
+            <div class="demo-card-event mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title mdl-card--expand">
+                {{post.text}}
+              </div>
+              <!-- Only user can see this -->
+              <div class="mdl-card__actions mdl-card--border" class = "user">
+                <a href= "/donate?event={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Donate
+                </a>
+              </div>
+              <!-- Only organizations can see this -->
+                <div class="mdl-card__actions mdl-card--border" class = "organization">
+                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Collaborate
+                  </a>
+
+                  <i class="material-icons">event</i>
+                </div>
+            </div>
+            <br>
+            <br>
+
+          </li>
+          {% endfor %}
+      </div>
+
+        </ul>
 
 
   <br>
@@ -122,7 +160,7 @@
 
     <ul class="mdl-mini-footer__link-list">
       <li><a href="/organizationProfilePage">Profile Page</a></li>
-      <li><a href="/logout">Log Out</a></li>
+      <li><a href="/signupprofile">Log Out</a></li>
       <li><a href="/signupprofile">Sign Up</a></li>
     </ul>
 
