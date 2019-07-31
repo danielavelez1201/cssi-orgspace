@@ -116,12 +116,30 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
+class searchresults(webapp2.RequestHandler):
+    def get(self):
+        search_query = self.request.get('search_query')
+        profiles = Profile.query().filter(search_query == Profile.fullname).fetch()
+        template_vars = {
+            'profiles' : profiles,
+        }
+        template = jinja_env.get_template('templates/searchresults.html')
+        self.response.write(template.render(template_vars))
+
+class viewprofile(webapp2.RequestHandler):
+    def get(self):
+        profile=ndb.Key(urlsafe=self.request.get("userkey")).get()
+        template_vars = {
+        'profile' : profile,
+        }
+        template = jinja_env.get_template('templates/searchresults.html')
+        self.response.write(template.render(template_vars))
+
 
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
     def post(self):
         # Code to handle a first-time registration from the form:
-        print 'MainHandler POST!!!!!!!!!'
         user = users.get_current_user()
         orguser = Profile(
             fullname=self.request.get('fullname'),
@@ -201,17 +219,28 @@ class collaborate(webapp2.RequestHandler):
         user = Profile.query().filter(user == Profile.email).get()
         template_vars = {
             'user' : user,
+            'urlsafeEvent' : self.request.get("event"),
             'event' : event
         }
         eventKey = self.request.get("event")
-        if not(user.key in event.collaborators):
-            if (event.collaborators):
-                event.collaborators.append(user.key)
-            else:
-                event.collaborators = [user.key]
-        event.put()
         template = jinja_env.get_template('templates/collaborate.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_vars))
+    def post(self):
+        event = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=event)
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        event = eventKey.get()
+        description = self.request.get("description")
+        collaborator = Collaborator(organization = user.key, event = event.key, description = description).put()
+        if not(collaborator in event.collaborators):
+            if (event.collaborators):
+                event.collaborators.append(collaborator)
+            else:
+                event.collaborators = [collaborator]
+        event.put()
+        self.redirect('/collaborators?event=' + str(eventKey.urlsafe()))
+
 
 
 class signup(webapp2.RequestHandler):
@@ -340,11 +369,12 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        # photo = images.resize(self.request.get("photo", 250, 250))
+        photo = images.resize(self.request.get("photo"), 250, 250)
+        logging.info(self.request.get("photo"))
         attendees = []
         donations = []
         collaborators = []
-        event = Event(organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
 
@@ -381,13 +411,28 @@ class createPost(webapp2.RequestHandler):
         photo = self.request.get("photo")
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
+        photo = images.resize(self.request.get("photo"), 250, 250)
         userKey = user.key
         time = now.hour
         date = now.date
         donations = []
-        post = Post(text = postText, author = userKey, time = str(time), date = str(date), photo = photo, donations = donations)
+        post = Post(photo = photo, text = postText, author = userKey, time = str(time), date = str(date), donations = donations)
         post.put()
         self.redirect('/')
+
+class collaborators(webapp2.RequestHandler):
+    def get(self):
+        eventKey = self.request.get("event")
+        eventKey = ndb.Key(urlsafe=eventKey)
+        logging.info(eventKey)
+        event = eventKey.get()
+        template_vars = {
+            'event': event
+        }
+        template = jinja_env.get_template('templates/collaborators.html')
+        self.response.write(template.render(template_vars))
+
+
 
 
 
@@ -408,6 +453,9 @@ app = webapp2.WSGIApplication([
 ('/updateProfile', UpdateProfile),
 ('/thankyouPost', thankyouPost),
 ('/about', About),
+('/searchresults', searchresults),
+('/viewprofile', viewprofile),
+('/collaborators', collaborators),
 
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
