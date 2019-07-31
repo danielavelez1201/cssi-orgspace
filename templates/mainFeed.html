@@ -46,9 +46,15 @@
 <br>
 <br>
 <br>
-<div class = "container-fluid">
   <br>
-
+  <div class = "row">
+    <div class = "col-lg-6">
+      <div class="container-fluid">
+        <div class="row" style = "background-color: gray; text-align: center">
+          <h2><strong>Events</strong></h2>
+        </div>
+        <br>
+        <div class="row">
     <ul>
         {% for event in event_list: %}
         <li>
@@ -81,6 +87,7 @@
 
               </h4>
             </div>
+            {% if user.usertype == "individual": %}
             <!-- Only user can see this -->
             <div class="mdl-card__actions mdl-card--border" class = "user">
               <a href= "/signup?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -94,10 +101,14 @@
               </a>
               <i class="material-icons">event</i>
             </div>
+            {% elif user.usertype == "organization": %}
             <!-- Only organizations can see this -->
               <div class="mdl-card__actions mdl-card--border" class = "organization">
                 <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Collaborate
+                </a>
+                <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Donate
                 </a>
                 <a style="text-align: right" target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Add to Calendar
@@ -106,15 +117,23 @@
                 <i class="material-icons">event</i>
 
               </div>
+            {% endif %}
           </div>
           <br>
           <br>
           {% endfor %}
         </li>
-
 </div>
-
-      </ul>
+</div>
+</div>
+</ul>
+<div class="col-lg-6">
+<div class="container-fluid">
+  <div class="row" style = "background-color: gray; text-align: center">
+    <h2><strong>Posts</strong></h2>
+  </div>
+  <br>
+  <div class="row">
 
       <ul>
           {% for post in post_list: %}
@@ -129,41 +148,50 @@
               <div class="mdl-card__title mdl-card--expand">
                 {{post.text}}
               </div>
+
               <!-- Only user can see this -->
               <div class="mdl-card__actions mdl-card--border" class = "user">
-                <a href= "/donate?event={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Donate
                 </a>
               </div>
               <!-- Only organizations can see this -->
+                {% if user.usertype == "organization": %}
                 <div class="mdl-card__actions mdl-card--border" class = "organization">
                   <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Collaborate
                   </a>
-
-                  <i class="material-icons">event</i>
                 </div>
+                {% endif %}
+
+                <div class="mdl-card__actions mdl-card--border" class = "organization">
+                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Total Donated: {{post.total}}
+                  </a>
+                </div>
+
             </div>
             <br>
             <br>
 
           </li>
           {% endfor %}
-      </div>
-
         </ul>
-
+      </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
   <br>
-
 <footer class="mdl-mini-footer">
   <div class="mdl-mini-footer__left-section">
-
     <ul class="mdl-mini-footer__link-list">
       <li><a href="/organizationProfilePage">Profile Page</a></li>
-      <li><a href="/signupprofile">Log Out</a></li>
+      <li><a href="{{signout_link}}">Log Out</a></li>
       <li><a href="/signupprofile">Sign Up</a></li>
+      <li><a href="{{signin_link}}">Log In</a></li>
     </ul>
-
 </footer>
 </html>

@@ -29,6 +29,10 @@ row {
   align-self: center;
   width: 90%;
 }
+
+.smaller {
+  width: 40% !important;
+}
 col {
   padding: 10px
 }
@@ -37,7 +41,15 @@ col {
   flex-direction: column;
   color: white;
 }
-
+.signupbutton {
+  width: 40px;
+  height: 40px;
+}
+.title{
+  display: flex;
+  flex-direction: row;
+  color: white;
+}
 .user {
   visibility: visible
 }
@@ -54,7 +66,7 @@ col {
   visibility: visible
 }
 .demo-card-image.mdl-card {
-  width: 1000px;
+  width: 500px;
   height: 256px;
   background: url('../assets/demos/image_card.jpg') center / cover;
 }
@@ -70,7 +82,7 @@ col {
 }
 
 .demo-card-event.mdl-card {
-  width: 1000px;
+  width: 500px;
   height: 300px;
   background: #3E4EB8;
   align-self: center;
