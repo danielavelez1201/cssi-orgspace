@@ -89,6 +89,33 @@ class Donation(ndb.Model):
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
 
+class Image(ndb.Model):
+    def get(self):
+        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
+        if product.photo:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(product.photo)
+        else:
+            self.response.out.write('No image')
+
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        location = self.request.get("location")
+        category = self.request.get("category")
+        bio = self.request.get("bio")
+        update = Update(name = name, location = location, category = category,  bio = bio)
+        self.redirect('/organizationProfilePage')
+        user = Profile.query().filter
+
+class signupprofile (webapp2.RequestHandler):
+     def get(self):
+         mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
+         self.response.write(mainFeed_template.render())  # the response
+
 
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
@@ -99,7 +126,7 @@ class MainHandler(webapp2.RequestHandler):
         orguser = Profile(
             fullname=self.request.get('fullname'),
             email=user.email(),
-            
+
             location=self.request.get('location'),
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
@@ -108,6 +135,10 @@ class MainHandler(webapp2.RequestHandler):
 
         orguser.put()
         self.redirect('/')
+
+
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
 
 class Image(ndb.Model):
     def get(self):
@@ -143,8 +174,10 @@ class mainFeed(webapp2.RequestHandler):
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
-        user = users.get_current_user().email()
-        user = Profile.query().filter(user == Profile.email).get()
+        user = ""
+        if (users.get_current_user()):
+            user = users.get_current_user().email()
+            user = Profile.query().filter(user == Profile.email).get()
         template_vars = {
             'user' : user,
             'post_list' : post_list,
@@ -371,14 +404,9 @@ app = webapp2.WSGIApplication([
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
-
 ('/updateProfile', UpdateProfile),
-
-
 ('/thankyouPost', thankyouPost),
 # ('/organizationProfilePage', organizationProfilePage),
-
-
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
 
