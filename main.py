@@ -21,23 +21,6 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     usertype = ndb.StringProperty(required =True)
 
-class Update(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template('templates/updateProfile.html')
-        self.response.write(template.render())
-    def post(self):
-        location = self.request.get("location")
-        category = self.request.get("category")
-        bio = self.request.get("bio")
-        update = Update(name = name, location = location, category = category,  bio = bio)
-        self.redirect('/organizationProfilePage')
-        user = Profile.query().filter
-
-class signupprofile (webapp2.RequestHandler):
-     def get(self):
-         mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
-         self.response.write(mainFeed_template.render())  # the response
-
 class Event(ndb.Model):
     organization = ndb.KeyProperty(kind = Profile)
     title = ndb.StringProperty(required = True)
@@ -64,7 +47,32 @@ class Donation(ndb.Model):
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
 
+class Image(ndb.Model):
+    def get(self):
+        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
+        if product.photo:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(product.photo)
+        else:
+            self.response.out.write('No image')
 
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        location = self.request.get("location")
+        category = self.request.get("category")
+        bio = self.request.get("bio")
+        update = Update(name = name, location = location, category = category,  bio = bio)
+        self.redirect('/organizationProfilePage')
+        user = Profile.query().filter
+
+class signupprofile (webapp2.RequestHandler):
+     def get(self):
+         mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
+         self.response.write(mainFeed_template.render())  # the response
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -87,18 +95,8 @@ class MainHandler(webapp2.RequestHandler):
         orguser.put()
         self.redirect('/')
 
-class Image(ndb.Model):
-    def get(self):
-        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
-        if product.photo:
-            self.response.headers['Content-Type'] = 'image/png'
-            self.response.out.write(product.photo)
-        else:
-            self.response.out.write('No image')
-
 
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
 
 
 class populateDatabase(webapp2.RequestHandler):
@@ -254,10 +252,6 @@ class thankyouPost(webapp2.RequestHandler):
             'donation' : donation
         }
         self.response.write(template.render(template_vars))
-
-
-
-
 
 class addEvent(webapp2.RequestHandler):
     def get(self):

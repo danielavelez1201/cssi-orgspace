@@ -23,7 +23,15 @@
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation -->
-      <nav class="mdl-navigation">
+
+        <div class="form-inline mr-auto">
+          <form action="http://orgspace.appspot.com/search.php">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button href="#!" id="searchbutton" class="btn btn-unique btn-rounded btn-sm my-0" type="submit">Search</button>
+        </form>
+        <!-- ^^^^^^
+              NEED TO CHANGE BUTTON COLOR-->
+        </div>
         <a class="mdl-navigation__link" href="/about.html">About</a>
         <a class="mdl-navigation__link" href="/">Main Feed</a>
         <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
@@ -32,7 +40,6 @@
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">OrgSpace</span>
-    <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/" >Main Feed</a>
       <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
       <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
