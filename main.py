@@ -19,7 +19,19 @@ class Profile(ndb.Model):
     category = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = True)
     phone = ndb.IntegerProperty(required = True)
-    usertype = ndb.StringProperty(required =True )
+    usertype = ndb.StringProperty(required =True)
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        location = self.request.get("location")
+        category = self.request.get("category")
+        bio = self.request.get("bio")
+        update = Update(name = name, location = location, category = category,  bio = bio)
+        self.redirect('/organizationProfilePage')
+        user = Profile.query().filter
 
 class signupprofile (webapp2.RequestHandler):
      def get(self):
@@ -45,17 +57,7 @@ class Donation(ndb.Model):
         user = Profile.query().filter(self.user == Profile.key).get().full_name
         return "%s donated %s to %s" % (user, self.donation, self.event.title)
 
-class Update(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template('templates/updateProfile.html')
-        self.response.write(template.render())
-    def post(self):
-        location = self.request.get("location")
-        category = self.request.get("category")
-        bio = self.request.get("bio")
-        update = Update(name = name, location = location, category = category,  bio = bio)
-        update.put()
-        self.redirect('/organizationProfilePage')
+
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -224,14 +226,6 @@ class OrgProfilePage(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))
 
-    def post(self):
-        template_vars = {
-            "fullname": self.request.get("fullname"),
-            "location": self.request.get("location"),
-            "phone": self.request.get("phone"),
-        }
-        template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render(template_vars))
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
