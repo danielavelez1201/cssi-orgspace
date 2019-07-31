@@ -46,11 +46,15 @@
 <br>
 <br>
 <br>
-<div class = "container-fluid">
   <br>
   <div class = "row">
     <div class = "col-lg-6">
-
+      <div class="container-fluid">
+        <div class="row" style = "background-color: gray; text-align: center">
+          <h2><strong>Events</strong></h2>
+        </div>
+        <br>
+        <div class="row">
     <ul>
         {% for event in event_list: %}
         <li>
@@ -113,11 +117,17 @@
           <br>
           {% endfor %}
         </li>
-
+</div>
+</div>
 </div>
 </ul>
 <div class="col-lg-6">
-
+<div class="container-fluid">
+  <div class="row" style = "background-color: gray; text-align: center">
+    <h2><strong>Posts</strong></h2>
+  </div>
+  <br>
+  <div class="row">
 
       <ul>
           {% for post in post_list: %}
@@ -144,6 +154,12 @@
                     Collaborate
                   </a>
                 </div>
+                <div class="mdl-card__actions mdl-card--border" class = "organization">
+                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Total Donated: {{post.total}}
+                  </a>
+                </div>
+
             </div>
             <br>
             <br>
@@ -152,7 +168,9 @@
           {% endfor %}
         </ul>
       </div>
-
+</div>
+</div>
+</div>
 </div>
 </div>
 

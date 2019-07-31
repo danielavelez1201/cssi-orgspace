@@ -243,12 +243,13 @@ class thankyouPost(webapp2.RequestHandler):
     def get(self):
         postKey = self.request.get("postItem")
         logging.info("EVENT HERE")
-        eventKey = ndb.Key(urlsafe=eventKey)
-        logging.info(eventKey)
-        event = eventKey.get()
+        postKey = ndb.Key(urlsafe=postKey)
+        logging.info(postKey)
+        postItem = postKey.get()
         donation = self.request.get("donation")
         template = jinja_env.get_template('templates/thankyouPost.html')
         template_vars = {
+            'postItem' : postItem,
             'donation' : donation
         }
         self.response.write(template.render(template_vars))
