@@ -29,6 +29,10 @@ row {
   align-self: center;
   width: 90%;
 }
+
+.smaller {
+  width: 40% !important;
+}
 col {
   padding: 10px
 }
