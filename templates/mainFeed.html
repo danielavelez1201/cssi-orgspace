@@ -23,24 +23,24 @@
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation -->
-
       <nav class="mdl-navigation">
+
         <div class="form-inline mr-auto">
           <form method="GET" action="/searchresults">
           <input name= "search_query" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button href="#!" id="searchbutton" class="btn btn-unique btn-rounded btn-sm my-0" type="submit">Search</button>
         </form>
-        <!-- ^^^^^^
-              NEED TO CHANGE BUTTON COLOR-->
+
         </div>
-        <a class="mdl-navigation__link" href="/about.html">About</a>
-        <a class="mdl-navigation__link" href="/">Main Feed</a>
+          <a class="mdl-navigation__link" href="/about">About</a>
+          <a class="mdl-navigation__link" href="/">Main Feed</a>
         <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
       </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">OrgSpace</span>
+     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/" >Main Feed</a>
       <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
       <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
@@ -97,7 +97,7 @@
             </div>
             {% if user.usertype == "individual": %}
             <!-- Only user can see this -->
-            <div class="mdl-card__actions mdl-card--border" class = "user">
+            <div class="mdl-card__actions mdl-card--border">
               <a href= "/signup?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                 Sign up
               </a>
@@ -111,7 +111,7 @@
             </div>
             {% elif user.usertype == "organization": %}
             <!-- Only organizations can see this -->
-              <div class="mdl-card__actions mdl-card--border" class = "organization">
+              <div class="mdl-card__actions mdl-card--border">
                 <a href= "/collaborate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                   Collaborate
                 </a>
@@ -166,7 +166,7 @@
               <!-- Only organizations can see this -->
                 {% if user.usertype == "organization": %}
                 <div class="mdl-card__actions mdl-card--border" class = "organization">
-                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  <a href= "/collaborate?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                     Collaborate
                   </a>
                 </div>
