@@ -177,6 +177,13 @@ class populateDatabase(webapp2.RequestHandler):
 
 class mainFeed(webapp2.RequestHandler):
     def get(self):
+        current_user = users.get_current_user()
+        signin_link = users.create_login_url('/')
+        signout_link = users.create_logout_url('/')
+        user = ""
+        if current_user:
+            user_email = current_user.email()
+            user = redirectIfNoProfile(self, user_email)
         event_query = Event.query()
         event_list = event_query.fetch()
         for event in event_list:
@@ -189,13 +196,7 @@ class mainFeed(webapp2.RequestHandler):
             post.total = 0
             for donation in post.donations:
                 post.total += donation.get().donation
-        current_user = users.get_current_user()
-        signin_link = users.create_login_url('/')
-        signout_link = users.create_logout_url('/')
-        user = ""
-        if (users.get_current_user()):
-            user = users.get_current_user().email()
-            user = Profile.query().filter(user == Profile.email).get()
+
         template_vars = {
             'user' : user,
             'post_list' : post_list,
@@ -440,6 +441,13 @@ class collaborators(webapp2.RequestHandler):
 
 
 
+def redirectIfNoProfile(self, email):
+    # supposed to go through the database if theres a profile who matches email, else redirect to sign up profile
+    user = Profile.query().filter(email == Profile.email).get()
+    if user:
+        return user
+    else:
+         self.redirect("/signupprofile")
 
 
 
