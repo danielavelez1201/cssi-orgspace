@@ -81,12 +81,10 @@
         </footer>
 
       </div>
-
-  </main>
-
-</div>
-
-
+    </div>
+    {% if profile.isUser: %}
+    <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
+    {% endif %}
 
   </body>
 </html>
