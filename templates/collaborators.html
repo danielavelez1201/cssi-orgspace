@@ -32,8 +32,8 @@
   </thead>
   <tbody>
     {% for collaborator in event.collaborators: %}
-    <tr>
-      <a href= "organizationProfilePage?profile={{collaborator.get().organization.urlsafe()}}"><strong><td>{{collaborator.get().organization.get().fullname}}</td></strong></a>
+    <tr class='clickable-row' data-href='url: organizationProfilePage?profile={{collaborator.get().organization.urlsafe()}}'>
+      <strong><td>{{collaborator.get().organization.get().fullname}}</td></strong>
       <td>{{collaborator.get().organization.get().location}}
       <td>{{collaborator.get().description}}</td>
     </tr>
