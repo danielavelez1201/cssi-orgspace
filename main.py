@@ -54,7 +54,7 @@ class Donation(ndb.Model):
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
 
-class Image(ndb.Model):
+class Image(webapp2.RequestHandler):
     def get(self):
         product=ndb.Key(urlsafe=self.request.get("img_id")).get()
         if product.photo:
@@ -155,16 +155,6 @@ class MainHandler(webapp2.RequestHandler):
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
-class Image(ndb.Model):
-    def get(self):
-        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
-        if product.photo:
-            self.response.headers['Content-Type'] = 'image/png'
-            self.response.out.write(product.photo)
-        else:
-            self.response.out.write('No image')
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -240,7 +230,7 @@ class collaborate(webapp2.RequestHandler):
 
 
 
-class signup(webapp2.RequestHandler):
+class EventAttendee(webapp2.RequestHandler):
     def get(self):
         event = self.request.get("event")
         eventKey = ndb.Key(urlsafe=event)
@@ -366,8 +356,9 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        photo = images.resize(self.request.get("photo"), 250, 250)
+        logging.info("PHOTO HERE")
         logging.info(self.request.get("photo"))
+        photo = images.resize(self.request.get("photo"), 250, 250)
         attendees = []
         donations = []
         collaborators = []
@@ -395,6 +386,11 @@ class populateDatabase(webapp2.RequestHandler):
 class About(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/about.html')
+        self.response.write(template.render())
+
+class MeetTheTeam(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/meetTheTeam.html')
         self.response.write(template.render())
 
 class createPost(webapp2.RequestHandler):
@@ -441,7 +437,7 @@ app = webapp2.WSGIApplication([
 # ('/mainFeed', mainFeed),
 ('/populateDatabase', populateDatabase),
 ('/donate', donate),
-('/signup', signup),
+('/attendevent', EventAttendee),
 ('/collaborate', collaborate),
 ('/comment', comment),
 ('/donatePost', donatePost),
@@ -453,7 +449,8 @@ app = webapp2.WSGIApplication([
 ('/searchresults', searchresults),
 ('/collaborators', collaborators),
 ('/profilePage', profilePage),
-
+('/meetTheTeam', MeetTheTeam),
+('/image', Image),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),

@@ -11,13 +11,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
       <title>Add Event</title>
   </head>
   <body style="text-align:center; color: black;">
+    <br>
+    <br>
+    <br>
     <div class="container-fluid">
     <h1><strong>Add Event</strong></h1>
     <h3>Fill out the information for your event!</h3>
-    <form method="POST" action="/addEvent"  style="color:black;">
+    <form method="POST" action="/addEvent"  style="color:black;" enctype="multipart/form-data">
       <br>
       <div class="black-text">
         <div class="form-group" style="text-align:center; color: white;">
