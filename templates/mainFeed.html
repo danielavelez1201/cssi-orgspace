@@ -34,7 +34,7 @@
         </div>
           <a class="mdl-navigation__link" href="/about">About</a>
           <a class="mdl-navigation__link" href="/">Main Feed</a>
-        <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
+        <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
       </nav>
     </div>
   </header>
@@ -184,7 +184,7 @@
               <div class="mdl-card__title mdl-card--expand">
                 <div class="container" style = "padding:15px">
                 <div class = "row">
-                  
+
                 <strong>@{{user.fullname}}</strong>
                 <br>
               </div>
@@ -229,7 +229,10 @@
           {% endfor %}
         </ul>
 
-
+</div>
+</div>
+</div>
+</div>
   <br>
 <footer class="mdl-mini-footer">
   <div class="mdl-mini-footer__left-section">
