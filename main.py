@@ -189,7 +189,7 @@ class mainFeed(webapp2.RequestHandler):
             post.total = 0
             for donation in post.donations:
                 post.total += donation.get().donation
-            current_user = users.get_current_user()
+        current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
         user = ""
