@@ -179,12 +179,12 @@ class MainHandler(webapp2.RequestHandler):
             )
 
         orguser.put()
-        self.redirect('/')
+        self.redirect('/mainFeed')
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
-        self.redirect('/')
+        self.redirect('/mainFeed')
         self.response.write(template.render())
 
 class mainFeed(webapp2.RequestHandler):
@@ -224,7 +224,7 @@ class mainFeed(webapp2.RequestHandler):
                         counter = counter -1
             logging.info(post.recentComments)
         current_user = users.get_current_user()
-        signin_link = users.create_login_url('/')
+        signin_link = users.create_login_url('/mainFeed')
         signout_link = users.create_logout_url('/')
         user = ""
         user = users.get_current_user().email()
@@ -294,7 +294,7 @@ class EventAttendee(webapp2.RequestHandler):
             else:
                 event.attendees = [user.key]
         event.put()
-        self.redirect('/')
+        self.redirect('/mainFeed')
 
 class postComment(webapp2.RequestHandler):
     def get(self):
@@ -450,7 +450,7 @@ class addEvent(webapp2.RequestHandler):
         allComments = []
         event = Event(allComments = allComments, photo = photo, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
-        self.redirect('/')
+        self.redirect('/mainFeed')
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
@@ -472,13 +472,13 @@ class OrgProfilePage(webapp2.RequestHandler):
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/addEvent.html')
-        self.redirect('/')
+        self.redirect('/mainFeed')
         self.response.write(template.render())
 
 class About(webapp2.RequestHandler):
     def get(self):
         current_user = users.get_current_user()
-        signin_link = users.create_login_url('/')
+        signin_link = users.create_login_url('/mainFeed')
         template_vars = {
             'signin_link' : signin_link
         }
@@ -508,7 +508,7 @@ class createPost(webapp2.RequestHandler):
         donations = []
         post = Post(photo = photo, text = postText, author = userKey, time = str(time), date = str(date), donations = donations)
         post.put()
-        self.redirect('/')
+        self.redirect('/mainFeed')
 
 class collaborators(webapp2.RequestHandler):
     def get(self):
@@ -536,7 +536,7 @@ class allComments(webapp2.RequestHandler):
         self.response.write(template.render(template_vars))
 
 app = webapp2.WSGIApplication([
-('/', mainFeed),
+('/mainFeed', mainFeed),
 ('/mainhandler', MainHandler),
 ('/addEvent', addEvent),
 ('/populateDatabase', populateDatabase),
@@ -550,7 +550,7 @@ app = webapp2.WSGIApplication([
 ('/signupprofile', signupprofile),
 ('/updateProfile', updateProfile),
 ('/thankyouPost', thankyouPost),
-('/about', About),
+('/', About),
 ('/searchresults', searchresults),
 ('/collaborators', collaborators),
 ('/profilePage', profilePage),
