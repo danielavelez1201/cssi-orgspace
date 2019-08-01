@@ -10,8 +10,9 @@ from google.appengine.api import images
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-
+# MODELS
 class Profile(ndb.Model):
     fullname = ndb.StringProperty(required = True)
     email = ndb.StringProperty(required = True)
@@ -39,7 +40,6 @@ class Collaborator(ndb.Model):
     description = ndb.StringProperty(required = True)
     event = ndb.KeyProperty(kind = Event)
 
-
 class Post(ndb.Model):
     text = ndb.StringProperty(required = True)
     author = ndb.KeyProperty(kind = Profile)
@@ -54,6 +54,8 @@ class Donation(ndb.Model):
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
 
+# REQUEST HANDLERS
+
 class Image(webapp2.RequestHandler):
     def get(self):
         product=ndb.Key(urlsafe=self.request.get("img_id")).get()
@@ -62,7 +64,6 @@ class Image(webapp2.RequestHandler):
             self.response.out.write(product.photo)
         else:
             self.response.out.write('No image')
-
 
 class Update(webapp2.RequestHandler):
     def get(self):
@@ -122,31 +123,6 @@ class searchresults(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/searchresults.html')
         self.response.write(template.render(template_vars))
 
-# class (webapp2.RequestHandler):
-#     def get(self):
-#         profile = self.request.get("profile")
-#         profileKey=ndb.Key(urlsafe= profile)
-#         profile = profileKey.get()
-#
-#         template_vars = {
-#         'profile' : profile,
-#         }
-#         # user = users.get_current_user().email()
-#         profileKey = self.request.get("profile")
-#         profiles = Profile.query().filter(profile == Profile.ProfilePage).get()
-#         # logging.info(user)
-#         template = jinja_env.get_template('templates/searchresults.html')
-#         self.response.write(template.render(template_vars))
-#
-#         # event = self.request.get("event")
-#         # eventKey = ndb.Key(urlsafe=event)
-#         # event = eventKey.get()
-#         # template_vars = {
-#         #     'event' : event
-        # }
-
-
-
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
     def post(self):
@@ -163,11 +139,6 @@ class MainHandler(webapp2.RequestHandler):
 
         orguser.put()
         self.redirect('/')
-
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
-
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -240,8 +211,6 @@ class collaborate(webapp2.RequestHandler):
                 event.collaborators = [collaborator]
         event.put()
         self.redirect('/collaborators?event=' + str(eventKey.urlsafe()))
-
-
 
 class signup(webapp2.RequestHandler):
     def get(self):
@@ -324,7 +293,6 @@ class donatePost(webapp2.RequestHandler):
         postItem.put()
         self.redirect('/thankyouPost?postItem=' + str(postKey.urlsafe()) + '&donation=' + str(amount))
 
-
 class thankyou(webapp2.RequestHandler):
     def get(self):
         eventKey = self.request.get("event")
@@ -340,7 +308,6 @@ class thankyou(webapp2.RequestHandler):
             'event' : event
         }
         self.response.write(template.render(template_vars))
-
 
 class thankyouPost(webapp2.RequestHandler):
     def get(self):
@@ -371,14 +338,13 @@ class addEvent(webapp2.RequestHandler):
         location = self.request.get("location")
         logging.info("PHOTO HERE")
         logging.info(self.request.get("photo"))
-        photo = images.resize(self.request.get("photo"), 250, 250)
+        photo = images.resize(self.request.get("photo"), 650, 650)
         attendees = []
         donations = []
         collaborators = []
         event = Event(photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
-
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
@@ -412,7 +378,7 @@ class createPost(webapp2.RequestHandler):
         photo = self.request.get("photo")
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
-        photo = images.resize(self.request.get("photo"), 250, 250)
+        photo = images.resize(self.request.get("photo"), 650, 650)
         userKey = user.key
         time = now.hour
         date = now.date
@@ -433,16 +399,10 @@ class collaborators(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/collaborators.html')
         self.response.write(template.render(template_vars))
 
-
-
-
-
-
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
 ('/mainhandler', MainHandler),
 ('/addEvent', addEvent),
-# ('/mainFeed', mainFeed),
 ('/populateDatabase', populateDatabase),
 ('/donate', donate),
 ('/signup', signup),
@@ -457,13 +417,6 @@ app = webapp2.WSGIApplication([
 ('/searchresults', searchresults),
 ('/collaborators', collaborators),
 ('/image', Image),
-# ('/organizationProfilePage', organizationProfilePage),
-# ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
-
-
-# ('/updateProfile', updateProfile),
 ('/thankyou', thankyou),
-# ('/organizationProfilePage', organizationProfilePage),
-# ('/updateProfile', updateProfile)
 ], debug=True)

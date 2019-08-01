@@ -62,16 +62,14 @@ col {
   color: white;
 }
 
-.organization {
-  visibility: visible
-}
 .demo-card-image.mdl-card {
   width: 650px;
   height: 256px;
   background: url('../assets/demos/image_card.jpg') center / cover;
 }
+
 .demo-card-image > .mdl-card__actions {
-  height: 52px;
+  height: 50px;
   padding: 16px;
   background: rgba(0, 0, 0, 0.2);
 }
