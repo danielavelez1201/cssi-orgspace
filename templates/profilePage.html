@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <title></title>
+  </head>
+  <body>
+    <a type="submit" value="backbutton" href="/">Back</a>
+
+    <!-- Colored FAB button -->
+    <img id="profile_pic" src="images/images.jpeg" class="">
+    <div id="profile_info">
+      <ul>
+        <li>Name: {{profile.fullname}}</li>
+        <li>Location:{{profile.location}}</li>
+        <li>Category: {{profile.category}}</li>
+        {% if profile.bio %}
+        <li>Bio:{{profile.bio}}</li>
+        {% endif %}
+        <li>Contact:{{profile.phone}}</li>
+        <li> User: {{profile.usertype}} </li>
+      </ul>
+      <div>
+        <p>Next Event</p>
+
+      </div>
+    </div>
+
+  </body>
+</html>
