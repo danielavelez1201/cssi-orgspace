@@ -8,6 +8,22 @@ row {
 
 }
 
+.jumbotron {
+  position: relative;
+  z-index: 50;
+}
+
+.transparent {
+  opacity: 0.2;
+  background-color: gray;
+  position: relative;
+  z-index: 100;
+}
+.carouselItem {
+  align-items: center;
+  align-self: center;
+  align-content: center
+}
 .black-text {
   color: black;
 }
@@ -15,6 +31,11 @@ row {
   justify-content: flex-end;
 }
 
+.big {
+  font-size: 64;
+  text-align: center;
+  color: darkgray;
+}
 .h1{
   color: white;
 }
