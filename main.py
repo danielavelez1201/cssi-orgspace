@@ -23,7 +23,7 @@ class Profile(ndb.Model):
     usertype = ndb.StringProperty(required =True)
 
 class Event(ndb.Model):
-    organization = ndb.KeyProperty(kind = Profile)
+    author = ndb.KeyProperty(kind = Profile)
     title = ndb.StringProperty(required = True)
     date = ndb.StringProperty(required = True)
     time = ndb.StringProperty(required = True)
@@ -33,6 +33,8 @@ class Event(ndb.Model):
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
     allComments = ndb.KeyProperty(kind = "Comment", repeated = True)
+    def type(self):
+        return "Event"
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
@@ -49,6 +51,8 @@ class Post(ndb.Model):
     photo = ndb.BlobProperty(required=False)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     allComments = ndb.KeyProperty(kind = "Comment", repeated = True)
+    def type(self):
+        return "Post"
 
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
@@ -177,12 +181,16 @@ class mainFeed(webapp2.RequestHandler):
             for donation in event.donations:
                 event.total += donation.get().donation
         for event in event_list:
+            logging.info(event)
             counter = 3
             event.recentComments = []
-            while(counter > 0):
-                for comment in event.allComments:
-                    event.recentComments.append(comment)
-                    counter = counter -1
+            if not(event.allComments == []):
+                logging.info("DETECTED COMMENTS")
+                while(counter > 0):
+                    for comment in event.allComments:
+                        event.recentComments.append(comment)
+                        counter = counter -1
+            logging.info(event.recentComments)
         post_query = Post.query()
         post_list = post_query.fetch()
         for post in post_list:
@@ -194,11 +202,12 @@ class mainFeed(webapp2.RequestHandler):
             logging.info(post)
             counter = 3
             post.recentComments = []
-            while(counter > 0):
-                logging.info(comment)
-                for comment in post.allComments:
-                    post.recentComments.append(comment)
-                    counter = counter -1
+            if not(post.allComments == []):
+                while(counter > 0):
+                    logging.info(comment)
+                    for comment in post.allComments:
+                        post.recentComments.append(comment)
+                        counter = counter -1
             logging.info(post.recentComments)
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
@@ -243,7 +252,7 @@ class collaborate(webapp2.RequestHandler):
         user = Profile.query().filter(user == Profile.email).get()
         event = eventKey.get()
         description = self.request.get("description")
-        collaborator = Collaborator(organization = user.key, event = event.key, description = description).put()
+        collaborator = Collaborator(author = user.key, event = event.key, description = description).put()
         if not(collaborator in event.collaborators):
             if (event.collaborators):
                 event.collaborators.append(collaborator)
@@ -297,7 +306,7 @@ class postComment(webapp2.RequestHandler):
         date = now.date
         logging.info("TYPE HERE")
         logging.info(type(item))
-        if(type(item) == "Event"):
+        if(item.type() == "Event"):
             comment = Comment(commentText = commentText, author = user.key, event = item.key, time = str(time), date = str(date)).put()
         else:
             comment = Comment(commentText = commentText, author = user.key, post = item.key, time = str(time), date = str(date)).put()
@@ -411,8 +420,8 @@ class addEvent(webapp2.RequestHandler):
         self.response.write(template.render())
     def post(self):
         user = users.get_current_user().email()
-        organization = Profile.query().filter(user == Profile.email).get()
-        organizationKey = organization.key
+        author = Profile.query().filter(user == Profile.email).get()
+        authorKey = author.key
         title = self.request.get("title")
         date = self.request.get("date")
         time = self.request.get("time")
@@ -424,7 +433,7 @@ class addEvent(webapp2.RequestHandler):
         donations = []
         collaborators = []
         allComments = []
-        event = Event(allComments = allComments, photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(allComments = allComments, photo = photo, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
 
@@ -496,6 +505,8 @@ class allComments(webapp2.RequestHandler):
         itemKey = self.request.get("item")
         itemKey = ndb.Key(urlsafe=itemKey)
         item = itemKey.get()
+        logging.info("AUTHOR HERE")
+        logging.info(item.author)
         template_vars = {
             'item': item
         }
