@@ -94,19 +94,23 @@
                       {% endfor %}
                     </ul>
                   </td>
-                  <ul>
-                  {% for comment in event.recentComments: %}
-                  <div class = "row">
-                    <li>
-                    <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
-                    <br>
-                    {{event.allComments[0].get().commentText}}
-                  </li>
-                  </div>
-                  {% endfor %}
-                </ul>
-                </table>
 
+                </table>
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in event.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{event.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+            </div>
 
 
 

@@ -177,9 +177,8 @@ class MainHandler(webapp2.RequestHandler):
             phone= int(self.request.get('phone')),
             usertype=self.request.get('usertype'),
             )
-
-        orguser.put()
-        self.redirect('/mainFeed')
+        profile = orguser.put()
+        self.redirect('/mainFeed?profile=' + profile.urlsafe())
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -223,12 +222,15 @@ class mainFeed(webapp2.RequestHandler):
                         post.recentComments.append(comment)
                         counter = counter -1
             logging.info(post.recentComments)
-        current_user = users.get_current_user()
+        if (self.request.get("profile")):
+            current_user = ndb.Key(urlsafe= self.request.get("profile"))
+            user = current_user.get()
+        else:
+            current_user = users.get_current_user()
+            user = users.get_current_user().email()
+            user = Profile.query().filter(user == Profile.email).get()
         signin_link = users.create_login_url('/mainFeed')
         signout_link = users.create_logout_url('/')
-        user = ""
-        user = users.get_current_user().email()
-        user = Profile.query().filter(user == Profile.email).get()
         userKey = user.key
         template_vars = {
             'userKey' : userKey,
