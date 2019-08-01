@@ -63,7 +63,9 @@
         </div>
         <br>
         <div class="row">
+    {% if not(event_list == []): %}
     <ul>
+
         {% for event in event_list: %}
         <li>
           <div class="demo-card-image mdl-card mdl-shadow--2dp">
@@ -161,7 +163,9 @@
           <br>
           <br>
           {% endfor %}
+
         </li>
+        {% endif %}
 </div>
 </div>
 </div>
