@@ -112,6 +112,7 @@
                 </div>
                 {% endfor %}
               </ul>
+              <a href = "/allComments?item={{event.key.urlsafe()}}"> See all comments </a>
             </div>
 
 
@@ -200,11 +201,21 @@
                 <div class = "row">
                 {{post.text}}
                 <br>
-                <div class="row">
-              {% for comment in post.recentComments: %}
-              <strong>{{comment.author.get().fullname}} </strong><br>
-                {{comment.commentText}}
-              {% endfor %}
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in post.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{post.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+              <a href = "/allComments?item={{post.key.urlsafe()}}"> See all comments </a>
             </div>
             </div>
             </div>
