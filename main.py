@@ -369,8 +369,9 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        photo = images.resize(self.request.get("photo"), 250, 250)
+        logging.info("PHOTO HERE")
         logging.info(self.request.get("photo"))
+        photo = images.Image(self.request.get("photo"))
         attendees = []
         donations = []
         collaborators = []
