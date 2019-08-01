@@ -186,8 +186,8 @@ class mainFeed(webapp2.RequestHandler):
             event.recentComments = []
             if not(event.allComments == []):
                 logging.info("DETECTED COMMENTS")
-                while(counter > 0):
-                    for comment in event.allComments:
+                for comment in event.allComments:
+                    if(counter > 0):
                         event.recentComments.append(comment)
                         counter = counter -1
             logging.info(event.recentComments)
@@ -203,9 +203,8 @@ class mainFeed(webapp2.RequestHandler):
             counter = 3
             post.recentComments = []
             if not(post.allComments == []):
-                while(counter > 0):
-                    logging.info(comment)
-                    for comment in post.allComments:
+                for comment in post.allComments:
+                    if(counter > 0):
                         post.recentComments.append(comment)
                         counter = counter -1
             logging.info(post.recentComments)
@@ -213,10 +212,11 @@ class mainFeed(webapp2.RequestHandler):
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
         user = ""
-        if (users.get_current_user()):
-            user = users.get_current_user().email()
-            user = Profile.query().filter(user == Profile.email).get()
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        userKey = user.key
         template_vars = {
+            'userKey' : userKey,
             'user' : user,
             'post_list' : post_list,
             'event_list' : event_list,
@@ -439,8 +439,15 @@ class addEvent(webapp2.RequestHandler):
 
 class OrgProfilePage(webapp2.RequestHandler):
     def get(self):
+        profileKey = self.request.get("profile")
+        profileKey = ndb.Key(urlsafe=profileKey)
+        profile = profileKey.get()
         user = users.get_current_user().email()
-        profile = Profile.query().filter(user == Profile.email).get()
+        user = Profile.query().filter(user == Profile.email).get()
+        if profile.fullname == user.fullname:
+            profile.isUser = True
+        else:
+            profile.isUser = False
         template_vars = {
             'profile' : profile,
         }

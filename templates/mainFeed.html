@@ -42,7 +42,7 @@
     <span class="mdl-layout-title">OrgSpace</span>
      <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/" >Main Feed</a>
-      <a class="mdl-navigation__link" href="/organizationProfilePage">Profile Page</a>
+      <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
       <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
       <a class="mdl-navigation__link" href="/createPost">Create Post</a>
     </nav>
@@ -79,6 +79,7 @@
               <h4>
                 <table>
                   <td>
+                    <a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a>
                     {{event.title}} <br>
                     {{event.location}} <br>
                     {{event.time}} <br>
@@ -92,17 +93,26 @@
                       {% endfor %}
                     </ul>
                   </td>
+                  <ul>
+                  {% for comment in event.recentComments: %}
+                  <div class = "row">
+                    <li>
+                    <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
+                    <br>
+                    {{event.allComments[0].get().commentText}}
+                  </li>
+                  </div>
+                  {% endfor %}
+                </ul>
                 </table>
 
 
-              </h4>
-              <br>
 
-              {% for comment in event.recentComments: %}
-                {{event.allComments[0].get().author.get().fullname}}
-                {{event.allComments[0].get().commentText}}
-              {% endfor %}
+
             </div>
+            <br>
+
+
             {% if user.usertype == "individual": %}
             <!-- Only user can see this -->
             <div class="mdl-card__actions mdl-card--border">
@@ -180,10 +190,12 @@
                 <div class = "row">
                 {{post.text}}
                 <br>
+                <div class="row">
               {% for comment in post.recentComments: %}
-              <strong>{{comment.author.get().fullname}} </strong>
+              <strong>{{comment.author.get().fullname}} </strong><br>
                 {{comment.commentText}}
               {% endfor %}
+            </div>
             </div>
             </div>
           </div>
