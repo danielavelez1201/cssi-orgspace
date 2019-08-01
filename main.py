@@ -115,12 +115,24 @@ class signupprofile (webapp2.RequestHandler):
 class searchresults(webapp2.RequestHandler):
     def get(self):
         search_query = self.request.get('search_query')
-        profiles = Profile.query().filter(Profile.fullname == search_query).fetch()
+        category_query = self.request.get('category')
+        profiles = Profile.query().filter(Profile.fullname == search_query).filter(Profile.category == category_query).fetch()
         template_vars = {
             'profiles' : profiles,
             'search_query' : search_query,
         }
         template = jinja_env.get_template('templates/searchresults.html')
+        self.response.write(template.render(template_vars))
+
+class profilePage(webapp2.RequestHandler):
+    def get(self):
+        profileStr = self.request.get("profile")
+        profileKey = ndb.Key(urlsafe= profileStr)
+        profile = profileKey.get()
+        template_vars = {
+            'profile' : profile,
+        }
+        template = jinja_env.get_template('templates/profilePage.html')
         self.response.write(template.render(template_vars))
 
 class MainHandler(webapp2.RequestHandler):
@@ -212,7 +224,7 @@ class collaborate(webapp2.RequestHandler):
         event.put()
         self.redirect('/collaborators?event=' + str(eventKey.urlsafe()))
 
-class signup(webapp2.RequestHandler):
+class EventAttendee(webapp2.RequestHandler):
     def get(self):
         event = self.request.get("event")
         eventKey = ndb.Key(urlsafe=event)
@@ -367,6 +379,11 @@ class About(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/about.html')
         self.response.write(template.render())
 
+class MeetTheTeam(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/meetTheTeam.html')
+        self.response.write(template.render())
+
 class createPost(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/createPost.html')
@@ -405,7 +422,7 @@ app = webapp2.WSGIApplication([
 ('/addEvent', addEvent),
 ('/populateDatabase', populateDatabase),
 ('/donate', donate),
-('/signup', signup),
+('/attendevent', EventAttendee),
 ('/collaborate', collaborate),
 ('/comment', comment),
 ('/donatePost', donatePost),
@@ -416,6 +433,8 @@ app = webapp2.WSGIApplication([
 ('/about', About),
 ('/searchresults', searchresults),
 ('/collaborators', collaborators),
+('/profilePage', profilePage),
+('/meetTheTeam', MeetTheTeam),
 ('/image', Image),
 ('/organizationProfilePage', OrgProfilePage),
 ('/thankyou', thankyou),
