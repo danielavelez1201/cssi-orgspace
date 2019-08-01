@@ -12,6 +12,8 @@ handlers:
   static_dir: stylesheets
 - url: /images
   static_dir: images
+- url: /bootstrap
+  static_dir: bootstrap
 - url: /populateDatabase
   script: main.app
   login: admin
