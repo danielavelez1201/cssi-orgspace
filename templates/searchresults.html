@@ -14,31 +14,38 @@
   <div class="container-fluid">
 <h1 style="text-align:center;"><strong> Search Results</strong></h1>
   <body>
-    <p style= "color: black;"> <strong> Sort: </strong> </p>
+    <p style= "color: black;"> <strong> Sort Results: </strong> </p>
     <form method= "GET" action= "/searchresults">
       <div>
         <label> Category:
           <select class="" name="category" placeholder={{category}}>
             <option class="" disabled="" value="-1">Choose a category</option>
-            <option>Accidents &amp; Emergencies</option>
-            <option >Animals &amp; Pets</option>
-            <option >Children &amp; Family</option>
-            <option >Business &amp; Entrepreneurs</option>
-            <option >Community &amp; Neighbours</option>
-            <option >Creative Arts, Music &amp; Film</option>
-            <option >Volunteer &amp; Service</option>
-            <option >Dreams, Hopes &amp; Wishes</option>
-            <option >Education &amp; Learning</option>
-            <option >Medical, Illness &amp; Healing</option>
-            <option >Missions, Faith &amp; Church</option>
-            <option >Sports, Teams &amp; Clubs</option>
-            <option >Travel &amp; Adventure</option>
-            <option >Other</option>
+            <option value= "Accidents & Emergencies">Accidents &amp; Emergencies</option>
+            <option value= "Animals & Pets">Animals &amp; Pets</option>
+            <option value= "Children & Family">Children &amp; Family</option>
+            <option value= "Business & Entrepreneurs">Business &amp; Entrepreneurs</option>
+            <option value= "Community & Neighbours">Community &amp; Neighbours</option>
+            <option value= "Creative Arts, Music & Film">Creative Arts, Music &amp; Film</option>
+            <option value= "Volunteer & Service">Volunteer &amp; Service</option>
+            <option value= "Dreams, Hopes, & Wishes">Dreams, Hopes &amp; Wishes</option>
+            <option value= "Education & Learning">Education &amp; Learning</option>
+            <option value= "Medicak, Illness, & Healing">Medical, Illness &amp; Healing</option>
+            <option value= "Missions, Faith, & Church">Missions, Faith &amp; Church</option>
+            <option value= "Teams & Clib">Sports, Teams &amp; Clubs</option>
+            <option value= "Travel & Adventure">Travel &amp; Adventure</option>
+            <option value= "Other">Other</option>
+            <!-- VALUES -->
           </select>
         </label>
+      </div>
         <div>
           <label  style="color:black";> Location:
-          <input type="text" name="location" class="form-control" placeholder = "Location">
+            <select class="" name="location">
+              <option class="" disabled="" value="-1">Choose a Location</option>
+                {% for location in locations %}
+                  <option value= "{{location}}">{{location}}</option>
+                {% endfor %}
+            </select>
           </label>
         </div>
       <div>
@@ -48,7 +55,7 @@
     </form>
 
     <ul>
-    {% for profile in profiles %}
+    {% for profile in result_profiles %}
         <li> {{profile.fullname}}
         <br> - {{profile.category}}
         <br> - {{profile.location}} <br>

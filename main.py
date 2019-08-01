@@ -131,12 +131,24 @@ class searchresults(webapp2.RequestHandler):
         search_query = self.request.get('search_query')
         category_query = self.request.get('category')
         location_query = self.request.get('location')
-        profiles = Profile.query().filter(Profile.fullname == search_query).filter(Profile.category == category_query).filter(Profile.location == location_query).fetch()
+        result_profiles = Profile.query().filter(Profile.fullname == search_query).filter(Profile.category == category_query).filter(Profile.location == location_query).fetch()
+        # Get all the profiles
+        profiles = Profile.query().fetch()
+
+        # Start with an empty set of locations
+        locations = set()
+
+        # Loop through the ofiles and add each location to the set
+        for profile in profiles:
+            locations.add(profile.location)
+        # Pass the set of locations to Jinja
+
         template_vars = {
-            'profiles' : profiles,
+            'result_profiles' : result_profiles,
             'search_query' : search_query,
             'category_query' : category_query,
             'location_query': location_query,
+            'locations' : locations,
         }
         template = jinja_env.get_template('templates/searchresults.html')
         self.response.write(template.render(template_vars))
