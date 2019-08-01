@@ -1,11 +1,13 @@
 body {
   background-color: lightblue;
-  background-image: url(https://wallpaperaccess.com/full/39632.jpg)
 }
 
 row {
   padding: 10px;
 
+}
+footer{
+  display: flex;
 }
 
 .black-text {
@@ -122,5 +124,24 @@ ul {
 .demo-layout-transparent .mdl-layout__drawer-button {
   /* This background is dark, so we set text to white. Use 87% black instead if
      your background is light. */
+  color: white;
+}
+.fa {
+padding: 20px;
+font-size: 30px;
+width: 30px;
+text-align: center;
+text-decoration: none;
+border-radius: 50%;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
   color: white;
 }
