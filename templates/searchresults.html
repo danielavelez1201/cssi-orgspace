@@ -14,6 +14,7 @@
   <div class="container-fluid">
 <h1 style="text-align:center;"><strong> Search Results</strong></h1>
   <body>
+    <p style= "color: black;"> <strong> Sort: </strong> </p>
     <form method= "GET" action= "/searchresults">
       <div>
         <label> Category:
@@ -35,16 +36,22 @@
             <option >Other</option>
           </select>
         </label>
+        <div>
+          <label  style="color:black";> Location:
+          <input type="text" name="location" class="form-control" placeholder = "Location">
+          </label>
+        </div>
       <div>
           <input type= "hidden" name= "search_query" value="{{search_query}}"></input>
           <input type= "submit" name= "submit"> </input>
-
       </div>
     </form>
 
     <ul>
     {% for profile in profiles %}
-        <li> {{profile.fullname}} - {{profile.category}}<br>
+        <li> {{profile.fullname}}
+        <br> - {{profile.category}}
+        <br> - {{profile.location}} <br>
         <a href= "/profilePage?profile={{profile.key.urlsafe()}}" > View Profile
         </a></li>
     {% endfor %}

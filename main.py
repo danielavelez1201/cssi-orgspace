@@ -130,10 +130,13 @@ class searchresults(webapp2.RequestHandler):
     def get(self):
         search_query = self.request.get('search_query')
         category_query = self.request.get('category')
-        profiles = Profile.query().filter(Profile.fullname == search_query).filter(Profile.category == category_query).fetch()
+        location_query = self.request.get('location')
+        profiles = Profile.query().filter(Profile.fullname == search_query).filter(Profile.category == category_query).filter(Profile.location == location_query).fetch()
         template_vars = {
             'profiles' : profiles,
             'search_query' : search_query,
+            'category_query' : category_query,
+            'location_query': location_query,
         }
         template = jinja_env.get_template('templates/searchresults.html')
         self.response.write(template.render(template_vars))
