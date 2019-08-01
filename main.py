@@ -229,7 +229,7 @@ class mainFeed(webapp2.RequestHandler):
         user = ""
         user = users.get_current_user().email()
         user = Profile.query().filter(user == Profile.email).get()
-        userKey = user.key
+        userKey = user.Key
         template_vars = {
             'userKey' : userKey,
             'user' : user,
