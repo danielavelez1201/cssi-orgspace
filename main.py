@@ -89,7 +89,7 @@ class Donation(ndb.Model):
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
 
-class Image(ndb.Model):
+class Image(webapp2.RequestHandler):
     def get(self):
         product=ndb.Key(urlsafe=self.request.get("img_id")).get()
         if product.photo:
@@ -158,16 +158,6 @@ class MainHandler(webapp2.RequestHandler):
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
-class Image(ndb.Model):
-    def get(self):
-        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
-        if product.photo:
-            self.response.headers['Content-Type'] = 'image/png'
-            self.response.out.write(product.photo)
-        else:
-            self.response.out.write('No image')
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -371,7 +361,7 @@ class addEvent(webapp2.RequestHandler):
         location = self.request.get("location")
         logging.info("PHOTO HERE")
         logging.info(self.request.get("photo"))
-        photo = images.Image(self.request.get("photo"))
+        photo = images.resize(self.request.get("photo"), 250, 250)
         attendees = []
         donations = []
         collaborators = []
@@ -457,7 +447,7 @@ app = webapp2.WSGIApplication([
 ('/searchresults', searchresults),
 ('/viewprofile', viewprofile),
 ('/collaborators', collaborators),
-
+('/image', Image),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
