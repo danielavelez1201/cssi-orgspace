@@ -275,7 +275,7 @@ class collaborate(webapp2.RequestHandler):
         user = Profile.query().filter(user == Profile.email).get()
         event = eventKey.get()
         description = self.request.get("description")
-        collaborator = Collaborator(author = user.key, event = event.key, description = description).put()
+        collaborator = Collaborator(organization = user.key, event = event.key, description = description).put()
         if not(collaborator in event.collaborators):
             if (event.collaborators):
                 event.collaborators.append(collaborator)

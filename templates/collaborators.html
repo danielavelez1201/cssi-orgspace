@@ -33,7 +33,7 @@
   <tbody>
     {% for collaborator in event.collaborators: %}
     <tr>
-      <td>{{collaborator.get().organization.get().fullname}}</td>
+      <a href= "organizationProfilePage?profile={{collaborator.get().organization.urlsafe()}}"><strong><td>{{collaborator.get().organization.get().fullname}}</td></strong></a>
       <td>{{collaborator.get().organization.get().location}}
       <td>{{collaborator.get().description}}</td>
     </tr>
