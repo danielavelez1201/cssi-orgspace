@@ -189,13 +189,12 @@ class populateDatabase(webapp2.RequestHandler):
 
 class mainFeed(webapp2.RequestHandler):
     def get(self):
-        current_user = users.get_current_user()
-        signin_link = users.create_login_url('/')
-        signout_link = users.create_logout_url('/')
-        user = ""
-        if current_user:
-            user_email = current_user.email()
-            user = redirectIfNoProfile(self, user_email)
+        user = users.get_current_user()
+        user = Profile.query().filter(user.email() == Profile.email).get()
+        if not user:
+            self.redirect("/signupprofile", True)
+            return
+
         event_query = Event.query()
         event_list = event_query.fetch()
         for event in event_list:
@@ -219,7 +218,6 @@ class mainFeed(webapp2.RequestHandler):
             post.total = 0
             for donation in post.donations:
                 post.total += donation.get().donation
-
         logging.info("STARTING FOR LOOP HERE")
         for post in post_list:
             logging.info(post)
@@ -234,9 +232,7 @@ class mainFeed(webapp2.RequestHandler):
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
-        user = ""
-        user = users.get_current_user().email()
-        user = Profile.query().filter(user == Profile.email).get()
+
         userKey = user.key
         template_vars = {
             'userKey' : userKey,
@@ -542,24 +538,6 @@ class allComments(webapp2.RequestHandler):
         }
         template = jinja_env.get_template('templates/allComments.html')
         self.response.write(template.render(template_vars))
-
-class OrgProfilePage(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user().email()
-        profile = Profile.query().filter(user == Profile.email).get()
-        template_vars = {
-            'profile' : profile,
-        }
-        template = jinja_env.get_template('templates/organizationProfilePage.html')
-        self.response.write(template.render(template_vars))
-
-def redirectIfNoProfile(self, email):
-    # supposed to go through the database if theres a profile who matches email, else redirect to sign up profile
-    user = Profile.query().filter(email == Profile.email).get()
-    if user:
-        return user
-    else:
-         self.redirect("/signupprofile")
 
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
