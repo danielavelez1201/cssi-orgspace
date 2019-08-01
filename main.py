@@ -189,7 +189,7 @@ class mainFeed(webapp2.RequestHandler):
             post.total = 0
             for donation in post.donations:
                 post.total += donation.get().donation
-        current_user = users.get_current_user()
+            current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
         user = ""
@@ -400,6 +400,11 @@ class About(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/about.html')
         self.response.write(template.render())
 
+class MeetTheTeam(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/meetTheTeam.html')
+        self.response.write(template.render())
+
 class createPost(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/createPost.html')
@@ -456,6 +461,8 @@ app = webapp2.WSGIApplication([
 ('/searchresults', searchresults),
 ('/viewprofile', viewprofile),
 ('/collaborators', collaborators),
+('/meetTheTeam', MeetTheTeam),
+
 
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
