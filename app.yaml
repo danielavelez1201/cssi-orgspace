@@ -15,8 +15,6 @@ handlers:
 - url: /populateDatabase
   script: main.app
   login: admin
-- url: /about
-  script: main.app
 - url: /.*
   script: main.app
   login: required
