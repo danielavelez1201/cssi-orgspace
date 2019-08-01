@@ -189,6 +189,12 @@ class populateDatabase(webapp2.RequestHandler):
 
 class mainFeed(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
+        user = Profile.query().filter(user.email() == Profile.email).get()
+        if not user:
+            self.redirect("/signupprofile", True)
+            return
+
         event_query = Event.query()
         event_list = event_query.fetch()
         for event in event_list:
@@ -226,10 +232,8 @@ class mainFeed(webapp2.RequestHandler):
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/mainFeed')
         signout_link = users.create_logout_url('/')
-        user = ""
-        user = users.get_current_user().email()
-        user = Profile.query().filter(user == Profile.email).get()
-        userKey = user.Key
+
+        userKey = user.key
         template_vars = {
             'userKey' : userKey,
             'user' : user,
