@@ -341,15 +341,6 @@ class postComment(webapp2.RequestHandler):
         item.put()
         self.redirect('/allComments?item=' + str(itemKey.urlsafe()))
 
-
-class Comment(ndb.Model):
-    commentText = ndb.StringProperty(required = True)
-    author = ndb.KeyProperty(kind = Profile)
-    event = ndb.KeyProperty(kind = Event, required = False)
-    post = ndb.KeyProperty(kind = Post, required = False)
-    time = ndb.StringProperty(required = True)
-    date = ndb.StringProperty(required = False)
-
 class donate(webapp2.RequestHandler):
     def get(self):
 
