@@ -63,7 +63,9 @@
         </div>
         <br>
         <div class="row">
+    {% if not(event_list == []): %}
     <ul>
+
         {% for event in event_list: %}
         <li>
           <div class="demo-card-image mdl-card mdl-shadow--2dp">
@@ -94,19 +96,24 @@
                       {% endfor %}
                     </ul>
                   </td>
-                  <ul>
-                  {% for comment in event.recentComments: %}
-                  <div class = "row">
-                    <li>
-                    <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
-                    <br>
-                    {{event.allComments[0].get().commentText}}
-                  </li>
-                  </div>
-                  {% endfor %}
-                </ul>
-                </table>
 
+                </table>
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in event.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{event.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+              <a href = "/allComments?item={{event.key.urlsafe()}}"> See all comments </a>
+            </div>
 
 
 
@@ -157,7 +164,9 @@
           <br>
           <br>
           {% endfor %}
+
         </li>
+        {% endif %}
 </div>
 </div>
 </div>
@@ -192,11 +201,21 @@
                 <div class = "row">
                 {{post.text}}
                 <br>
-                <div class="row">
-              {% for comment in post.recentComments: %}
-              <strong>{{comment.author.get().fullname}} </strong><br>
-                {{comment.commentText}}
-              {% endfor %}
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in post.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{post.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+              <a href = "/allComments?item={{post.key.urlsafe()}}"> See all comments </a>
             </div>
             </div>
             </div>
