@@ -243,7 +243,7 @@ class collaborate(webapp2.RequestHandler):
 
 
 
-class signup(webapp2.RequestHandler):
+class EventAttendee(webapp2.RequestHandler):
     def get(self):
         event = self.request.get("event")
         eventKey = ndb.Key(urlsafe=event)
@@ -450,7 +450,7 @@ app = webapp2.WSGIApplication([
 # ('/mainFeed', mainFeed),
 ('/populateDatabase', populateDatabase),
 ('/donate', donate),
-('/signup', signup),
+('/attendevent', EventAttendee),
 ('/collaborate', collaborate),
 ('/comment', comment),
 ('/donatePost', donatePost),
