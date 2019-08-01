@@ -32,6 +32,7 @@ class Event(ndb.Model):
     attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
+    allComments = ndb.KeyProperty(kind = "Comment", repeated = True)
     def describe(self):
         return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
 
@@ -47,12 +48,21 @@ class Post(ndb.Model):
     date = ndb.StringProperty(required = False)
     photo = ndb.BlobProperty(required=False)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
+    allComments = ndb.KeyProperty(kind = "Comment", repeated = True)
 
 class Donation(ndb.Model):
     donation = ndb.IntegerProperty(required = True)
     event = ndb.KeyProperty(kind = Event, required = False)
     post = ndb.KeyProperty(kind = Post, required = False)
     user = ndb.KeyProperty(kind=Profile)
+
+class Comment(ndb.Model):
+    commentText = ndb.StringProperty(required = True)
+    author = ndb.KeyProperty(kind = Profile)
+    event = ndb.KeyProperty(kind = Event, required = False)
+    post = ndb.KeyProperty(kind = Post, required = False)
+    time = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = False)
 
 # REQUEST HANDLERS
 
@@ -166,12 +176,30 @@ class mainFeed(webapp2.RequestHandler):
             event.total = 0
             for donation in event.donations:
                 event.total += donation.get().donation
+        for event in event_list:
+            counter = 3
+            event.recentComments = []
+            while(counter > 0):
+                for comment in event.allComments:
+                    event.recentComments.append(comment)
+                    counter = counter -1
         post_query = Post.query()
         post_list = post_query.fetch()
         for post in post_list:
             post.total = 0
             for donation in post.donations:
                 post.total += donation.get().donation
+        logging.info("STARTING FOR LOOP HERE")
+        for post in post_list:
+            logging.info(post)
+            counter = 3
+            post.recentComments = []
+            while(counter > 0):
+                logging.info(comment)
+                for comment in post.allComments:
+                    post.recentComments.append(comment)
+                    counter = counter -1
+            logging.info(post.recentComments)
         current_user = users.get_current_user()
         signin_link = users.create_login_url('/')
         signout_link = users.create_logout_url('/')
@@ -244,10 +272,51 @@ class EventAttendee(webapp2.RequestHandler):
         event.put()
         self.redirect('/')
 
-class comment(webapp2.RequestHandler):
+class postComment(webapp2.RequestHandler):
     def get(self):
-        template = jinja_env.get_template('templates/comment.html')
-        self.response.write(template.render())
+        item = self.request.get("item")
+        itemKey = ndb.Key(urlsafe=item)
+        item = itemKey.get()
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        template_vars = {
+            'user' : user,
+            'urlsafeItem' : self.request.get("item"),
+            'item' : item
+        }
+        template = jinja_env.get_template('templates/postComment.html')
+        self.response.write(template.render(template_vars))
+    def post(self):
+        item = self.request.get("item")
+        itemKey = ndb.Key(urlsafe=item)
+        user = users.get_current_user().email()
+        user = Profile.query().filter(user == Profile.email).get()
+        item = itemKey.get()
+        commentText = self.request.get("commentText")
+        time = now.hour
+        date = now.date
+        logging.info("TYPE HERE")
+        logging.info(type(item))
+        if(type(item) == "Event"):
+            comment = Comment(commentText = commentText, author = user.key, event = item.key, time = str(time), date = str(date)).put()
+        else:
+            comment = Comment(commentText = commentText, author = user.key, post = item.key, time = str(time), date = str(date)).put()
+        if not(comment in item.allComments):
+            if (item.allComments):
+                item.allComments.append(comment)
+            else:
+                item.allComments = [comment]
+        item.put()
+        self.redirect('/allComments?item=' + str(itemKey.urlsafe()))
+
+
+class Comment(ndb.Model):
+    commentText = ndb.StringProperty(required = True)
+    author = ndb.KeyProperty(kind = Profile)
+    event = ndb.KeyProperty(kind = Event, required = False)
+    post = ndb.KeyProperty(kind = Post, required = False)
+    time = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = False)
 
 class donate(webapp2.RequestHandler):
     def get(self):
@@ -354,7 +423,8 @@ class addEvent(webapp2.RequestHandler):
         attendees = []
         donations = []
         collaborators = []
-        event = Event(photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        allComments = []
+        event = Event(allComments = allComments, photo = photo, organization = organizationKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/')
 
@@ -376,8 +446,13 @@ class populateDatabase(webapp2.RequestHandler):
 
 class About(webapp2.RequestHandler):
     def get(self):
+        current_user = users.get_current_user()
+        signin_link = users.create_login_url('/')
+        template_vars = {
+            'signin_link' : signin_link
+        }
         template = jinja_env.get_template('templates/about.html')
-        self.response.write(template.render())
+        self.response.write(template.render(template_vars))
 
 class MeetTheTeam(webapp2.RequestHandler):
     def get(self):
@@ -416,6 +491,17 @@ class collaborators(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/collaborators.html')
         self.response.write(template.render(template_vars))
 
+class allComments(webapp2.RequestHandler):
+    def get(self):
+        itemKey = self.request.get("item")
+        itemKey = ndb.Key(urlsafe=itemKey)
+        item = itemKey.get()
+        template_vars = {
+            'item': item
+        }
+        template = jinja_env.get_template('templates/allComments.html')
+        self.response.write(template.render(template_vars))
+
 app = webapp2.WSGIApplication([
 ('/', mainFeed),
 ('/mainhandler', MainHandler),
@@ -424,7 +510,8 @@ app = webapp2.WSGIApplication([
 ('/donate', donate),
 ('/attendevent', EventAttendee),
 ('/collaborate', collaborate),
-('/comment', comment),
+('/postComment', postComment),
+('/allComments', allComments),
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
