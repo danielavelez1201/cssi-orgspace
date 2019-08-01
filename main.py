@@ -21,7 +21,62 @@ class Profile(ndb.Model):
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
 
-class UpdateProfile(webapp2.RequestHandler):
+class Event(ndb.Model):
+    organization = ndb.KeyProperty(kind = Profile)
+    title = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = True)
+    time = ndb.StringProperty(required = True)
+    location = ndb.StringProperty(required = False)
+    photo = ndb.BlobProperty(required=False)
+    attendees = ndb.KeyProperty(kind = Profile, repeated = True)
+    donations = ndb.KeyProperty(kind = "Donation", repeated = True)
+    collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
+    def describe(self):
+        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
+
+class Collaborator(ndb.Model):
+    organization = ndb.KeyProperty(kind = Profile)
+    description = ndb.StringProperty(required = True)
+    event = ndb.KeyProperty(kind = Event)
+
+
+class Post(ndb.Model):
+    text = ndb.StringProperty(required = True)
+    author = ndb.KeyProperty(kind = Profile)
+    time = ndb.StringProperty(required = True)
+    date = ndb.StringProperty(required = False)
+    photo = ndb.BlobProperty(required=False)
+    donations = ndb.KeyProperty(kind = "Donation", repeated = True)
+
+class Donation(ndb.Model):
+    donation = ndb.IntegerProperty(required = True)
+    event = ndb.KeyProperty(kind = Event, required = False)
+    post = ndb.KeyProperty(kind = Post, required = False)
+    user = ndb.KeyProperty(kind=Profile)
+
+class Image(webapp2.RequestHandler):
+    def get(self):
+        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
+        if product.photo:
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(product.photo)
+        else:
+            self.response.out.write('No image')
+
+
+class Update(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/updateProfile.html')
+        self.response.write(template.render())
+    def post(self):
+        location = self.request.get("location")
+        category = self.request.get("category")
+        bio = self.request.get("bio")
+        update = Update(name = name, location = location, category = category,  bio = bio)
+        self.redirect('/organizationProfilePage')
+        user = Profile.query().filter
+
+class updateProfile(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user().email()
         profile = Profile.query().filter(user == Profile.email).get()
@@ -56,84 +111,40 @@ class signupprofile (webapp2.RequestHandler):
          mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
          self.response.write(mainFeed_template.render())  # the response
 
-class Event(ndb.Model):
-    organization = ndb.KeyProperty(kind = Profile)
-    title = ndb.StringProperty(required = True)
-    date = ndb.StringProperty(required = True)
-    time = ndb.StringProperty(required = True)
-    location = ndb.StringProperty(required = False)
-    photo = ndb.BlobProperty(required=False)
-    attendees = ndb.KeyProperty(kind = Profile, repeated = True)
-    donations = ndb.KeyProperty(kind = "Donation", repeated = True)
-    collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
-    def describe(self):
-        return "%s on %s at %s at %s" % (event.title, event.date, event.time, event.location)
-
-class Collaborator(ndb.Model):
-    organization = ndb.KeyProperty(kind = Profile)
-    description = ndb.StringProperty(required = True)
-    event = ndb.KeyProperty(kind = Event)
-
-
-class Post(ndb.Model):
-    text = ndb.StringProperty(required = True)
-    author = ndb.KeyProperty(kind = Profile)
-    time = ndb.StringProperty(required = True)
-    date = ndb.StringProperty(required = False)
-    photo = ndb.BlobProperty(required=False)
-    donations = ndb.KeyProperty(kind = "Donation", repeated = True)
-
-class Donation(ndb.Model):
-    donation = ndb.IntegerProperty(required = True)
-    event = ndb.KeyProperty(kind = Event, required = False)
-    post = ndb.KeyProperty(kind = Post, required = False)
-    user = ndb.KeyProperty(kind=Profile)
-
-class Image(ndb.Model):
-    def get(self):
-        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
-        if product.photo:
-            self.response.headers['Content-Type'] = 'image/png'
-            self.response.out.write(product.photo)
-        else:
-            self.response.out.write('No image')
-
-
-class Update(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template('templates/updateProfile.html')
-        self.response.write(template.render())
-    def post(self):
-        location = self.request.get("location")
-        category = self.request.get("category")
-        bio = self.request.get("bio")
-        update = Update(name = name, location = location, category = category,  bio = bio)
-        self.redirect('/organizationProfilePage')
-        user = Profile.query().filter
-
-class signupprofile (webapp2.RequestHandler):
-     def get(self):
-         mainFeed_template = jinja_env.get_template('templates/signupprofile.html')
-         self.response.write(mainFeed_template.render())  # the response
-
 class searchresults(webapp2.RequestHandler):
     def get(self):
         search_query = self.request.get('search_query')
-        profiles = Profile.query().filter(search_query == Profile.fullname).fetch()
+        profiles = Profile.query().filter(Profile.fullname == search_query).fetch()
         template_vars = {
             'profiles' : profiles,
+            'search_query' : search_query,
         }
         template = jinja_env.get_template('templates/searchresults.html')
         self.response.write(template.render(template_vars))
 
-class viewprofile(webapp2.RequestHandler):
-    def get(self):
-        profile=ndb.Key(urlsafe=self.request.get("userkey")).get()
-        template_vars = {
-        'profile' : profile,
-        }
-        template = jinja_env.get_template('templates/searchresults.html')
-        self.response.write(template.render(template_vars))
+# class (webapp2.RequestHandler):
+#     def get(self):
+#         profile = self.request.get("profile")
+#         profileKey=ndb.Key(urlsafe= profile)
+#         profile = profileKey.get()
+#
+#         template_vars = {
+#         'profile' : profile,
+#         }
+#         # user = users.get_current_user().email()
+#         profileKey = self.request.get("profile")
+#         profiles = Profile.query().filter(profile == Profile.ProfilePage).get()
+#         # logging.info(user)
+#         template = jinja_env.get_template('templates/searchresults.html')
+#         self.response.write(template.render(template_vars))
+#
+#         # event = self.request.get("event")
+#         # eventKey = ndb.Key(urlsafe=event)
+#         # event = eventKey.get()
+#         # template_vars = {
+#         #     'event' : event
+        # }
+
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -144,7 +155,6 @@ class MainHandler(webapp2.RequestHandler):
         orguser = Profile(
             fullname=self.request.get('fullname'),
             email=user.email(),
-
             location=self.request.get('location'),
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
@@ -158,16 +168,6 @@ class MainHandler(webapp2.RequestHandler):
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
-class Image(ndb.Model):
-    def get(self):
-        product=ndb.Key(urlsafe=self.request.get("img_id")).get()
-        if product.photo:
-            self.response.headers['Content-Type'] = 'image/png'
-            self.response.out.write(product.photo)
-        else:
-            self.response.out.write('No image')
-
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class populateDatabase(webapp2.RequestHandler):
     def get(self):
@@ -369,8 +369,9 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        photo = images.resize(self.request.get("photo"), 250, 250)
+        logging.info("PHOTO HERE")
         logging.info(self.request.get("photo"))
+        photo = images.resize(self.request.get("photo"), 250, 250)
         attendees = []
         donations = []
         collaborators = []
@@ -455,15 +456,13 @@ app = webapp2.WSGIApplication([
 ('/donatePost', donatePost),
 ('/createPost', createPost),
 ('/signupprofile', signupprofile),
-('/updateProfile', UpdateProfile),
+('/updateProfile', updateProfile),
 ('/thankyouPost', thankyouPost),
 ('/about', About),
 ('/searchresults', searchresults),
-('/viewprofile', viewprofile),
 ('/collaborators', collaborators),
 ('/meetTheTeam', MeetTheTeam),
-
-
+('/image', Image),
 # ('/organizationProfilePage', organizationProfilePage),
 # ('/logout', logout),
 ('/organizationProfilePage', OrgProfilePage),
