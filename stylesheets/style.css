@@ -18,6 +18,12 @@ footer{
   text-align: center;
 }
 
+.block {
+  width: 90%;
+  height: 90%;
+  background-color: lightgray
+}
+
 .TEAMIMAGE{
   width:400px;
 }

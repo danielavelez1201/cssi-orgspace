@@ -1,44 +1,100 @@
+
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-      <title>Collaborators</title>
+
+    <title>
+
+      All Comments
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
   </head>
-  <body>
+
+
+
+<body>
+  <div class="block">
+
+
+
+<img
+  class="media-object d-flex align-self-start mr-3"
+  src="assets/img/avatar-dhg.png">
+<div class="media-body">
+  <div class="media-heading">
+    <small class="float-right text-muted">{{item.date}} {{item.time}} </small>
+    <h6>{{item.author.get().fullname}}</h6>
+  </div>
+
+  <p>
+   {{item.text}}
+  </p>
+
+  <div class="media-body-inline-grid" data-grid="images">
+    <div style="display: none">
+      <img data-action="zoom" data-width="1050" data-height="700" src="assets/img/unsplash_1.jpg">
+    </div>
 
     <br>
+  <ul class="media-list mb-2" style = "margin-left: 20px">
+      {% for comment in item.allComments: %}
+    <li class="media mb-3">
 
-    <br>
-
-<div class="container-fluid" style="padding: 20px">
-  <h2>View all comments</h2>
-  <a href='/mainFeed'>
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-    Go back to feed
-  </button>
-  </a>
-  <h4><strong>@{{item.author.get().fullname}}</strong> {{item.text}}</h4>
-
-    <table class="table table-hover">
-  <tbody>
-    {% for comment in item.allComments: %}
-    <tr>
-      <td><strong>@{{comment.get().author.get().fullname}}</strong> {{comment.get().commentText}} </td>
-    </tr>
+      <div class="media-body">
+        <strong>@{{comment.get().author.get().fullname}}</strong><br>
+         {{comment.get().commentText}}
+      </div>
+    </li>
     {% endfor %}
-  </tbody>
-</table>
-</div>
 
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+<script src="../stylesheets/v4/docs/assets/js/jquery.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/tether.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/chart.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/toolkit.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/application.js"></script>
+
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
   </body>
-
-  </html>
+</html>
