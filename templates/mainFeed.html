@@ -390,29 +390,8 @@
           <p class="mb-4">Bio</p>
 
 
-          <ul class="card-menu">
-            <li class="card-menu-item">
-              <a href="#userModal" class="text-inherit" data-toggle="modal">
-                Thing 1
-                <h6 class="my-0">12M</h6>
-            {% if user.usertype == "individual": %}
-            <!-- Only user can see this -->
-            <div class="mdl-card__actions mdl-card--border">
-              <a href= "/attendevent?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Attend
-              </a>
-              <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Donate
-              </a>
-            </li>
 
-            <li class="card-menu-item">
-              <a href="#userModal" class="text-inherit" data-toggle="modal">
-                Thing 2
-                <h6 class="my-0">1</h6>
-              </a>
-            </li>
-          </ul>
+
         </div>
       </div>
 
@@ -450,15 +429,11 @@
 
       <ul class="list-group media-list media-list-stream mb-4">
 
-        <li class="media list-group-item p-4">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Post">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-secondary">
-                <span class="icon icon-camera"></span>
-              </button>
-            </div>
-          </div>
+        <li class="media list-group-item p-4"><a href = "/createPost">
+          <button class="btn btn-outline-primary btn-md">
+
+            <strong>Create Post</strong> <div class="icon icon-pencil">  </div></button></a>
+
         </li>
 
 {% for post in post_list: %}
@@ -565,11 +540,11 @@
               {% endif %}
             </div>
           </li>
-          {% endfor %}
+
 
         </ul>
         </div>
-
+        {% endfor %}
       </div>
 
       <div class="card card-link-list">
