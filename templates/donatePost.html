@@ -1,29 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-      <title>Donate</title>
+
+    <title>
+
+      All Comments
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
   </head>
 
-  <body>
-  <div class="form-group">
-    <div class="container-fluid">
-    <h1>Donate to this organization!</h1>
-    <form method="POST" action="/donatePost">
-      <h3> How much would you like to donate?</h3>
-      <input type = "number" name = "donation" value="donation" class="form-control"></input>
-      <input type = "hidden" name = "postItem" value = "{{urlsafePost}}"></input>
-      <input class="form-control" type="submit" name="submit" value="Submit donation" style="background-color:lightblue"/>
-      <br>
+
+
+<body>
+<br>
+<br>
+
+<div class="container-fluid rounded border">
+
+<a href= "/mainFeed">
+
+  <button class="btn btn-outline-primary btn-md">
+
+    <strong>Go back to feed</strong> </button></a>
+
+<br>
+<br>
+<h1>Donate to this organization!</h1>
+<form method="POST" action="/donatePost">
+  <h3> How much would you like to donate?</h3>
+  <input type = "number" name = "donation" value="donation" class="form-control"></input>
+  <input type = "hidden" name = "postItem" value = "{{urlsafePost}}"></input>
+  <br>
+  <input class="form-control" type="submit" name="submit" value="Submit donation" style="background-color:lightblue"/>
+  <br>
+
 </div>
-</div>
-</body>
+<script src="../stylesheets/v4/docs/assets/js/jquery.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/tether.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/chart.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/toolkit.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/application.js"></script>
+
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
+  </body>
+</html>

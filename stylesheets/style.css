@@ -1,6 +1,4 @@
-body {
-  background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/space-galaxy-background-sololos.jpg);
-}
+
 
 row {
   padding: 10px;
@@ -19,6 +17,9 @@ footer{
 }
 
 .block {
+  display: flex;
+  justify-content: center;
+  align-self: center;
   width: 90%;
   height: 90%;
   background-color: lightgray
@@ -83,12 +84,16 @@ footer{
   color: white;
 }
 .container-fluid {
-  background-color: lightgray;
+  background-color: white;
   align-self: center;
   width: 90%;
   color: black;
+  padding: 20px;
 }
 
+.border {
+  border-color: gray;
+}
 .smaller {
   width: 40% !important;
 }

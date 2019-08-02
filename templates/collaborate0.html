@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      <title>Collaborate</title>
+  </head>
+  <body>
+    <br>
+    <br>
+    <br>
+    <div class= "container-fluid" style="justify-content: center">
+
+    <h2>How would you like to collaborate with {{event.author.get().fullname}} on {{event.title}}?</h2>
+
+    <form method="POST" action="/collaborate">
+          <br>
+    <br>
+      <label for="description">Collaboration description</label>
+      <textarea type="text" id="description" name = "description" class="form-control" rows="6"></textarea>
+      <input type = "hidden" name = "event" value = "{{urlsafeEvent}}"></input>
+
+      <input type = "hidden" name = "collaborator" value = "{{urlsafeCollaborator}}"></input>
+      <br>
+      <br>
+      <input class="form-control" type="submit" name="submit" value="Submit" style="background-color:gray"/>
+
+      </form>
+
+      <br>
+      <br>
+      </div>
+      </body>
+
+      </html>
+
+</body>
+
+</html>
