@@ -1,70 +1,81 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <title>Update</title>
-  </head>
-  <body>
-    <img id="profile_pic" src="images/images.jpeg">
-    <button type="submit" value="change_photo">Change Profile Photo</button>
-    <div id="profile_info">
-      <ul>
-        <div class="flex-signup">
-                <form method="POST" action="/updateProfile">
-                  <div>
-                    <label>Name: {{profile.fullname}}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-                    </label>
-                  </div>
+<link rel="stylesheet" href="stylesheets/form.css">
 
-                  <div>
-                    <label> Location:
-                    <input type="text" name="location" placeholder={{location}}>
-                    </label>
-                  </div>
+<!------ Include the above in your HEAD tag ---------->
 
-                  <div>
-                    <label> Category:
-                      <select class="" name="category" placeholder={{category}}>
-                        <option class="" disabled="" value="-1">Choose a category</option>
-                        <option>Accidents &amp; Emergencies</option>
-                        <option >Animals &amp; Pets</option>
-                        <option >Children &amp; Family</option>
-                        <option >Business &amp; Entrepreneurs</option>
-                        <option >Community &amp; Neighbours</option>
-                        <option >Creative Arts, Music &amp; Film</option>
-                        <option >Volunteer &amp; Service</option>
-                        <option >Dreams, Hopes &amp; Wishes</option>
-                        <option >Education &amp; Learning</option>
-                        <option >Medical, Illness &amp; Healing</option>
-                        <option >Missions, Faith &amp; Church</option>
-                        <option >Sports, Teams &amp; Clubs</option>
-                        <option >Travel &amp; Adventure</option>
-                        <option >Other</option>
-                      </select>
-                    </label>
-                  </div>
+<div class="container">
+       <table class="table table-striped">
+          <tbody>
+             <tr>
+                <td colspan="1">
+                   <form class="well form-horizontal" method="POST" action="/updateProfile">
+                      <fieldset>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Full Name</label>
+                            <div class="col-md-8 inputGroupContainer">
+                               <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="fullName" name="fullName"  class="form-control" value={{profile.fullname}} type="text"></div>
+                            </div>
+                         </div>
 
-                  <div>
-                    <label> Phone:
-                    <input type="number" name="phone">
-                    </label>
-                  </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Location</label>
+                            <div class="col-md-8 inputGroupContainer">
+                               <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input name="location" class="form-control"
+                                 type="text" placeholder={{location}}  ></div>
+                            </div>
+                         </div>
 
-                  <div>
-                    <label> Bio:
-                    <input type = "text" name = "bio">
-                    </label>
-                  </div>
+                         <div class="form-group">
+                           <label class="col-md-4 control-label">Category</label>
+                           <div class="col-md-8 inputGroupContainer">
+                              <div class="input-group">
+                                 <span class="input-group-addon" style="max-width: 100%;"><i class="glyphicon glyphicon-list"></i></span>
+                                 <select class="selectpicker form-control" name="category" placeholder={{category}}>
 
-                  <br>
-                    <button type="submit" value="updateProfile">Update Profile</button>
-                </form>
+                                    <option class="" disabled="" value="-1">Choose a category</option>
+                                    <option>Accidents &amp; Emergencies</option>
+                                    <option >Animals &amp; Pets</option>
+                                    <option >Children &amp; Family</option>
+                                    <option >Business &amp; Entrepreneurs</option>
+                                    <option >Community &amp; Neighbours</option>
+                                    <option >Creative Arts, Music &amp; Film</option>
+                                    <option >Volunteer &amp; Service</option>
+                                    <option >Dreams, Hopes &amp; Wishes</option>
+                                    <option >Education &amp; Learning</option>
+                                    <option >Medical, Illness &amp; Healing</option>
+                                    <option >Missions, Faith &amp; Church</option>
+                                    <option >Sports, Teams &amp; Clubs</option>
+                                    <option >Travel &amp; Adventure</option>
+                                    <option >Other</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Phone Number</label>
+                            <div class="col-md-8 inputGroupContainer">
+                               <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span><input id="phoneNumber" name="phone" placeholder="Phone Number" class="form-control"  value="" type="number"></div>
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Bio
+                            </label>
+                            <div class="col-md-8 inputGroupContainer">
+                               <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="postcode" name="bio" placeholder="Bio" class="form-control" type="text"></div>
+                            </div>
+                         </div>
 
-      </ul>
+
+                         <div id ="button_container"><button id ="update" value="updateProfile" type="submit" class="btn btn-dark">UpdateProfile</button>
+                         </div>
+                      </fieldset>
+                   </form>
+                </td>
+
+             </tr>
+          </tbody>
+       </table>
     </div>
-  </body>
-</html>
