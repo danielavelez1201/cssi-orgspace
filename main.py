@@ -211,8 +211,9 @@ class mainFeed(webapp2.RequestHandler):
                 logging.info("DETECTED COMMENTS")
                 for comment in event.allComments:
                     if(counter > 0):
-                        event.recentComments.append(comment)
-                        counter = counter -1
+                        if not(comment in event.recentComments):
+                            event.recentComments.append(comment)
+                            counter = counter -1
             logging.info(event.recentComments)
         userEvents = []
         for event in event_list:
@@ -232,8 +233,9 @@ class mainFeed(webapp2.RequestHandler):
             if not(post.allComments == []):
                 for comment in post.allComments:
                     if(counter > 0):
-                        post.recentComments.append(comment)
-                        counter = counter -1
+                            if not(comment in post.recentComments):
+                                post.recentComments.append(comment)
+                                counter = counter -1
             logging.info(post.recentComments)
         if (self.request.get("profile")):
             current_user = ndb.Key(urlsafe= self.request.get("profile"))
@@ -342,7 +344,10 @@ class postComment(webapp2.RequestHandler):
             comment = Comment(commentText = commentText, author = user.key, event = item.key, time = str(time), date = str(date)).put()
         else:
             comment = Comment(commentText = commentText, author = user.key, post = item.key, time = str(time), date = str(date)).put()
-        if not(comment in item.allComments):
+        comment_records = []
+        for comment in item.allComments:
+            comment_records.append([comment.author, comment.commentText])
+        if not([comment.author, comment.commentText] in comment_records):
             if (item.allComments):
                 item.allComments.append(comment)
             else:

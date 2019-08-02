@@ -315,8 +315,6 @@
   </div>
 
 
-</div>
-
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -376,7 +374,7 @@
   <div class="row">
     <div class="col-lg-3">
       <div class="card card-profile mb-4">
-        <div class="card-header" style="background-image: url(assets/img/iceland.jpg);"></div>
+        <div class="card-header" style="background-image: url(http://www.sclance.com/pngs/triangle-design-png/triangle_design_png_1412963.png);"></div>
         <div class="card-block text-center">
           <a href="profile/index.html">
             <img
@@ -414,7 +412,10 @@
 
        <div class="card visible-md-block visible-lg-block">
         <div class="card-block">
-          <h6 class="mb-3">My Events <small>· <a href="/addEvent">Add Event</a></small></h6>
+          <h6 class="mb-3">My Events
+            {% if user.type == "organization": %}
+            <small>·<a href="/addEvent">Add Event</a></small>
+            {% endif %}</h6>
           {% for event in userEvents: %}
           <div class="card-block">
           <ul class="media-list media-list-stream">
@@ -453,11 +454,12 @@
             <div class="icon icon-pencil"> Create Post    </div></button></a>
 
 
-
+          {% if user.type == "organization": %}
           <a href = "/addEvent">
           <button class="btn btn-outline-primary btn-md">
 
             <div class="icon icon-calendar">   Create Event  </div></button></a>
+          {% endif %}
 
         </li>
 
@@ -530,7 +532,9 @@
       <div class="card mb-4 hidden-md-down">
 
         <div class="card-block">
-        <h6 class="mb-3">Events <small>· <a href="/addEvent">Add Event</a></small></h6>
+        <h6 class="mb-3">Events {% if user.type == "organization": %}
+        <small>·<a href="/addEvent">Add Event</a></small>
+        {% endif %}</h6>
         {% for event in event_list: %}
         <div class="card-block">
         <ul class="media-list media-list-stream">
@@ -603,8 +607,6 @@
       </div>
     </div>
   </footer>
-  </div>
-</div>
 
 
 
