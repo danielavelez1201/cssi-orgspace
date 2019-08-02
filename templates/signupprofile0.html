@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+      <title>Join!</title>
+  </head>
+
+  <div class="container-fluid">
+<h1 style="text-align:center;"><strong> Create an Account</strong></h1>
+  <body>
+    <ul>
+      <div class="flex-signup" >
+          <form method="POST" action="/mainhandler">
+            <div>
+              <label  style="color:black;"> Full Name:
+                <input type="text" name="fullname" class="form-control">
+              </label>
+            </div>
+
+            <div>
+              <label style= "color: black;"> Category:
+                <select class="" name="category" placeholder={{category}}>
+                  <option class="" disabled="" value="-1">Choose a category</option>
+                  <option >Accidents &amp; Emergencies</option>
+                  <option >Animals &amp; Pets</option>
+                  <option >Children &amp; Family</option>
+                  <option >Business &amp; Entrepreneurs</option>
+                  <option >Community &amp; Neighbours</option>
+                  <option >Creative Arts, Music &amp; Film</option>
+                  <option >Volunteer &amp; Service</option>
+                  <option >Dreams, Hopes &amp; Wishes</option>
+                  <option >Education &amp; Learning</option>
+                  <option >Medical, Illness &amp; Healing</option>
+                  <option >Missions, Faith &amp; Church</option>
+                  <option >Sports, Teams &amp; Clubs</option>
+                  <option >Travel &amp; Adventure</option>
+                  <option >Other</option>
+                </select>
+              </label>
+
+            <div>
+              <label  style="color:black";> Phone:
+              <input type="integer" name="phone" class="form-control" placeholder = "Phone">
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> Location:
+              <input type="text" name="location" class="form-control" placeholder = "Location">
+              </label>
+            </div>
+
+            <div>
+              <label  style="color:black";> User Type: Organization
+              <input type="radio" name="usertype" value = "organization" class="form-control">
+            </label>
+            </div>
+
+            <div>
+              <label  style="color:black"; style="font-size:300%;">  User Type: Individual
+              <input type="radio" name="usertype" value = "individual"  class="form-control">
+              </label>
+            </div>
+
+              <input type="submit" class="form-control">
+          </form>
+
+
+        <br><br>
+      </ul>
+
+
+  </body>
+
+  <br>
+
+</html>

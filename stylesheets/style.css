@@ -1,6 +1,4 @@
-body {
-  background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/space-galaxy-background-sololos.jpg);
-}
+
 
 row {
   padding: 10px;
@@ -10,6 +8,44 @@ footer{
   display: flex;
 }
 
+.display{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 40px;
+  text-align: center;
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 90%;
+  height: 90%;
+  background-color: lightgray
+}
+
+.TEAMIMAGE{
+  width:400px;
+}
+.MEMBERS{
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+  font-size: 30px;
+
+}
+.DANIELA{
+  width: 200px
+}
+.SAM{
+  width: 200px;
+  height: 170px;
+}
+.TJ{
+  width: 190px;
+  transform: rotate(90deg);
+}
 .jumbotron {
   position: relative;
   z-index: 50;
@@ -48,12 +84,16 @@ footer{
   color: white;
 }
 .container-fluid {
-  background-color: lightgray;
+  background-color: white;
   align-self: center;
   width: 90%;
   color: black;
+  padding: 20px;
 }
 
+.border {
+  border-color: gray;
+}
 .smaller {
   width: 40% !important;
 }
