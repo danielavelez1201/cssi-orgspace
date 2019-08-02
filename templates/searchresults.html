@@ -1,74 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="icon" href="images/icon.png">
-      <title>Search Results</title>
+
+    <title>
+
+      All Comments
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
   </head>
 
-  <div class="container-fluid">
+
+
+<body>
+<br>
+<br>
+
+<div class="container-fluid rounded border">
+
+<a href= "/mainFeed">
+
+  <button class="btn btn-outline-primary btn-md">
+
+    <strong>Go back to feed</strong> </button></a>
+
+<br>
+<br>
 <h1 style="text-align:center;"><strong> Search Results</strong></h1>
-  <body>
-    <p style= "color: black;"> <strong> Sort Results: </strong> </p>
-    <form method= "GET" action= "/searchresults">
+<body>
+  <p style= "color: black;"> <strong> Sort Results: </strong> </p>
+  <form method= "GET" action= "/searchresults">
+    <div>
+      <label> Category:
+        <select class="" name="category" placeholder={{category}}>
+          <option class="" disabled="" value="-1">Choose a category</option>
+          <option value= "Accidents & Emergencies">Accidents &amp; Emergencies</option>
+          <option value= "Animals & Pets">Animals &amp; Pets</option>
+          <option value= "Children & Family">Children &amp; Family</option>
+          <option value= "Business & Entrepreneurs">Business &amp; Entrepreneurs</option>
+          <option value= "Community & Neighbours">Community &amp; Neighbours</option>
+          <option value= "Creative Arts, Music & Film">Creative Arts, Music &amp; Film</option>
+          <option value= "Volunteer & Service">Volunteer &amp; Service</option>
+          <option value= "Dreams, Hopes, & Wishes">Dreams, Hopes &amp; Wishes</option>
+          <option value= "Education & Learning">Education &amp; Learning</option>
+          <option value= "Medicak, Illness, & Healing">Medical, Illness &amp; Healing</option>
+          <option value= "Missions, Faith, & Church">Missions, Faith &amp; Church</option>
+          <option value= "Teams & Clib">Sports, Teams &amp; Clubs</option>
+          <option value= "Travel & Adventure">Travel &amp; Adventure</option>
+          <option value= "Other">Other</option>
+          <!-- VALUES -->
+        </select>
+      </label>
+    </div>
       <div>
-        <label> Category:
-          <select class="" name="category" placeholder={{category}}>
-            <option class="" disabled="" value="-1">Choose a category</option>
-            <option value= "Accidents & Emergencies">Accidents &amp; Emergencies</option>
-            <option value= "Animals & Pets">Animals &amp; Pets</option>
-            <option value= "Children & Family">Children &amp; Family</option>
-            <option value= "Business & Entrepreneurs">Business &amp; Entrepreneurs</option>
-            <option value= "Community & Neighbours">Community &amp; Neighbours</option>
-            <option value= "Creative Arts, Music & Film">Creative Arts, Music &amp; Film</option>
-            <option value= "Volunteer & Service">Volunteer &amp; Service</option>
-            <option value= "Dreams, Hopes, & Wishes">Dreams, Hopes &amp; Wishes</option>
-            <option value= "Education & Learning">Education &amp; Learning</option>
-            <option value= "Medicak, Illness, & Healing">Medical, Illness &amp; Healing</option>
-            <option value= "Missions, Faith, & Church">Missions, Faith &amp; Church</option>
-            <option value= "Teams & Clib">Sports, Teams &amp; Clubs</option>
-            <option value= "Travel & Adventure">Travel &amp; Adventure</option>
-            <option value= "Other">Other</option>
-            <!-- VALUES -->
+        <label  style="color:black";> Location:
+          <select class="" name="location">
+            <option class="" disabled="" value="-1">Choose a Location</option>
+              {% for location in locations %}
+                <option value= "{{location}}">{{location}}</option>
+              {% endfor %}
           </select>
         </label>
       </div>
-        <div>
-          <label  style="color:black";> Location:
-            <select class="" name="location">
-              <option class="" disabled="" value="-1">Choose a Location</option>
-                {% for location in locations %}
-                  <option value= "{{location}}">{{location}}</option>
-                {% endfor %}
-            </select>
-          </label>
-        </div>
-      <div>
-          <input type= "hidden" name= "search_query" value="{{search_query}}"></input>
-          <input type= "submit" name= "submit"> </input>
-      </div>
-    </form>
+    <div>
+        <input type= "hidden" name= "search_query" value="{{search_query}}"></input>
+        <input type= "submit" name= "submit"> </input>
+    </div>
+  </form>
 
-    <ul>
-    {% for profile in result_profiles %}
-        <li> {{profile.fullname}}
-        <br> - {{profile.category}}
-        <br> - {{profile.location}} <br>
-        <a href= "/profilePage?profile={{profile.key.urlsafe()}}" > View Profile
-        </a></li>
-    {% endfor %}
-  </ul>
+  <ul>
+  {% for profile in result_profiles %}
+      <li> {{profile.fullname}}
+      <br> - {{profile.category}}
+      <br> - {{profile.location}} <br>
+      <a href= "/profilePage?profile={{profile.key.urlsafe()}}" > View Profile
+      </a></li>
+  {% endfor %}
+</ul>
 <!-- POSSIBLE FOR LOOP, LINK PROFILES -->
 
 
+</body>
+
+<br>
+
+
+</div>
+<script src="../stylesheets/v4/docs/assets/js/jquery.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/tether.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/chart.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/toolkit.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/application.js"></script>
+
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
   </body>
-
-  <br>
-
 </html>

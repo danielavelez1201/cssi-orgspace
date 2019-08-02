@@ -21,8 +21,7 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
-    photo = ndb.BlobProperty(required=False)
-
+    # photo = ndb.BlobProperty(required = True)
 
 class Event(ndb.Model):
     author = ndb.KeyProperty(kind = Profile)
@@ -30,7 +29,6 @@ class Event(ndb.Model):
     date = ndb.StringProperty(required = True)
     time = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = False)
-    photo = ndb.BlobProperty(required=False)
     attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
@@ -160,8 +158,10 @@ class profilePage(webapp2.RequestHandler):
         profileStr = self.request.get("profile")
         profileKey = ndb.Key(urlsafe= profileStr)
         profile = profileKey.get()
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link': signout_link
         }
         template = jinja_env.get_template('templates/profilePage.html')
         self.response.write(template.render(template_vars))
@@ -178,6 +178,7 @@ class MainHandler(webapp2.RequestHandler):
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
             usertype=self.request.get('usertype'),
+            # photo = images.resize(self.request.get("photo"), 100, 100)
             )
         profile = orguser.put()
         self.redirect('/mainFeed?profile=' + profile.urlsafe())
@@ -213,6 +214,10 @@ class mainFeed(webapp2.RequestHandler):
                         event.recentComments.append(comment)
                         counter = counter -1
             logging.info(event.recentComments)
+        userEvents = []
+        for event in event_list:
+            if (event.author.get() == user):
+                userEvents.append(event)
         post_query = Post.query()
         post_list = post_query.fetch()
         for post in post_list:
@@ -241,6 +246,7 @@ class mainFeed(webapp2.RequestHandler):
         signout_link = users.create_logout_url('/')
         userKey = user.key
         template_vars = {
+            'userEvents' : userEvents,
             'userKey' : userKey,
             'user' : user,
             'post_list' : post_list,
@@ -443,14 +449,11 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        logging.info("PHOTO HERE")
-        logging.info(self.request.get("photo"))
-        photo = images.resize(self.request.get("photo"), 650, 650)
         attendees = []
         donations = []
         collaborators = []
         allComments = []
-        event = Event(allComments = allComments, photo = photo, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(allComments = allComments, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/mainFeed')
 
@@ -465,8 +468,10 @@ class OrgProfilePage(webapp2.RequestHandler):
             profile.isUser = True
         else:
             profile.isUser = False
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link' : signout_link
         }
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))

@@ -36,83 +36,17 @@
   </head>
   <body>
 
-    <a type="submit" value="backbutton" href="/mainFeed">Back</a>
-    <!-- Always shows a header, even in smaller screens. -->
-    <div class="demo-layout-transparent mdl-layout mdl-js-layout">
-      <header class="mdl-layout__header mdl-layout__header--transparent">
-        <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">OrgSpace</span>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-          <!-- Navigation -->
-          <nav class="mdl-navigation">
-
-              <a class="mdl-navigation__link" href="/about">About</a>
-              <a class="mdl-navigation__link" href="/">Main Feed</a>
 
           </nav>
         </div>
       </header>
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">OrgSpace</span>
-         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="/" >Main Feed</a>
-          <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
-          <a class="mdl-navigation__link" href="/createPost">Create Post</a>
-        </nav>
-      </div>
-  <main class="mdl-layout__content">
-    <div class="page-content">
-      <!-- Your content goes here -->
-
-      <div id ="#profile_container">
-          <div id ="profile_row">
-            <img id="profile_pic" src="images/images.jpeg">
-            <div id="profile_info">
-              <ul>
-                <li> Name: {{profile.fullname}}</li>
-                <li>Location:{{profile.location}}</li>
-                <li>Category: {{profile.category}}</li>
-                {% if profile.bio %}
-                <li>Bio:{{profile.bio}}</li>
-                {% endif %}
-                <li>Contact:{{profile.phone}}</li>
-                <li> {{profile.usertype}} </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-        {% if profile.isUser: %}
-          <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
-        {% endif %}
-
-        <div id="event_row">
-          <p>Next Event</p>
-        </div>
-
-        <footer class="mdl-mini-footer">
-          <div class="mdl-mini-footer__left-section">
-            <div class="mdl-logo">Title</div>
-            <ul class="mdl-mini-footer__link-list">
-              <li><a href="#">Help</a></li>
-              <li><a href="#">Privacy & Terms</a></li>
-              <li><a href="#" class="fa fa-facebook"></a></li>
-              <li><a href="#" class="fa fa-twitter"></a></li>
-            </ul>
-          </div>
-        </footer>
 
 
 
       </div>
     </div>
-        {% if profile.isUser: %}
-        <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
-        {% endif %}
     </div>
 
 <body class="with-top-navbar">
@@ -124,16 +58,16 @@
   <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/mainFeed">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/mainFeed">Main Feed <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/organizationProfilePage">Profile</a>
+        <a class="nav-link" href="/organizationProfilePage?profile={{profile.key.urlsafe()}}">Profile Page</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/welcome">Welcome</a>
+        <a class="nav-link" href="{{signout_link}}">Log out</a>
       </li>
-
-      <li class="nav-item"><a class="nav-link" href="{{signout_link}}">Logout</a>
+      <li class="nav-item">
+        <a class="nav-link" href="/signupprofile">Make Account</a>
       </li>
     </ul>
 
@@ -176,10 +110,8 @@
 </div>
 <div class="container">
 
-    <div id="event">
-        <h3>Upcoming Events</h3>
-        <p></p>
-    </div>
+
+  
 
 </div>
 
