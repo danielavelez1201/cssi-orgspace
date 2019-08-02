@@ -21,6 +21,7 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
+    # photo = ndb.BlobProperty(required = True)
 
 class Event(ndb.Model):
     author = ndb.KeyProperty(kind = Profile)
@@ -28,7 +29,6 @@ class Event(ndb.Model):
     date = ndb.StringProperty(required = True)
     time = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = False)
-    photo = ndb.BlobProperty(required=False)
     attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
@@ -176,6 +176,7 @@ class MainHandler(webapp2.RequestHandler):
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
             usertype=self.request.get('usertype'),
+            # photo = images.resize(self.request.get("photo"), 100, 100)
             )
         profile = orguser.put()
         self.redirect('/mainFeed?profile=' + profile.urlsafe())
@@ -468,14 +469,11 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        logging.info("PHOTO HERE")
-        logging.info(self.request.get("photo"))
-        photo = images.resize(self.request.get("photo"), 650, 650)
         attendees = []
         donations = []
         collaborators = []
         allComments = []
-        event = Event(allComments = allComments, photo = photo, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(allComments = allComments, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/mainFeed')
 

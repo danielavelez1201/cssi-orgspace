@@ -54,7 +54,7 @@
   </button>
 
   <a class="navbar-brand" href="index.html">
-    <img src="assets/img/brand-white.png" alt="brand">
+    <!-- <img src="assets/img/brand-white.png" alt="brand"> -->
   </a>
 
   <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -64,6 +64,12 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{signout_link}}">Log out</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signupprofile">Make Account</a>
       </li>
 
 
@@ -81,7 +87,7 @@
       </li>
       <li class="nav-item ml-2">
         <button class="btn btn-default navbar-btn navbar-btn-avatar" data-toggle="popover">
-          <img class="rounded-circle" src="assets/img/avatar-dhg.png">
+          <!-- <img class="rounded-circle" src="assets/img/avatar-dhg.png"> -->
         </button>
       </li>
     </ul>
@@ -106,7 +112,7 @@
           <div class="media-list media-list-users list-group js-msgGroup">
             <a href="#" class="list-group-item list-group-item-action">
               <div class="media">
-                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <!-- <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg"> -->
                 <div class="media-body">
                   <strong>Hidden Thing 1</strong>
                   <div class="media-body-secondary">
@@ -117,7 +123,7 @@
             </a>
             <a href="#" class="list-group-item list-group-item-action">
               <div class="media">
-                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <!-- <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png"> -->
                 <div class="media-body">
                   <strong>Hidden Thing 3</strong>
                   <div class="media-body-secondary">
@@ -386,8 +392,11 @@
           <h6 class="card-title">
             <a class="text-inherit" href="/organizationProfilePage?profile={{user.key.urlsafe()}}">{{user.fullname}}</a>
           </h6>
+          <div class="icon icon-home" style = "color: gray"> {{user.usertype}}</div>
 
-          <p class="mb-4">Bio</p>
+          {% if user.bio: %}
+            <p class="mb-4">{{user.bio}}</p>
+          {% endif %}
 
 
 
@@ -399,11 +408,11 @@
         <div class="card-block">
           <h6 class="mb-3">Profile <small>· <a href="/updateProfile">Update</a></small></h6>
           <ul class="list-unstyled list-spaced">
-            <li><span class="text-muted icon icon-calendar mr-3"></span>Went to <a href="#">Oh, Canada</a>
-            <li><span class="text-muted icon icon-users mr-3"></span>Became friends with <a href="#">Obama</a>
-            <li><span class="text-muted icon icon-github mr-3"></span>Worked at <a href="#">Github</a>
-            <li><span class="text-muted icon icon-home mr-3"></span>Lives in <a href="#">San Francisco, CA</a>
-            <li><span class="text-muted icon icon-location-pin mr-3"></span>From <a href="#">Seattle, WA</a>
+            <li><span class="text-muted icon icon-users mr-3"></span>Focused on <br><strong>{{user.category}}</strong>
+            <li><span class="text-muted icon icon-location-pin mr-3"></span>From <strong>{{user.location}}</strong>
+            <li><span class="text-muted icon icon-mail mr-3"></span>Email: {{user.email}}
+            <li><span class="text-muted icon icon-mail mr-3"></span>Phone: {{user.phone}}
+
           </ul>
         </div>
       </div>
@@ -439,13 +448,13 @@
 {% for post in post_list: %}
         <li class="media list-group-item p-4">
 
-          <img
+          <!-- <img
             class="media-object d-flex align-self-start mr-3"
-            src="assets/img/avatar-dhg.png">
+            src="/image?img_id={{post.author.urlsafe()}}"> -->
           <div class="media-body">
             <div class="media-heading">
               <small class="float-right text-muted">{{post.date}} {{post.time}} </small>
-              <h6>{{user.fullname}}</h6>
+              <h6>{{post.author.get().fullname}}</h6>
             </div>
 
             <p>
@@ -454,7 +463,7 @@
 
             <div class="media-body-inline-grid" data-grid="images">
               <div style="display: none">
-                <img data-action="zoom" data-width="1050" data-height="700" src="assets/img/unsplash_1.jpg">
+                <img data-action="zoom" data-width="1050" data-height="700" src="/image?img_id={{post.key.urlsafe()}}" style="width: 300px; height: 100%">
               </div>
 
               <br>
@@ -473,10 +482,12 @@
             <a href = "/allComments?item={{post.key.urlsafe()}}" style="margin-left: 20px"> See all comments </a>
             <br>
             <br>
+          {% if user.usertype == "organization": %}
           <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
             <button class="btn btn-outline-primary btn-sm">
               <span class="icon icon-heart"></span> Donate</button>
           </a>
+          {% endif %}
           <a href= "/postComment?item={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
             <button class="btn btn-outline-primary btn-sm">
               <span class="icon icon-message"></span> Comment</button>
@@ -515,21 +526,32 @@
         <h6 class="mb-3">Events <small>· <a href="#">View All</a></small></h6>
         <ul class="media-list media-list-stream">
           <li class="media mb-2">
-            <img
-              class="media-object d-flex align-self-start mr-3"
-              src="assets/img/avatar-fat.jpg">
+
             <div class="media-body">
-              <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong>
-              {{event.title}} <br>
+              <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong><br>
+              <strong>{{event.title}}</strong> <br>
               {{event.location}} <br>
               {{event.time}} <br>
               Funds raised:
               ${{event.total}}
+              <br>
+              {% if event.collaborators: %}
+              <a href = "/collaborators?event={{event.key.urlsafe()}}">
+                Collaborators
+              </a>
+              {% endif %}
               {% if user.usertype == "individual": %}
               <div class="media-body-actions">
                 <a href = "/attendevent?event={{event.key.urlsafe()}}">
                 <button class="btn btn-outline-primary btn-sm">
                   <span class="icon icon-add-user"></span> Attend event</button></a> </div>
+              {% endif %}
+              {% if user.usertype == "organization": %}
+              <div class="media-body-actions">
+                <a href = "/collaborate?event={{event.key.urlsafe()}}">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-add-user"></span> Collaborate</button></a> </div>
+              {% endif %}
               <div class="media-body-actions">
                 <a href = "/donate?event={{event.key.urlsafe()}}">
                 <button class="btn btn-outline-primary btn-sm">
@@ -545,7 +567,7 @@
                 <button class="btn btn-outline-primary btn-sm">
                   <span class="icon icon-calendar"></span> Add to Calendar</button></a>
               </div>
-              {% endif %}
+
             </div>
           </li>
 
