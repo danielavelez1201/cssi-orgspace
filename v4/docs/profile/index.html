@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+
+    <title>
+
+        Profile &middot;
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../assets/css/application.css" rel="stylesheet">
+    <link href="../assets/css/addStyle.css" rel="stylesheet">
+
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
+  </head>
+
+
+<body class="with-top-navbar">
+
+
+
+<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Messages</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+
+      <div class="modal-body p-0 js-modalBody">
+        <div class="modal-body-scroller">
+          <div class="media-list media-list-users list-group js-msgGroup">
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Jacob Thornton</strong> and <strong>1 other</strong>
+                  <div class="media-body-secondary">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam &hellip;
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Mark Otto</strong> and <strong>3 others</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Dave Gamache</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Jacob Thornton</strong> and <strong>1 other</strong>
+                  <div class="media-body-secondary">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam &hellip;
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Mark Otto</strong> and <strong>3 others</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Dave Gamache</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Jacob Thornton</strong> and <strong>1 other</strong>
+                  <div class="media-body-secondary">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam &hellip;
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Mark Otto</strong> and <strong>3 others</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="../assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Dave Gamache</strong>
+
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="growl" id="app-growl"></div>
+
+<nav class="navbar navbar-toggleable-sm fixed-top navbar-inverse bg-primary app-navbar">
+  <button
+    class="navbar-toggler navbar-toggler-right hidden-md-up"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarResponsive"
+    aria-controls="navbarResponsive"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <a class="navbar-brand" href="../index.html">
+    <img src="../assets/img/orgspace_white.png" style ="position:relative; top:-5px;"alt="brand">
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="../index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../profile/index.html">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="notifications/index.html">Welcome</a>
+      </li>
+      <li class="nav-item hidden-md-up">
+        <a class="nav-link" href="../login/index.html">Logout</a>
+      </li>
+
+    </ul>
+
+    <ul id="#js-popoverContent" class="nav navbar-nav float-right mr-0 hidden-sm-down">
+      <li class="nav-item">
+        <a class="app-notifications nav-link" href="../notifications/index.html">
+        </a>
+      </li>
+      <li class="nav-item ml-2">
+        <button class="btn btn-default navbar-btn navbar-btn-avatar" data-toggle="popover">
+          <img class="rounded-circle" src="../assets/img/avatar-dhg.png">
+        </button>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav hidden-xs-up" id="js-popoverContent">
+      <li class="nav-item"><a class="nav-link" href="#" data-action="growl">Edit Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="../login/index.html">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="profile-header" style="background-image: url(../assets/img/iceland.jpg);">
+  <div class="container">
+    <div class="container-inner">
+      <img class="rounded-circle media-object" src="../assets/img/avatar-dhg.png">
+      <h3 class="profile-header-user">
+      {{profile.fullname}}</h3>
+      <p class="profile-header-bio">
+      {{profile.bio}}
+      </p>
+      <p class="profile-header-bio"><span><strong>Category:</strong></span>
+      {{profile.category}}
+      </p><p class="profile-header-bio"><span><strong>Contact:</strong></span>
+      {{profile.phone}}
+      </p>
+    </div>
+  </div>
+</div>
+<div class="container">
+
+    <div id="event">
+        <h3>Upcoming Events</h3>
+        <p></p>
+    </div>
+
+</div>
+
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/tether.min.js"></script>
+    <script src="../assets/js/chart.js"></script>
+    <script src="../assets/js/toolkit.js"></script>
+    <script src="../assets/js/application.js"></script>
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
+  </body>
+</html>

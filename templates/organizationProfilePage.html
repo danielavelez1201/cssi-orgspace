@@ -12,7 +12,7 @@
 
     <title>
 
-        Profile &middot;
+        {{profile.fullname}}'s Page
 
     </title>
 
@@ -34,6 +34,10 @@
     </style>
 
   </head>
+<<<<<<< HEAD
+
+=======
+>>>>>>> e10efae20bc958073d7aa9a9fe8eb8803501ee53
   <body>
 
 
@@ -46,7 +50,14 @@
 
 
       </div>
+<<<<<<< HEAD
+    <div>
+        {% if profile.isUser: %}
+        <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
+        {% endif %}
+=======
     </div>
+>>>>>>> e10efae20bc958073d7aa9a9fe8eb8803501ee53
     </div>
 
 <body class="with-top-navbar">
@@ -66,8 +77,13 @@
       <li class="nav-item">
         <a class="nav-link" href="{{signout_link}}">Log out</a>
       </li>
+<<<<<<< HEAD
+
+      <li class="nav-item"><a class="nav-link" href="{{signout_link}}">Logout</a>
+=======
       <li class="nav-item">
         <a class="nav-link" href="/signupprofile">Make Account</a>
+>>>>>>> e10efae20bc958073d7aa9a9fe8eb8803501ee53
       </li>
     </ul>
 
