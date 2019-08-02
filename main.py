@@ -158,8 +158,10 @@ class profilePage(webapp2.RequestHandler):
         profileStr = self.request.get("profile")
         profileKey = ndb.Key(urlsafe= profileStr)
         profile = profileKey.get()
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link': signout_link
         }
         template = jinja_env.get_template('templates/profilePage.html')
         self.response.write(template.render(template_vars))
@@ -212,6 +214,10 @@ class mainFeed(webapp2.RequestHandler):
                         event.recentComments.append(comment)
                         counter = counter -1
             logging.info(event.recentComments)
+        userEvents = []
+        for event in event_list:
+            if (event.author.get() == user):
+                userEvents.append(event)
         post_query = Post.query()
         post_list = post_query.fetch()
         for post in post_list:
@@ -240,6 +246,7 @@ class mainFeed(webapp2.RequestHandler):
         signout_link = users.create_logout_url('/')
         userKey = user.key
         template_vars = {
+            'userEvents' : userEvents,
             'userKey' : userKey,
             'user' : user,
             'post_list' : post_list,
@@ -253,33 +260,6 @@ class mainFeed(webapp2.RequestHandler):
     def post(self):
         template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render())
-
-# class profileevents(webapp2.RequestHandler):
-#     def get(self):
-#         event = self.request.get("event")
-#         user = users.get_current_user().email()
-#         author = Event.query().filter(user == Profile.email).get()
-#         event_query = Event.query()
-#         event_list = event_query.fetch()
-#
-#         profiles = Profile.query().fetch()
-#
-#         # Start with an empty set of locations
-#         events = set()
-#
-#         # Loop through the ofiles and add each location to the set
-#         for events in event_list:
-#             events.add(profile.events)
-#         # Pass the set of locations to Jinja
-#
-#         template_vars = {
-#             'event' : event,
-#             'user' : user,
-#             'author': author,
-#             'events' : events,
-#         }
-#         template = jinja_env.get_template('templates/mainFeed.html')
-#         self.response.write(template.render(template_vars))
 
 
 class collaborate(webapp2.RequestHandler):
@@ -488,8 +468,10 @@ class OrgProfilePage(webapp2.RequestHandler):
             profile.isUser = True
         else:
             profile.isUser = False
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link' : signout_link
         }
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))
@@ -513,6 +495,11 @@ class About(webapp2.RequestHandler):
 class MeetTheTeam(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/meetTheTeam.html')
+        self.response.write(template.render())
+
+class Welcome(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/welcome.html')
         self.response.write(template.render())
 
 class createPost(webapp2.RequestHandler):
@@ -584,4 +571,7 @@ app = webapp2.WSGIApplication([
 ('/image', Image),
 ('/organizationProfilePage', OrgProfilePage),
 ('/thankyou', thankyou),
+('/welcome', Welcome),
+
+
 ], debug=True)

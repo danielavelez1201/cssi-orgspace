@@ -10,6 +10,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
+    <link rel="icon" href="images/icon.png">
+
 
     <title>
 
@@ -19,7 +21,6 @@
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
     <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
-
     <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
 
     <style>
@@ -54,7 +55,7 @@
   </button>
 
   <a class="navbar-brand" href="index.html">
-    <!-- <img src="assets/img/brand-white.png" alt="brand"> -->
+  <img src="../images/orgspace_white.png" alt="brand" style="position: relative; top: -5px">
   </a>
 
   <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -75,22 +76,13 @@
 
     </ul>
 
-    <form class="form-inline float-right hidden-sm-down">
-      <input class="form-control" type="text" data-action="grow" placeholder="Search">
+    <form class="form-inline float-right hidden-sm-down" method="GET" action="/searchresults">
+      <input name = "search_query" class="form-control" type="text" data-action="grow" placeholder="Search">
+      <button href="#!" id="searchbutton" class="btn btn-info btn-rounded btn-sm my-0" type="submit">Search</button>
     </form>
 
-    <ul id="#js-popoverContent" class="nav navbar-nav float-right mr-0 hidden-sm-down">
-      <li class="nav-item">
-        <a class="app-notifications nav-link" href="notifications/index.html">
-          <span class="icon icon-bell"></span>
-        </a>
-      </li>
-      <li class="nav-item ml-2">
-        <button class="btn btn-default navbar-btn navbar-btn-avatar" data-toggle="popover">
-          <!-- <img class="rounded-circle" src="assets/img/avatar-dhg.png"> -->
-        </button>
-      </li>
-    </ul>
+
+
 
     <ul class="nav navbar-nav hidden-xs-up" id="js-popoverContent">
       <li class="nav-item"><a class="nav-link" href="#" data-action="growl">Thing1</a></li>
@@ -320,6 +312,9 @@
       </div>
     </div>
   </div>
+  </div>
+
+
 </div>
 
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
@@ -386,7 +381,7 @@
           <a href="profile/index.html">
             <img
               class="card-profile-img"
-              src="assets/img/avatar-dhg.png">
+              src="https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_960_720.png">
           </a>
 
           <h6 class="card-title">
@@ -420,19 +415,33 @@
        <div class="card visible-md-block visible-lg-block">
         <div class="card-block">
           <h6 class="mb-3">My Events <small>· <a href="/addEvent">Add Event</a></small></h6>
-          <div data-grid="images" data-target-height="150">
-            <div>
-              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_5.jpg">
-            </div>
+          {% for event in userEvents: %}
+          <div class="card-block">
+          <ul class="media-list media-list-stream">
+            <li class="media mb-2">
 
-            <div>
-              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_6.jpg">
-            </div>
+              <div class="media-body">
+                <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong><br>
+                <strong>{{event.title}}</strong> <br>
+                {{event.location}} <br>
+                {{event.time}} <br>
+                Funds raised:
+                ${{event.total}}
+                <br>
+                {% if event.collaborators: %}
+                <a href = "/collaborators?event={{event.key.urlsafe()}}">
+                  Collaborators
+                </a>
+                {% endif %}
+              </li>
+            </ul>
 
+           </div>
+           {% endfor %}
+           </div>
+           </div>
           </div>
-        </div>
-      </div>
-    </div>
+
 
     <div class="col-lg-6">
 
@@ -441,7 +450,14 @@
         <li class="media list-group-item p-4"><a href = "/createPost">
           <button class="btn btn-outline-primary btn-md">
 
-            <strong>Create Post</strong> <div class="icon icon-pencil">  </div></button></a>
+            <div class="icon icon-pencil"> Create Post    </div></button></a>
+
+
+
+          <a href = "/addEvent">
+          <button class="btn btn-outline-primary btn-md">
+
+            <div class="icon icon-calendar">   Create Event  </div></button></a>
 
         </li>
 
@@ -453,8 +469,8 @@
             src="/image?img_id={{post.author.urlsafe()}}"> -->
           <div class="media-body">
             <div class="media-heading">
-              <small class="float-right text-muted">{{post.date}} {{post.time}} </small>
-              <h6>{{post.author.get().fullname}}</h6>
+              <!-- <small class="float-right text-muted">{{post.date}} {{post.time}} </small> -->
+              <a href="/organizationProfilePage?profile={{post.author.urlsafe()}}"><h6>{{post.author.get().fullname}}</h6></a>
             </div>
 
             <p>
@@ -510,20 +526,13 @@
       </ul>
     </div>
     <div class="col-lg-3">
-      <!-- <div>
-        <label  style="color:black";> Person's Events:
-          <select class="" name="profileevents">
-            <option class="" disabled="" value="-1">Profile Selector/option>
-              {% for events in event_list %}
-                <option value= "{{events}}">{{location}}</option>
-              {% endfor %}
-          </select>
-        </label>
-      </div> -->
+
       <div class="card mb-4 hidden-md-down">
+
+        <div class="card-block">
+        <h6 class="mb-3">Events <small>· <a href="/addEvent">Add Event</a></small></h6>
         {% for event in event_list: %}
         <div class="card-block">
-        <h6 class="mb-3">Events <small>· <a href="#">View All</a></small></h6>
         <ul class="media-list media-list-stream">
           <li class="media mb-2">
 
@@ -577,6 +586,14 @@
         {% endfor %}
       </div>
 
+</div>
+</div>
+</div>
+</div>
+  <br>
+<footer class="mdl-mini-footer">
+  <div class="mdl-mini-footer__left-section">
+
       <div class="card card-link-list">
         <div class="card-block">
           © 2019 OrgSpace
@@ -585,6 +602,7 @@
         </div>
       </div>
     </div>
+  </footer>
   </div>
 </div>
 

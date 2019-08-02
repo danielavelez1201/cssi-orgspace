@@ -1,7 +1,10 @@
-
+#welcomebackg{
+  background-color:
+}
 
 row {
   padding: 10px;
+
 
 }
 footer{
@@ -22,27 +25,43 @@ footer{
   align-self: center;
   width: 90%;
   height: 90%;
-  background-color: lightgray
+  background-color: lightgray;
 }
-
+#titles{
+  font-size: 30px;
+}
+#statement{
+  font-size: 30px;
+}
+#subtitle{
+  font-size: 30px;
+}
+#texts{
+  font-size: 30px;
+}
 .TEAMIMAGE{
   width:400px;
 }
-.MEMBERS{
+#members{
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+.members{
   display: flex;
   align-content: flex-start;
   justify-content: flex-start;
   font-size: 30px;
 
 }
-.DANIELA{
+.daniela{
   width: 200px
 }
-.SAM{
+.sam{
   width: 200px;
   height: 170px;
 }
-.TJ{
+.tj{
   width: 190px;
   transform: rotate(90deg);
 }
@@ -77,12 +96,11 @@ footer{
 .h1{
   color: white;
 }
-.form-control {
 
-}
 .form-group{
   color: white;
 }
+
 .container-fluid {
   background-color: white;
   align-self: center;
