@@ -21,7 +21,7 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
-    # photo = ndb.BlobProperty(required = True)
+    photo = ndb.BlobProperty(required = False)
 
 class Event(ndb.Model):
     author = ndb.KeyProperty(kind = Profile)
@@ -169,6 +169,9 @@ class profilePage(webapp2.RequestHandler):
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
     def post(self):
+        logging.info("PHOTO HERE")
+        logging.info(self.request.get("photo"))
+
         # Code to handle a first-time registration from the form:
         user = users.get_current_user()
         orguser = Profile(
@@ -178,7 +181,7 @@ class MainHandler(webapp2.RequestHandler):
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
             usertype=self.request.get('usertype'),
-            # photo = images.resize(self.request.get("photo"), 100, 100)
+            photo = images.resize(self.request.get("photo"), 650, 650)
             )
         profile = orguser.put()
         self.redirect('/mainFeed?profile=' + profile.urlsafe())

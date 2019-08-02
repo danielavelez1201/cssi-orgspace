@@ -379,11 +379,21 @@
         <div class="card-header" style="background-image: url(http://www.sclance.com/pngs/triangle-design-png/triangle_design_png_1412963.png);"></div>
         <div class="card-block text-center">
           <a href="profile/index.html">
-            <img
-              class="card-profile-img"
-              src="https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_960_720.png">
-          </a>
 
+
+          {% if user.photo: %}
+          <div class="image-cropper">
+    <img src="http://www.electricvelocity.com.au/Upload/Blogs/smart-e-bike-side_2.jpg" class="rounded" />
+</div>
+          <img style="max-width: 150px; height: 150px; width: 150px;"
+            class="card-profile-img"
+            src="/image?img_id={{user.key.urlsafe()}}">
+          {% else: %}
+          <img
+            class="card-profile-img"
+            src="https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_960_720.png">
+          {% endif %}
+          </a>
           <h6 class="card-title">
             <a class="text-inherit" href="/organizationProfilePage?profile={{user.key.urlsafe()}}">{{user.fullname}}</a>
           </h6>
@@ -480,11 +490,12 @@
             <p>
              {{post.text}}
             </p>
-
+            {% if post.photo: %}
             <div class="media-body-inline-grid" data-grid="images">
               <div style="display: none">
                 <img data-action="zoom" data-width="1050" data-height="700" src="/image?img_id={{post.key.urlsafe()}}" style="width: 300px; height: 100%">
               </div>
+            {% endif %}
 
               <br>
             <ul class="media-list mb-2" style = "margin-left: 20px">

@@ -8,7 +8,6 @@
     <meta name="keywords" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="icon" href="images/icon.png"
 
     <title>
 
@@ -85,7 +84,7 @@
             <body>
               <ul>
                 <div class="flex-signup" >
-                    <form method="POST" action="/mainhandler">
+                    <form method="POST" action="/mainhandler" enctype="multipart/form-data">
                       <div>
                         <label  style="color:black;"> Full Name:
                           <input type="text" name="fullname" class="form-control">
@@ -143,11 +142,11 @@
                       </div>
                       <br>
 
-                      <!-- <div>
+                      <div>
                         <label  style="color:black"; style="font-size:300%;">  Upload Profile Picture
                         <input type="file" name="photo" accept = "image/*" value = "photo"  class="form-control">
                         </label>
-                      </div> -->
+                      </div>
                       <br>
 
                         <input type="submit" class="form-control" style="background-color: lightblue">
