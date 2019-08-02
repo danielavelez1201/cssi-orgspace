@@ -15,7 +15,7 @@
 
     <title>
 
-        Profile &middot;
+        {{profile.fullname}}'s Page
 
     </title>
 
@@ -37,9 +37,7 @@
     </style>
 
   </head>
-<<<<<<< HEAD
 
-=======
   <body>
 
     <a type="submit" value="backbutton" href="/mainFeed">Back</a>
@@ -115,12 +113,11 @@
 
 
       </div>
-    </div>
+    <div>
         {% if profile.isUser: %}
         <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
         {% endif %}
     </div>
->>>>>>> f83f88ba366c4d70a15ee6b3affa1ed4014876dc
 
 <body class="with-top-navbar">
 <nav class="navbar navbar-toggleable-sm fixed-top navbar-inverse bg-primary app-navbar">
@@ -139,7 +136,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/welcome">Welcome</a>
       </li>
-      
+
       <li class="nav-item"><a class="nav-link" href="{{signout_link}}">Logout</a>
       </li>
     </ul>
