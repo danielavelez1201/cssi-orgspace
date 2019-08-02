@@ -1,9 +1,7 @@
-body {
-  background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/space-galaxy-background-sololos.jpg);
-}
 
 row {
   padding: 10px;
+
 
 }
 footer{
@@ -21,9 +19,20 @@ footer{
 .block {
   width: 90%;
   height: 90%;
-  background-color: lightgray
+  background-color: lightgray;
 }
-
+#titles{
+  font-size: 30px;
+}
+#statement{
+  font-size: 30px;
+}
+#subtitle{
+  font-size: 30px;
+}
+#texts{
+  font-size: 30px;
+}
 .TEAMIMAGE{
   width:400px;
 }
@@ -76,18 +85,11 @@ footer{
 .h1{
   color: white;
 }
-.form-control {
 
-}
 .form-group{
   color: white;
 }
-.container-fluid {
-  background-color: lightgray;
-  align-self: center;
-  width: 90%;
-  color: black;
-}
+
 
 .smaller {
   width: 40% !important;

@@ -261,33 +261,6 @@ class mainFeed(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render())
 
-# class profileevents(webapp2.RequestHandler):
-#     def get(self):
-#         event = self.request.get("event")
-#         user = users.get_current_user().email()
-#         author = Event.query().filter(user == Profile.email).get()
-#         event_query = Event.query()
-#         event_list = event_query.fetch()
-#
-#         profiles = Profile.query().fetch()
-#
-#         # Start with an empty set of locations
-#         events = set()
-#
-#         # Loop through the ofiles and add each location to the set
-#         for events in event_list:
-#             events.add(profile.events)
-#         # Pass the set of locations to Jinja
-#
-#         template_vars = {
-#             'event' : event,
-#             'user' : user,
-#             'author': author,
-#             'events' : events,
-#         }
-#         template = jinja_env.get_template('templates/mainFeed.html')
-#         self.response.write(template.render(template_vars))
-
 
 class collaborate(webapp2.RequestHandler):
     def get(self):
