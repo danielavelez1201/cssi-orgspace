@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      <title>Main Feed</title>
+  </head>
+  <body>
+
+<div class="demo-layout-transparent mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">OrgSpace</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation -->
+      <nav class="mdl-navigation">
+
+        <div class="form-inline mr-auto">
+          <form method="GET" action="/searchresults">
+          <input name= "search_query" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button href="#!" id="searchbutton" class="btn btn-primary btn-rounded btn-sm my-0" type="submit">Search</button>
+        </form>
+
+        </div>
+          <a class="mdl-navigation__link" href="/about">About</a>
+          <a class="mdl-navigation__link" href="/">Main Feed</a>
+        <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">OrgSpace</span>
+     <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="/" >Main Feed</a>
+      <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
+      <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
+      <a class="mdl-navigation__link" href="/createPost">Create Post</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+  </main>
+</div>
+<br>
+<br>
+<br>
+<br>
+  <br>
+  <div class = "row">
+    <div class = "col-lg-6">
+      <div class="container-fluid">
+        <div class="row" style = "background-color: gray; text-align: center">
+          <h2><strong>Events</strong></h2>
+        </div>
+        <br>
+        <div class="row">
+    {% if not(event_list == []): %}
+    <ul>
+
+        {% for event in event_list: %}
+        <li>
+          <div class="demo-card-image mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand" style="align-self: center">
+            <img src="/image?img_id={{event.key.urlsafe()}}" style="width: 650px; height: 200%"></img></div>
+            <div class="mdl-card__actions">
+
+
+          </div>
+        </div>
+          <div class="demo-card-event mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand">
+
+                <table>
+                  <td>
+                    <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong>
+                    <br>
+                    <h4>
+                    {{event.title}} <br>
+                    {{event.location}} <br>
+                    {{event.time}} <br>
+                    Funds raised:
+                    {{event.total}}
+                  </h4>
+                  </td>
+                  <td> <ul>
+                    <h4>Who's Attending:</h4>
+                      {% for attendee in event.attendees: %}
+                        <li>{{attendee.get().fullname}}</li>
+                      {% endfor %}
+                    </ul>
+                  </td>
+
+                </table>
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in event.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{event.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+              <a href = "/allComments?item={{event.key.urlsafe()}}"> See all comments </a>
+            </div>
+
+
+
+
+
+            <br>
+
+
+            {% if user.usertype == "individual": %}
+            <!-- Only user can see this -->
+            <div class="mdl-card__actions mdl-card--border">
+              <a href= "/attendevent?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Sign up
+              </a>
+              <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Donate
+              </a>
+              <a href= "/postComment?item={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Comment
+              </a>
+              <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Add to Calendar
+              </a>
+              <i class="material-icons">event</i>
+            </div>
+            {% elif user.usertype == "organization": %}
+            <!-- Only organizations can see this -->
+              <div class="mdl-card__actions mdl-card--border">
+                <a href= "/collaborate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Collaborate
+                </a>
+
+                <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Donate
+                </a>
+                <a href= "/postComment?item={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Comment
+                </a>
+                <a style="text-align: right" target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Add to Calendar
+                </a>
+
+                <i class="material-icons">event</i>
+
+              {% endif %}
+              </div>
+
+          </div>
+          <br>
+          <br>
+          </li>
+          {% endfor %}
+
+        </ul>
+        {% endif %}
+</div>
+</div>
+</div>
+</ul>
+<div class="col-lg-6">
+<div class="container-fluid">
+  <div class="row" style = "background-color: gray; text-align: center">
+    <h2><strong>Posts</strong></h2>
+  </div>
+  <br>
+  <div class="row">
+
+      <ul>
+          {% for post in post_list: %}
+          <li>
+            <div class="demo-card-image mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title mdl-card--expand" style="align-self: center">
+              <img src="/image?img_id={{post.key.urlsafe()}}" style="width: 650px; height: 200%"></img>'</div>
+              <div class="mdl-card__actions">
+
+
+            </div>
+          </div>
+            <div class="demo-card-event mdl-card mdl-shadow--2dp">
+              <div class="mdl-card__title mdl-card--expand">
+                <div class="container" style = "padding:15px">
+                <div class = "row">
+
+                <strong>@{{user.fullname}}</strong>
+                <br>
+              </div>
+                <div class = "row">
+                {{post.text}}
+                <br>
+                <div class="mdl-card__actions mdl-card--border">
+                  <br>
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in post.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{post.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+              </ul>
+              <a href = "/allComments?item={{post.key.urlsafe()}}"> See all comments </a>
+            </div>
+            </div>
+            </div>
+          </div>
+              <div class="mdl-card__actions mdl-card--border" class = "user">
+                <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Donate
+                </a>
+                <a href= "/postComment?item={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                  Comment
+                </a>
+
+              <!-- Only organizations can see this -->
+                {% if user.usertype == "organization": %}
+                  <a href= "/collaborate?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Collaborate
+                  </a>
+                {% endif %}
+                  </div>
+                <div class="mdl-card__actions mdl-card--border" class = "organization">
+                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Total Donated: {{post.total}}
+                  </a>
+                </div>
+
+            </div>
+            <br>
+            <br>
+
+          </li>
+          {% endfor %}
+        </ul>
+
+</div>
+</div>
+</div>
+</div>
+  <br>
+<footer class="mdl-mini-footer">
+  <div class="mdl-mini-footer__left-section">
+    <ul class="mdl-mini-footer__link-list">
+      <li><a href="/organizationProfilePage">Profile Page</a></li>
+      <li><a href="{{signout_link}}">Log Out</a></li>
+      <li><a href="/signupprofile">Sign Up</a></li>
+      <li><a href="{{signin_link}}">Log In</a></li>
+    </ul>
+  </div>
+</footer>
+</html>

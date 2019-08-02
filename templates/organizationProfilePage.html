@@ -17,6 +17,7 @@
     <title>{{profile.fullname}}'s Profile</title>
   </head>
   <body>
+
     <a type="submit" value="backbutton" href="/mainFeed">Back</a>
     <!-- Always shows a header, even in smaller screens. -->
     <div class="demo-layout-transparent mdl-layout mdl-js-layout">
@@ -46,6 +47,7 @@
   <main class="mdl-layout__content">
     <div class="page-content">
       <!-- Your content goes here -->
+
       <div id ="#profile_container">
           <div id ="profile_row">
             <img id="profile_pic" src="images/images.jpeg">
@@ -62,6 +64,7 @@
               </ul>
             </div>
           </div>
+        </div>
       </div>
 
 
@@ -88,8 +91,11 @@
 
 
       </div>
-    </main>
-
+    </div>
+        {% if profile.isUser: %}
+        <a type="submit" value="updateWindow" href="/updateProfile">Update Profile</a>
+        {% endif %}
+    </div>
 
   </body>
 </html>
