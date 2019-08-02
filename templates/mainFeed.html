@@ -389,11 +389,20 @@
 
           <p class="mb-4">Bio</p>
 
+
           <ul class="card-menu">
             <li class="card-menu-item">
               <a href="#userModal" class="text-inherit" data-toggle="modal">
                 Thing 1
                 <h6 class="my-0">12M</h6>
+            {% if user.usertype == "individual": %}
+            <!-- Only user can see this -->
+            <div class="mdl-card__actions mdl-card--border">
+              <a href= "/attendevent?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Attend
+              </a>
+              <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Donate
               </a>
             </li>
 
