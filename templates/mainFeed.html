@@ -499,8 +499,16 @@
       </ul>
     </div>
     <div class="col-lg-3">
-
-
+      <div>
+        <label  style="color:black";> Person's Events:
+          <select class="" name="profileevents">
+            <option class="" disabled="" value="-1">Profile Selector/option>
+              {% for events in event_list %}
+                <option value= "{{events}}">{{location}}</option>
+              {% endfor %}
+          </select>
+        </label>
+      </div>
       <div class="card mb-4 hidden-md-down">
         {% for event in event_list: %}
         <div class="card-block">
