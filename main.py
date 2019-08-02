@@ -190,6 +190,13 @@ class mainFeed(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         user = Profile.query().filter(user.email() == Profile.email).get()
+        author = Event.query().filter(user == Profile.email).get()
+
+        profiles = Profile.query().fetch()
+
+        # Loop through the ofiles and add each location to the set
+        for events in profiles:
+            events.add(profile.events)
         if not user:
             self.redirect("/signupprofile", True)
             return
@@ -241,6 +248,7 @@ class mainFeed(webapp2.RequestHandler):
         template_vars = {
             'userKey' : userKey,
             'user' : user,
+            'author': author,
             'post_list' : post_list,
             'event_list' : event_list,
             'currentProfile' : current_user,
