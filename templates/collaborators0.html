@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      <title>Collaborators</title>
+  </head>
+  <body>
+
+    <br>
+
+    <br>
+
+<div class="container-fluid">
+  <h2>Collaborators for {{event.title}}</h2>
+
+    <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Organization</th>
+      <th scope="col">Organization Location</th>
+      <th scope="col">Collaboration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for collaborator in event.collaborators: %}
+    <tr class='clickable-row' data-href='url: organizationProfilePage?profile={{collaborator.get().organization.urlsafe()}}'>
+      <strong><td>{{collaborator.get().organization.get().fullname}}</td></strong>
+      <td>{{collaborator.get().organization.get().location}}
+      <td>{{collaborator.get().description}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+  </body>
+
+  </html>

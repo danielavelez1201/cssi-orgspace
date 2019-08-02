@@ -21,6 +21,8 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
+    photo = ndb.BlobProperty(required=False)
+
 
 class Event(ndb.Model):
     author = ndb.KeyProperty(kind = Profile)
@@ -190,13 +192,6 @@ class mainFeed(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         user = Profile.query().filter(user.email() == Profile.email).get()
-
-        profiles = Profile.query().fetch()
-
-        # Loop through the ofiles and add each location to the set
-
-        for events in profiles:
-            events.add(profile.events)
         if not user:
             self.redirect("/signupprofile", True)
             return
@@ -248,7 +243,6 @@ class mainFeed(webapp2.RequestHandler):
         template_vars = {
             'userKey' : userKey,
             'user' : user,
-            'author': author,
             'post_list' : post_list,
             'event_list' : event_list,
             'currentProfile' : current_user,
@@ -498,6 +492,11 @@ class MeetTheTeam(webapp2.RequestHandler):
         template = jinja_env.get_template('templates/meetTheTeam.html')
         self.response.write(template.render())
 
+class Welcome(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template('templates/welcome.html')
+        self.response.write(template.render())
+
 class createPost(webapp2.RequestHandler):
     def get(self):
         template = jinja_env.get_template('templates/createPost.html')
@@ -567,4 +566,7 @@ app = webapp2.WSGIApplication([
 ('/image', Image),
 ('/organizationProfilePage', OrgProfilePage),
 ('/thankyou', thankyou),
+('/welcome', Welcome),
+
+
 ], debug=True)

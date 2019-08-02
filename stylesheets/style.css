@@ -1,3 +1,6 @@
+#welcomebackg{
+  background-color:
+}
 
 row {
   padding: 10px;
@@ -17,6 +20,9 @@ footer{
 }
 
 .block {
+  display: flex;
+  justify-content: center;
+  align-self: center;
   width: 90%;
   height: 90%;
   background-color: lightgray;
@@ -36,21 +42,26 @@ footer{
 .TEAMIMAGE{
   width:400px;
 }
-.MEMBERS{
+#members{
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+.members{
   display: flex;
   align-content: flex-start;
   justify-content: flex-start;
   font-size: 30px;
 
 }
-.DANIELA{
+.daniela{
   width: 200px
 }
-.SAM{
+.sam{
   width: 200px;
   height: 170px;
 }
-.TJ{
+.tj{
   width: 190px;
   transform: rotate(90deg);
 }
@@ -89,8 +100,21 @@ footer{
 .form-group{
   color: white;
 }
+<<<<<<< HEAD
 
+=======
+.container-fluid {
+  background-color: white;
+  align-self: center;
+  width: 90%;
+  color: black;
+  padding: 20px;
+}
+>>>>>>> c7a79993910e266d616653d39cf351525bb5c182
 
+.border {
+  border-color: gray;
+}
 .smaller {
   width: 40% !important;
 }

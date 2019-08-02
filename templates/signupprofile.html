@@ -1,84 +1,176 @@
 <!DOCTYPE html>
-<html class= "signup">
+<html lang="en">
   <head>
-
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="stylesheet" href="stylesheets/signupprofile.css">
-      <title>Join!</title>
+
+    <title>
+
+      All Comments
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
   </head>
 
-  <div class="container-fluid">
-<h1 style="text-align:center;"><strong> Create an Account</strong></h1>
-  <body>
-    <ul>
-      <div class="flex-signup" >
-          <form method="POST" action="/mainhandler">
-            <div>
-              <label  style="color:black;"> Full Name:
-                <input type="text" name="fullname" class="form-control">
-              </label>
+
+
+<body>
+<br>
+<br>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<div class="container-fluid jumbotron">
+  <div class="row">
+    <div class="col-6">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active text-center" style="display:flex; justify-content: center" >
+              <img style = "align-self:center" class="d-inline w-50" width="50%" height="50%" src="https://involvement.uic.edu/wp-content/uploads/sites/263/2018/07/CSI_Tile_OrgEvents.jpg" alt="First slide">
             </div>
-
-            <div>
-              <label style= "color: black;"> Category:
-                <select class="" name="category" placeholder={{category}}>
-                  <option class="" disabled="" value="-1">Choose a category</option>
-                  <option >Accidents &amp; Emergencies</option>
-                  <option >Animals &amp; Pets</option>
-                  <option >Children &amp; Family</option>
-                  <option >Business &amp; Entrepreneurs</option>
-                  <option >Community &amp; Neighbours</option>
-                  <option >Creative Arts, Music &amp; Film</option>
-                  <option >Volunteer &amp; Service</option>
-                  <option >Dreams, Hopes &amp; Wishes</option>
-                  <option >Education &amp; Learning</option>
-                  <option >Medical, Illness &amp; Healing</option>
-                  <option >Missions, Faith &amp; Church</option>
-                  <option >Sports, Teams &amp; Clubs</option>
-                  <option >Travel &amp; Adventure</option>
-                  <option >Other</option>
-                </select>
-              </label>
-
-            <div>
-              <label  style="color:black";> Phone:
-              <input type="integer" name="phone" class="form-control" placeholder = "Phone">
-              </label>
+            <div class="carousel-item text-center" style = "display: flex; justify-content: center">
+              <img style = "align-self:center" class="d-inline w-50" width="50%" height="50%" src="https://www.the1thing.com/wp-content/uploads/2014/10/community_service.jpg" alt="Second slide">
             </div>
-
-            <div>
-              <label  style="color:black";> Location:
-              <input type="text" name="location" class="form-control" placeholder = "Location">
-              </label>
+            <div class="carousel-item text-center" style = "display: flex; justify-content: center">
+              <img style = "align-self:center" class="d-inline w-50" width="50%" height="50%" src="https://s3.amazonaws.com/mentoring.redesign/s3fs-public/nonprofit-volunteers_0.jpg" alt="Third slide">
             </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        </div>
 
-            <div>
-              <label  style="color:black";> User Type: Organization
-              <input type="radio" name="usertype" value = "organization" class="form-control">
-            </label>
-            </div>
-
-            <div>
-              <label  style="color:black"; style="font-size:300%;">  User Type: Individual
-              <input type="radio" name="usertype" value = "individual"  class="form-control">
-              </label>
-            </div>
-
-              <input type="submit" class="form-control">
-          </form>
+    <div class="col-6" >
+        <h1><strong>Welcome to orgSpace</strong></h1>
+          <h2>The space for your organization.</h2>
+          <br>
+          <br>
+          <div class="container-fluid rounded border" style = "margin-left: -20px">
 
 
-        <br><br>
-      </ul>
+
+          <br>
+          <br>
+          <h1 style="text-align:center;"><strong> Create an Account</strong></h1>
+            <body>
+              <ul>
+                <div class="flex-signup" >
+                    <form method="POST" action="/mainhandler">
+                      <div>
+                        <label  style="color:black;"> Full Name:
+                          <input type="text" name="fullname" class="form-control">
+                        </label>
+                      </div>
+                      <br>
+
+                      <div>
+                        <label style= "color: black;"> Category:
+                          <select class="" name="category" placeholder={{category}}>
+                            <option class="" disabled="" value="-1">Choose a category</option>
+                            <option >Accidents &amp; Emergencies</option>
+                            <option >Animals &amp; Pets</option>
+                            <option >Children &amp; Family</option>
+                            <option >Business &amp; Entrepreneurs</option>
+                            <option >Community &amp; Neighbours</option>
+                            <option >Creative Arts, Music &amp; Film</option>
+                            <option >Volunteer &amp; Service</option>
+                            <option >Dreams, Hopes &amp; Wishes</option>
+                            <option >Education &amp; Learning</option>
+                            <option >Medical, Illness &amp; Healing</option>
+                            <option >Missions, Faith &amp; Church</option>
+                            <option >Sports, Teams &amp; Clubs</option>
+                            <option >Travel &amp; Adventure</option>
+                            <option >Other</option>
+                          </select>
+                        </label>
+                        <br>
+
+                      <div>
+                        <label  style="color:black";> Phone:
+                        <input type="integer" name="phone" class="form-control" placeholder = "Phone">
+                        </label>
+                      </div>
+                      <br>
+
+                      <div>
+                        <label  style="color:black";> Location:
+                        <input type="text" name="location" class="form-control" placeholder = "Location">
+                        </label>
+                      </div>
+                      <br>
+
+                      <div>
+                        <label  style="color:black";> User Type: Organization
+                        <input type="radio" name="usertype" value = "organization" class="form-control">
+                      </label>
+                      </div>
+                      <br>
+
+                      <div>
+                        <label  style="color:black"; style="font-size:300%;">  User Type: Individual
+                        <input type="radio" name="usertype" value = "individual"  class="form-control">
+                        </label>
+                      </div>
+                      <br>
+
+                        <input type="submit" class="form-control" style="background-color: lightblue">
+                    </form>
 
 
+
+                </ul>
+
+          </div>
+
+      </div>
+    </div>
+</div>
+
+
+<script src="../stylesheets/v4/docs/assets/js/jquery.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/tether.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/chart.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/toolkit.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/application.js"></script>
+
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
   </body>
-
-  <br>
-
 </html>
