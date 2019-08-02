@@ -93,13 +93,13 @@
   </div>
 </nav>
 
-<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModal" aria-hidden="true">
+<!-- <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Posts</h5>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
+      </div> -->
 
       <div class="modal-body p-0 js-modalBody">
         <div class="modal-body-scroller">
@@ -199,7 +199,7 @@
                   </div>
                   <div class="media-footer">
                     <small class="text-muted">
-                      <a href="#">Dave Gamache</a> at 4:20PM
+                      <a href="#">TRIAL</a> at 4:20PM
                     </small>
                   </div>
                 </div>
@@ -247,8 +247,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
 
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -448,16 +446,31 @@
             </div>
 
             <ul class="media-list">
+              {% for post in post_list: %}
               <li class="media">
                 <img
                   class="media-object d-flex align-self-start mr-3"
                   src="assets/img/avatar-dhg.png">
                 <div class="media-body">
-                  <strong>Dave Gamache: </strong>
-                  Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
+                  <strong>{{user.fullname}}</strong>
+                  {{post.text}}
+                  <h4> Comments</h4>
+                <ul>
+                {% for comment in post.recentComments: %}
+                <div class = "row">
+                  <li>
+                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
+                  <br>
+                  {{post.allComments[0].get().commentText}}
+                </li>
+                </div>
+                {% endfor %}
+                <a href = "/allComments?item={{post.key.urlsafe()}}"> See all comments </a>
                 </div>
               </li>
+              {% endfor %}
             </ul>
+
           </div>
         </li>
       </ul>

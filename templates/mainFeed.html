@@ -1,271 +1,596 @@
+
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-      <title>Main Feed</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <title>
+
+        Main Feed
+
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
+
+    <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
+
+    <style>
+      /* note: this is a hack for ios iframe for bootstrap themes shopify page */
+      /* this chunk of css is not part of the toolkit :) */
+      body {
+        width: 1px;
+        min-width: 100%;
+        *width: 100%;
+      }
+    </style>
+
   </head>
-  <body>
-
-<div class="demo-layout-transparent mdl-layout mdl-js-layout">
-  <header class="mdl-layout__header mdl-layout__header--transparent">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">OrgSpace</span>
-      <!-- Add spacer, to align navigation to the right -->
-      <div class="mdl-layout-spacer"></div>
-      <!-- Navigation -->
-      <nav class="mdl-navigation">
-
-        <div class="form-inline mr-auto">
-          <form method="GET" action="/searchresults">
-          <input name= "search_query" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button href="#!" id="searchbutton" class="btn btn-primary btn-rounded btn-sm my-0" type="submit">Search</button>
-        </form>
-
-        </div>
-          <a class="mdl-navigation__link" href="/about">About</a>
-          <a class="mdl-navigation__link" href="/">Main Feed</a>
-        <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
-      </nav>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">OrgSpace</span>
-     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/" >Main Feed</a>
-      <a class="mdl-navigation__link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
-      <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
-      <a class="mdl-navigation__link" href="/createPost">Create Post</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-  </main>
-</div>
-<br>
-<br>
-<br>
-<br>
-  <br>
-  <div class = "row">
-    <div class = "col-lg-6">
-      <div class="container-fluid">
-        <div class="row" style = "background-color: gray; text-align: center">
-          <h2><strong>Events</strong></h2>
-        </div>
-        <br>
-        <div class="row">
-    {% if not(event_list == []): %}
-    <ul>
-
-        {% for event in event_list: %}
-        <li>
-          <div class="demo-card-image mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand" style="align-self: center">
-            <img src="/image?img_id={{event.key.urlsafe()}}" style="width: 650px; height: 200%"></img>'</div>
-            <div class="mdl-card__actions">
 
 
-          </div>
-        </div>
-          <div class="demo-card-event mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand">
-              <h4>
-                <table>
-                  <td>
-                    <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong>
-                    <br>
-                    {{event.title}} <br>
-                    {{event.location}} <br>
-                    {{event.time}} <br>
-                    Funds raised:
-                    {{event.total}}
-                  </td>
-                  <td> <ul>
-                    <h4>Who's Attending:</h4>
-                      {% for attendee in event.attendees: %}
-                        <li>{{attendee.get().fullname}}</li>
-                      {% endfor %}
-                    </ul>
-                  </td>
-
-                </table>
-                <div class="mdl-card__actions mdl-card--border">
-                  <br>
-                  <h4> Comments</h4>
-                <ul>
-                {% for comment in event.recentComments: %}
-                <div class = "row">
-                  <li>
-                  <strong>{{event.allComments[0].get().author.get().fullname}}</strong>
-                  <br>
-                  {{event.allComments[0].get().commentText}}
-                </li>
-                </div>
-                {% endfor %}
-              </ul>
-              <a href = "/allComments?item={{event.key.urlsafe()}}"> See all comments </a>
-            </div>
+<body class="with-top-navbar">
 
 
 
-            </div>
-            <br>
+<div class="growl" id="app-growl"></div>
+
+<nav class="navbar navbar-toggleable-sm fixed-top navbar-inverse bg-primary app-navbar">
+  <button
+    class="navbar-toggler navbar-toggler-right hidden-md-up"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarResponsive"
+    aria-controls="navbarResponsive"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <a class="navbar-brand" href="index.html">
+    <img src="assets/img/brand-white.png" alt="brand">
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Main Feed <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
+      </li>
 
 
-            {% if user.usertype == "individual": %}
-            <!-- Only user can see this -->
-            <div class="mdl-card__actions mdl-card--border">
-              <a href= "/attendevent?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Sign up
-              </a>
-              <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Donate
-              </a>
-              <a href= "/postComment?item={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Comment
-              </a>
-              <a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Add to Calendar
-              </a>
-              <i class="material-icons">event</i>
-            </div>
-            {% elif user.usertype == "organization": %}
-            <!-- Only organizations can see this -->
-              <div class="mdl-card__actions mdl-card--border">
-                <a href= "/collaborate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Collaborate
-                </a>
+    </ul>
 
-                <a href= "/donate?event={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Donate
-                </a>
-                <a href= "/postComment?item={{event.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Comment
-                </a>
-                <a style="text-align: right" target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Add to Calendar
-                </a>
+    <form class="form-inline float-right hidden-sm-down">
+      <input class="form-control" type="text" data-action="grow" placeholder="Search">
+    </form>
 
-                <i class="material-icons">event</i>
+    <ul id="#js-popoverContent" class="nav navbar-nav float-right mr-0 hidden-sm-down">
+      <li class="nav-item">
+        <a class="app-notifications nav-link" href="notifications/index.html">
+          <span class="icon icon-bell"></span>
+        </a>
+      </li>
+      <li class="nav-item ml-2">
+        <button class="btn btn-default navbar-btn navbar-btn-avatar" data-toggle="popover">
+          <img class="rounded-circle" src="assets/img/avatar-dhg.png">
+        </button>
+      </li>
+    </ul>
 
-              {% endif %}
-              </div>
-
-          </div>
-          <br>
-          <br>
-          {% endfor %}
-
-        </li>
-        {% endif %}
-</div>
-</div>
-</div>
-</ul>
-<div class="col-lg-6">
-<div class="container-fluid">
-  <div class="row" style = "background-color: gray; text-align: center">
-    <h2><strong>Posts</strong></h2>
-  </div>
-  <br>
-  <div class="row">
-
-      <ul>
-          {% for post in post_list: %}
-          <li>
-            <div class="demo-card-image mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__title mdl-card--expand" style="align-self: center">
-              <img src="/image?img_id={{post.key.urlsafe()}}" style="width: 650px; height: 200%"></img>'</div>
-              <div class="mdl-card__actions">
-
-
-            </div>
-          </div>
-            <div class="demo-card-event mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__title mdl-card--expand">
-                <div class="container" style = "padding:15px">
-                <div class = "row">
-
-                <strong>@{{user.fullname}}</strong>
-                <br>
-              </div>
-                <div class = "row">
-                {{post.text}}
-                <br>
-                <div class="mdl-card__actions mdl-card--border">
-                  <br>
-                  <h4> Comments</h4>
-                <ul>
-                {% for comment in post.recentComments: %}
-                <div class = "row">
-                  <li>
-                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
-                  <br>
-                  {{post.allComments[0].get().commentText}}
-                </li>
-                </div>
-                {% endfor %}
-              </ul>
-              <a href = "/allComments?item={{post.key.urlsafe()}}"> See all comments </a>
-            </div>
-            </div>
-            </div>
-          </div>
-              <div class="mdl-card__actions mdl-card--border" class = "user">
-                <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Donate
-                </a>
-                <a href= "/postComment?item={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                  Comment
-                </a>
-
-              <!-- Only organizations can see this -->
-                {% if user.usertype == "organization": %}
-                  <a href= "/collaborate?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                    Collaborate
-                  </a>
-                {% endif %}
-                  </div>
-                <div class="mdl-card__actions mdl-card--border" class = "organization">
-                  <a href= "/collaborate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                    Total Donated: {{post.total}}
-                  </a>
-                </div>
-
-            </div>
-            <br>
-            <br>
-
-          </li>
-          {% endfor %}
-        </ul>
-
-</div>
-</div>
-</div>
-</div>
-  <br>
-<footer class="mdl-mini-footer">
-  <div class="mdl-mini-footer__left-section">
-    <ul class="mdl-mini-footer__link-list">
-      <li><a href="/organizationProfilePage">Profile Page</a></li>
-      <li><a href="{{signout_link}}">Log Out</a></li>
-      <li><a href="/signupprofile">Sign Up</a></li>
-      <li><a href="{{signin_link}}">Log In</a></li>
+    <ul class="nav navbar-nav hidden-xs-up" id="js-popoverContent">
+      <li class="nav-item"><a class="nav-link" href="#" data-action="growl">Thing1</a></li>
+      <li class="nav-item"><a class="nav-link" href="login/index.html">Thing2</a></li>
     </ul>
   </div>
+</nav>
+
+<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Messages</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+
+      <div class="modal-body p-0 js-modalBody">
+        <div class="modal-body-scroller">
+          <div class="media-list media-list-users list-group js-msgGroup">
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Hidden Thing 1</strong>
+                  <div class="media-body-secondary">
+                    Hidden Thing2
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Hidden Thing 3</strong>
+                  <div class="media-body-secondary">
+                    Hidden Thing 4
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Thing 1</strong>
+                  <div class="media-body-secondary">
+                    Thing 2
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Jacob Thornton</strong> and <strong>1 other</strong>
+                  <div class="media-body-secondary">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam &hellip;
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Mark Otto</strong> and <strong>3 others</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Dave Gamache</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <strong>Jacob Thornton</strong> and <strong>1 other</strong>
+                  <div class="media-body-secondary">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam &hellip;
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <strong>Mark Otto</strong> and <strong>3 others</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="media">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <strong>Dave Gamache</strong>
+                  <div class="media-body-secondary">
+                    Brunch sustainable placeat vegan bicycle rights yeah…
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="hidden-xs-up m-3 js-conversation">
+            <ul class="media-list media-list-conversation">
+              <li class="media media-current-user mb-4">
+                <div class="media-body">
+                  <div class="media-body-text">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nulla vitae elit libero, a pharetra augue. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Dave Gamache</a> at 4:20PM
+                    </small>
+                  </div>
+                </div>
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+              </li>
+
+              <li class="media mb-4">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <div class="media-body-text">
+                   Cras justo odio, dapibus ac facilisis in, egestas eget quam. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                  </div>
+                  <div class="media-body-text">
+                   Vestibulum id ligula porta felis euismod semper. Aenean lacinia bibendum nulla sed consectetur. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                  </div>
+                  <div class="media-body-text">
+                   Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Fat</a> at 4:28PM
+                    </small>
+                  </div>
+                </div>
+              </li>
+
+              <li class="media mb-4">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <div class="media-body-text">
+                   Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur.
+                  </div>
+                  <div class="media-body-text">
+                   Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Mark Otto</a> at 4:20PM
+                    </small>
+                  </div>
+                </div>
+              </li>
+
+              <li class="media media-current-user mb-4">
+                <div class="media-body">
+                  <div class="media-body-text">
+                    Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nulla vitae elit libero, a pharetra augue. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Dave Gamache</a> at 4:20PM
+                    </small>
+                  </div>
+                </div>
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+              </li>
+
+              <li class="media mb-4">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <div class="media-body-text">
+                   Cras justo odio, dapibus ac facilisis in, egestas eget quam. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                  </div>
+                  <div class="media-body-text">
+                   Vestibulum id ligula porta felis euismod semper. Aenean lacinia bibendum nulla sed consectetur. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                  </div>
+                  <div class="media-body-text">
+                   Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Fat</a> at 4:28PM
+                    </small>
+                  </div>
+                </div>
+              </li>
+
+              <li class="media mb-4">
+                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <div class="media-body-text">
+                   Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur.
+                  </div>
+                  <div class="media-body-text">
+                   Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+                  </div>
+                  <div class="media-footer">
+                    <small class="text-muted">
+                      <a href="#">Mark Otto</a> at 4:20PM
+                    </small>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Users</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+
+      <div class="modal-body p-0">
+        <div class="modal-body-scroller">
+          <ul class="media-list media-list-users list-group">
+            <li class="list-group-item">
+              <div class="media w-100">
+                <img class="media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <div class="media-body">
+                  <button class="btn btn-secondary btn-sm float-right">
+                    <span class="glyphicon glyphicon-user"></span> Follow
+                  </button>
+                  <strong>Jacob Thornton</strong>
+                  <p>@fat - San Francisco</p>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="media w-100">
+                <img class="media-object d-flex align-self-start mr-3" src="assets/img/avatar-dhg.png">
+                <div class="media-body">
+                  <button class="btn btn-secondary btn-sm float-right">
+                    <span class="glyphicon glyphicon-user"></span> Follow
+                  </button>
+                  <strong>Dave Gamache</strong>
+                  <p>@dhg - Palo Alto</p>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="media w-100">
+                <img class="media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <div class="media-body">
+                  <button class="btn btn-secondary btn-sm float-right">
+                    <span class="glyphicon glyphicon-user"></span> Follow
+                  </button>
+                  <strong>Mark Otto</strong>
+                  <p>@mdo - San Francisco</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+<div class="container pt-4">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card card-profile mb-4">
+        <div class="card-header" style="background-image: url(assets/img/iceland.jpg);"></div>
+        <div class="card-block text-center">
+          <a href="profile/index.html">
+            <img
+              class="card-profile-img"
+              src="assets/img/avatar-dhg.png">
+          </a>
+
+          <h6 class="card-title">
+            <a class="text-inherit" href="/organizationProfilePage?profile={{user.key.urlsafe()}}">{{user.fullname}}</a>
+          </h6>
+
+          <p class="mb-4">Bio</p>
+
+          <ul class="card-menu">
+            <li class="card-menu-item">
+              <a href="#userModal" class="text-inherit" data-toggle="modal">
+                Thing 1
+                <h6 class="my-0">12M</h6>
+              </a>
+            </li>
+
+            <li class="card-menu-item">
+              <a href="#userModal" class="text-inherit" data-toggle="modal">
+                Thing 2
+                <h6 class="my-0">1</h6>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card visible-md-block visible-lg-block mb-4">
+        <div class="card-block">
+          <h6 class="mb-3">Profile <small>· <a href="/updateProfile">Update</a></small></h6>
+          <ul class="list-unstyled list-spaced">
+            <li><span class="text-muted icon icon-calendar mr-3"></span>Went to <a href="#">Oh, Canada</a>
+            <li><span class="text-muted icon icon-users mr-3"></span>Became friends with <a href="#">Obama</a>
+            <li><span class="text-muted icon icon-github mr-3"></span>Worked at <a href="#">Github</a>
+            <li><span class="text-muted icon icon-home mr-3"></span>Lives in <a href="#">San Francisco, CA</a>
+            <li><span class="text-muted icon icon-location-pin mr-3"></span>From <a href="#">Seattle, WA</a>
+          </ul>
+        </div>
+      </div>
+
+       <div class="card visible-md-block visible-lg-block">
+        <div class="card-block">
+          <h6 class="mb-3">My Events <small>· <a href="/addEvent">Add Event</a></small></h6>
+          <div data-grid="images" data-target-height="150">
+            <div>
+              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_5.jpg">
+            </div>
+
+            <div>
+              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_6.jpg">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+
+      <ul class="list-group media-list media-list-stream mb-4">
+
+        <li class="media list-group-item p-4">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Post">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-secondary">
+                <span class="icon icon-camera"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+
+{% for post in post_list: %}
+        <li class="media list-group-item p-4">
+
+          <img
+            class="media-object d-flex align-self-start mr-3"
+            src="assets/img/avatar-dhg.png">
+          <div class="media-body">
+            <div class="media-heading">
+              <small class="float-right text-muted">{{post.date}} {{post.time}} </small>
+              <h6>{{user.fullname}}</h6>
+            </div>
+
+            <p>
+             {{post.text}}
+            </p>
+
+            <div class="media-body-inline-grid" data-grid="images">
+              <div style="display: none">
+                <img data-action="zoom" data-width="1050" data-height="700" src="assets/img/unsplash_1.jpg">
+              </div>
+
+              <br>
+            <ul class="media-list mb-2" style = "margin-left: 20px">
+                {% for comment in post.recentComments: %}
+              <li class="media mb-3">
+
+                <div class="media-body">
+                  <strong>{{post.allComments[0].get().author.get().fullname}}</strong>
+                  {{post.allComments[0].get().commentText}}
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+            <br>
+            <a href = "/allComments?item={{post.key.urlsafe()}}" style="margin-left: 20px"> See all comments </a>
+            <br>
+            <br>
+          <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            <button class="btn btn-outline-primary btn-sm">
+              <span class="icon icon-heart"></span> Donate</button>
+          </a>
+          <a href= "/postComment?item={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            <button class="btn btn-outline-primary btn-sm">
+              <span class="icon icon-message"></span> Comment</button>
+          </a>
+
+          {% if user.usertype == "organization": %}
+            <a href= "/collaborate?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              <button class="btn btn-outline-primary btn-sm">
+                <span class="icon icon-people"></span> Collaborate</button>
+            </a>
+          {% endif %}
+          <br>
+          <br>
+          <button class="btn btn-outline-primary btn-md">
+            <p><strong>Total Donated: ${{post.total}}</strong><p></button>
+          </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-lg-3">
+
+
+      <div class="card mb-4 hidden-md-down">
+        {% for event in event_list: %}
+        <div class="card-block">
+        <h6 class="mb-3">Events <small>· <a href="#">View All</a></small></h6>
+        <ul class="media-list media-list-stream">
+          <li class="media mb-2">
+            <img
+              class="media-object d-flex align-self-start mr-3"
+              src="assets/img/avatar-fat.jpg">
+            <div class="media-body">
+              <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong>
+              {{event.title}} <br>
+              {{event.location}} <br>
+              {{event.time}} <br>
+              Funds raised:
+              ${{event.total}}
+              {% if user.usertype == "individual": %}
+              <div class="media-body-actions">
+                <a href = "/attendevent?event={{event.key.urlsafe()}}">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-add-user"></span> Attend event</button></a> </div>
+              <div class="media-body-actions">
+                <a href = "/donate?event={{event.key.urlsafe()}}">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-heart"></span> Donate</button></a>
+              </div>
+              <div class="media-body-actions">
+                <a href = "/postComment?item={{event.key.urlsafe()}}">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-message"></span> Comment</button></a>
+              </div>
+              <div class="media-body-actions">
+                <a target = "_blank" href = "https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MDFvaDM0Y2pxbHIwM2IycnBhYzBtdWlrYjEgYXRrMTRpajdpbzk1ODUzZWI1Nm8yc3Y0OGdAZw&amp;tmsrc=atk14ij7io95853eb56o2sv48g%40group.calendar.google.com">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-calendar"></span> Add to Calendar</button></a>
+              </div>
+              {% endif %}
+            </div>
+          </li>
+          {% endfor %}
+
+        </ul>
+        </div>
+
+      </div>
+
+      <div class="card card-link-list">
+        <div class="card-block">
+          © 2019 OrgSpace
+          <br>
+          <a href="/meetTheTeam">Meet the Team</a><br>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</footer>
+
+
+
+
+
+<script src="../stylesheets/v4/docs/assets/js/jquery.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/tether.min.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/chart.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/toolkit.js"></script>
+<script src="../stylesheets/v4/docs/assets/js/application.js"></script>
+
+    <script>
+      // execute/clear BS loaders for docs
+      $(function(){
+        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+          while(BS.loader.length){(BS.loader.pop())()}
+        }
+      })
+    </script>
+  </body>
 </html>

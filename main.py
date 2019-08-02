@@ -325,7 +325,7 @@ class postComment(webapp2.RequestHandler):
         user = Profile.query().filter(user == Profile.email).get()
         item = itemKey.get()
         commentText = self.request.get("commentText")
-        time = now.hour
+        time = str(now.hour) + ":" + str(now.minute)
         date = now.date
         logging.info("TYPE HERE")
         logging.info(type(item))
