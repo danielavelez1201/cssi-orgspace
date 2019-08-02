@@ -10,6 +10,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
+    <link rel="icon" href="images/icon.png">
+
 
     <title>
 
@@ -19,7 +21,6 @@
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
     <link href="../stylesheets/v4/docs/assets/css/toolkit.css" rel="stylesheet">
-
     <link href="../stylesheets/v4/docs/assets/css/application.css" rel="stylesheet">
 
     <style>
@@ -54,7 +55,7 @@
   </button>
 
   <a class="navbar-brand" href="index.html">
-    <img src="assets/img/brand-white.png" alt="brand">
+  <img src="../images/orgspace_white.png" alt="brand" style="position: relative; top: -5px">
   </a>
 
   <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -65,26 +66,23 @@
       <li class="nav-item">
         <a class="nav-link" href="/organizationProfilePage?profile={{userKey.urlsafe()}}">Profile Page</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{signout_link}}">Log out</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signupprofile">Make Account</a>
+      </li>
 
 
     </ul>
 
-    <form class="form-inline float-right hidden-sm-down">
-      <input class="form-control" type="text" data-action="grow" placeholder="Search">
+    <form class="form-inline float-right hidden-sm-down" method="GET" action="/searchresults">
+      <input name = "search_query" class="form-control" type="text" data-action="grow" placeholder="Search">
+      <button href="#!" id="searchbutton" class="btn btn-info btn-rounded btn-sm my-0" type="submit">Search</button>
     </form>
 
-    <ul id="#js-popoverContent" class="nav navbar-nav float-right mr-0 hidden-sm-down">
-      <li class="nav-item">
-        <a class="app-notifications nav-link" href="notifications/index.html">
-          <span class="icon icon-bell"></span>
-        </a>
-      </li>
-      <li class="nav-item ml-2">
-        <button class="btn btn-default navbar-btn navbar-btn-avatar" data-toggle="popover">
-          <img class="rounded-circle" src="assets/img/avatar-dhg.png">
-        </button>
-      </li>
-    </ul>
+
+
 
     <ul class="nav navbar-nav hidden-xs-up" id="js-popoverContent">
       <li class="nav-item"><a class="nav-link" href="#" data-action="growl">Thing1</a></li>
@@ -106,7 +104,7 @@
           <div class="media-list media-list-users list-group js-msgGroup">
             <a href="#" class="list-group-item list-group-item-action">
               <div class="media">
-                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg">
+                <!-- <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-fat.jpg"> -->
                 <div class="media-body">
                   <strong>Hidden Thing 1</strong>
                   <div class="media-body-secondary">
@@ -117,7 +115,7 @@
             </a>
             <a href="#" class="list-group-item list-group-item-action">
               <div class="media">
-                <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png">
+                <!-- <img class="rounded-circle media-object d-flex align-self-start mr-3" src="assets/img/avatar-mdo.png"> -->
                 <div class="media-body">
                   <strong>Hidden Thing 3</strong>
                   <div class="media-body-secondary">
@@ -313,20 +311,9 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">OrgSpace</span>
-     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/" >Main Feed</a>
-      <a class="mdl-navigation__link" href="/index2?profile={{userKey.urlsafe()}}">Profile Page</a>
-      <a class="mdl-navigation__link" href="/addEvent">Add Event</a>
-      <a class="mdl-navigation__link" href="/createPost">Create Post</a>
-    </nav>
-=======
->>>>>>> f83f88ba366c4d70a15ee6b3affa1ed4014876dc
   </div>
-</div>
+  </div>
+
 
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -387,19 +374,32 @@
   <div class="row">
     <div class="col-lg-3">
       <div class="card card-profile mb-4">
-        <div class="card-header" style="background-image: url(assets/img/iceland.jpg);"></div>
+        <div class="card-header" style="background-image: url(http://www.sclance.com/pngs/triangle-design-png/triangle_design_png_1412963.png);"></div>
         <div class="card-block text-center">
           <a href="profile/index.html">
-            <img
-              class="card-profile-img"
-              src="assets/img/avatar-dhg.png">
-          </a>
 
+
+          {% if user.photo: %}
+          <div class="image-cropper">
+    <img src="http://www.electricvelocity.com.au/Upload/Blogs/smart-e-bike-side_2.jpg" class="rounded" />
+</div>
+          <img style="max-width: 150px; height: 150px; width: 150px;"
+            class="card-profile-img"
+            src="/image?img_id={{user.key.urlsafe()}}">
+          {% else: %}
+          <img
+            class="card-profile-img"
+            src="https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_960_720.png">
+          {% endif %}
+          </a>
           <h6 class="card-title">
             <a class="text-inherit" href="/organizationProfilePage?profile={{user.key.urlsafe()}}">{{user.fullname}}</a>
           </h6>
+          <div class="icon icon-home" style = "color: gray"> {{user.usertype}}</div>
 
-          <p class="mb-4">Bio</p>
+          {% if user.bio: %}
+            <p class="mb-4">{{user.bio}}</p>
+          {% endif %}
 
 
 
@@ -411,31 +411,48 @@
         <div class="card-block">
           <h6 class="mb-3">Profile <small>· <a href="/updateProfile">Update</a></small></h6>
           <ul class="list-unstyled list-spaced">
-            <li><span class="text-muted icon icon-calendar mr-3"></span>Went to <a href="#">Oh, Canada</a>
-            <li><span class="text-muted icon icon-users mr-3"></span>Became friends with <a href="#">Obama</a>
-            <li><span class="text-muted icon icon-github mr-3"></span>Worked at <a href="#">Github</a>
-            <li><span class="text-muted icon icon-home mr-3"></span>Lives in <a href="#">San Francisco, CA</a>
-            <li><span class="text-muted icon icon-location-pin mr-3"></span>From <a href="#">Seattle, WA</a>
+            <li><span class="text-muted icon icon-users mr-3"></span>Focused on <br><strong>{{user.category}}</strong>
+            <li><span class="text-muted icon icon-location-pin mr-3"></span>From <strong>{{user.location}}</strong>
+            <li><span class="text-muted icon icon-mail mr-3"></span>Email: {{user.email}}
+            <li><span class="text-muted icon icon-mail mr-3"></span>Phone: {{user.phone}}
+
           </ul>
         </div>
       </div>
 
        <div class="card visible-md-block visible-lg-block">
         <div class="card-block">
-          <h6 class="mb-3">My Events <small>· <a href="/addEvent">Add Event</a></small></h6>
-          <div data-grid="images" data-target-height="150">
-            <div>
-              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_5.jpg">
-            </div>
+          <h6 class="mb-3">My Events
+            {% if user.type == "organization": %}
+            <small>·<a href="/addEvent">Add Event</a></small>
+            {% endif %}</h6>
+          {% for event in userEvents: %}
+          <div class="card-block">
+          <ul class="media-list media-list-stream">
+            <li class="media mb-2">
 
-            <div>
-              <img data-width="640" data-height="640" data-action="zoom" src="assets/img/instagram_6.jpg">
-            </div>
+              <div class="media-body">
+                <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong><br>
+                <strong>{{event.title}}</strong> <br>
+                {{event.location}} <br>
+                {{event.time}} <br>
+                Funds raised:
+                ${{event.total}}
+                <br>
+                {% if event.collaborators: %}
+                <a href = "/collaborators?event={{event.key.urlsafe()}}">
+                  Collaborators
+                </a>
+                {% endif %}
+              </li>
+            </ul>
 
+           </div>
+           {% endfor %}
+           </div>
+           </div>
           </div>
-        </div>
-      </div>
-    </div>
+
 
     <div class="col-lg-6">
 
@@ -444,30 +461,39 @@
         <li class="media list-group-item p-4"><a href = "/createPost">
           <button class="btn btn-outline-primary btn-md">
 
-            <strong>Create Post</strong> <div class="icon icon-pencil">  </div></button></a>
+            <div class="icon icon-pencil"> Create Post    </div></button></a>
+
+
+          {% if user.type == "organization": %}
+          <a href = "/addEvent">
+          <button class="btn btn-outline-primary btn-md">
+
+            <div class="icon icon-calendar">   Create Event  </div></button></a>
+          {% endif %}
 
         </li>
 
 {% for post in post_list: %}
         <li class="media list-group-item p-4">
 
-          <img
+          <!-- <img
             class="media-object d-flex align-self-start mr-3"
-            src="assets/img/avatar-dhg.png">
+            src="/image?img_id={{post.author.urlsafe()}}"> -->
           <div class="media-body">
             <div class="media-heading">
-              <small class="float-right text-muted">{{post.date}} {{post.time}} </small>
-              <h6>{{user.fullname}}</h6>
+              <!-- <small class="float-right text-muted">{{post.date}} {{post.time}} </small> -->
+              <a href="/organizationProfilePage?profile={{post.author.urlsafe()}}"><h6>{{post.author.get().fullname}}</h6></a>
             </div>
 
             <p>
              {{post.text}}
             </p>
-
+            {% if post.photo: %}
             <div class="media-body-inline-grid" data-grid="images">
               <div style="display: none">
-                <img data-action="zoom" data-width="1050" data-height="700" src="assets/img/unsplash_1.jpg">
+                <img data-action="zoom" data-width="1050" data-height="700" src="/image?img_id={{post.key.urlsafe()}}" style="width: 300px; height: 100%">
               </div>
+            {% endif %}
 
               <br>
             <ul class="media-list mb-2" style = "margin-left: 20px">
@@ -485,10 +511,12 @@
             <a href = "/allComments?item={{post.key.urlsafe()}}" style="margin-left: 20px"> See all comments </a>
             <br>
             <br>
+          {% if user.usertype == "organization": %}
           <a href= "/donatePost?postItem={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
             <button class="btn btn-outline-primary btn-sm">
               <span class="icon icon-heart"></span> Donate</button>
           </a>
+          {% endif %}
           <a href= "/postComment?item={{post.key.urlsafe()}}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
             <button class="btn btn-outline-primary btn-sm">
               <span class="icon icon-message"></span> Comment</button>
@@ -511,37 +539,43 @@
       </ul>
     </div>
     <div class="col-lg-3">
-      <!-- <div>
-        <label  style="color:black";> Person's Events:
-          <select class="" name="profileevents">
-            <option class="" disabled="" value="-1">Profile Selector/option>
-              {% for events in event_list %}
-                <option value= "{{events}}">{{location}}</option>
-              {% endfor %}
-          </select>
-        </label>
-      </div> -->
+
       <div class="card mb-4 hidden-md-down">
+
+        <div class="card-block">
+        <h6 class="mb-3">Events {% if user.type == "organization": %}
+        <small>·<a href="/addEvent">Add Event</a></small>
+        {% endif %}</h6>
         {% for event in event_list: %}
         <div class="card-block">
-        <h6 class="mb-3">Events <small>· <a href="#">View All</a></small></h6>
         <ul class="media-list media-list-stream">
           <li class="media mb-2">
-            <img
-              class="media-object d-flex align-self-start mr-3"
-              src="assets/img/avatar-fat.jpg">
+
             <div class="media-body">
-              <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong>
-              {{event.title}} <br>
+              <strong><a href="organizationProfilePage?profile={{event.author.urlsafe()}}">{{event.author.get().fullname}}</a></strong><br>
+              <strong>{{event.title}}</strong> <br>
               {{event.location}} <br>
               {{event.time}} <br>
               Funds raised:
               ${{event.total}}
+              <br>
+              {% if event.collaborators: %}
+              <a href = "/collaborators?event={{event.key.urlsafe()}}">
+                Collaborators
+              </a>
+              {% endif %}
               {% if user.usertype == "individual": %}
               <div class="media-body-actions">
                 <a href = "/attendevent?event={{event.key.urlsafe()}}">
                 <button class="btn btn-outline-primary btn-sm">
                   <span class="icon icon-add-user"></span> Attend event</button></a> </div>
+              {% endif %}
+              {% if user.usertype == "organization": %}
+              <div class="media-body-actions">
+                <a href = "/collaborate?event={{event.key.urlsafe()}}">
+                <button class="btn btn-outline-primary btn-sm">
+                  <span class="icon icon-add-user"></span> Collaborate</button></a> </div>
+              {% endif %}
               <div class="media-body-actions">
                 <a href = "/donate?event={{event.key.urlsafe()}}">
                 <button class="btn btn-outline-primary btn-sm">
@@ -557,7 +591,7 @@
                 <button class="btn btn-outline-primary btn-sm">
                   <span class="icon icon-calendar"></span> Add to Calendar</button></a>
               </div>
-              {% endif %}
+
             </div>
           </li>
 
@@ -567,7 +601,6 @@
         {% endfor %}
       </div>
 
-<<<<<<< HEAD
 </div>
 </div>
 </div>
@@ -575,13 +608,7 @@
   <br>
 <footer class="mdl-mini-footer">
   <div class="mdl-mini-footer__left-section">
-    <ul class="mdl-mini-footer__link-list">
-      <li><a href="/index2">Profile Page</a></li>
-      <li><a href="{{signout_link}}">Log Out</a></li>
-      <li><a href="/signupprofile">Sign Up</a></li>
-      <li><a href="{{signin_link}}">Log In</a></li>
-    </ul>
-=======
+
       <div class="card card-link-list">
         <div class="card-block">
           © 2019 OrgSpace
@@ -590,9 +617,7 @@
         </div>
       </div>
     </div>
->>>>>>> f83f88ba366c4d70a15ee6b3affa1ed4014876dc
-  </div>
-</div>
+  </footer>
 
 
 

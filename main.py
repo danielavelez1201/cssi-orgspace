@@ -21,8 +21,7 @@ class Profile(ndb.Model):
     phone = ndb.IntegerProperty(required = True)
     bio = ndb.StringProperty(required = False)
     usertype = ndb.StringProperty(required =True)
-    photo = ndb.BlobProperty(required=False)
-
+    photo = ndb.BlobProperty(required = False)
 
 class Event(ndb.Model):
     author = ndb.KeyProperty(kind = Profile)
@@ -30,7 +29,6 @@ class Event(ndb.Model):
     date = ndb.StringProperty(required = True)
     time = ndb.StringProperty(required = True)
     location = ndb.StringProperty(required = False)
-    photo = ndb.BlobProperty(required=False)
     attendees = ndb.KeyProperty(kind = Profile, repeated = True)
     donations = ndb.KeyProperty(kind = "Donation", repeated = True)
     collaborators = ndb.KeyProperty(kind = "Collaborator", repeated = True)
@@ -160,8 +158,10 @@ class profilePage(webapp2.RequestHandler):
         profileStr = self.request.get("profile")
         profileKey = ndb.Key(urlsafe= profileStr)
         profile = profileKey.get()
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link': signout_link
         }
         template = jinja_env.get_template('templates/profilePage.html')
         self.response.write(template.render(template_vars))
@@ -169,6 +169,9 @@ class profilePage(webapp2.RequestHandler):
 class MainHandler(webapp2.RequestHandler):
 #   def get(self):
     def post(self):
+        logging.info("PHOTO HERE")
+        logging.info(self.request.get("photo"))
+
         # Code to handle a first-time registration from the form:
         user = users.get_current_user()
         orguser = Profile(
@@ -178,6 +181,7 @@ class MainHandler(webapp2.RequestHandler):
             category=self.request.get('category'),
             phone= int(self.request.get('phone')),
             usertype=self.request.get('usertype'),
+            photo = images.resize(self.request.get("photo"), 650, 650)
             )
         profile = orguser.put()
         self.redirect('/mainFeed?profile=' + profile.urlsafe())
@@ -210,9 +214,14 @@ class mainFeed(webapp2.RequestHandler):
                 logging.info("DETECTED COMMENTS")
                 for comment in event.allComments:
                     if(counter > 0):
-                        event.recentComments.append(comment)
-                        counter = counter -1
+                        if not(comment in event.recentComments):
+                            event.recentComments.append(comment)
+                            counter = counter -1
             logging.info(event.recentComments)
+        userEvents = []
+        for event in event_list:
+            if (event.author.get() == user):
+                userEvents.append(event)
         post_query = Post.query()
         post_list = post_query.fetch()
         for post in post_list:
@@ -227,8 +236,9 @@ class mainFeed(webapp2.RequestHandler):
             if not(post.allComments == []):
                 for comment in post.allComments:
                     if(counter > 0):
-                        post.recentComments.append(comment)
-                        counter = counter -1
+                            if not(comment in post.recentComments):
+                                post.recentComments.append(comment)
+                                counter = counter -1
             logging.info(post.recentComments)
         if (self.request.get("profile")):
             current_user = ndb.Key(urlsafe= self.request.get("profile"))
@@ -241,6 +251,7 @@ class mainFeed(webapp2.RequestHandler):
         signout_link = users.create_logout_url('/')
         userKey = user.key
         template_vars = {
+            'userEvents' : userEvents,
             'userKey' : userKey,
             'user' : user,
             'post_list' : post_list,
@@ -254,33 +265,6 @@ class mainFeed(webapp2.RequestHandler):
     def post(self):
         template = jinja_env.get_template('templates/mainFeed.html')
         self.response.write(template.render())
-
-# class profileevents(webapp2.RequestHandler):
-#     def get(self):
-#         event = self.request.get("event")
-#         user = users.get_current_user().email()
-#         author = Event.query().filter(user == Profile.email).get()
-#         event_query = Event.query()
-#         event_list = event_query.fetch()
-#
-#         profiles = Profile.query().fetch()
-#
-#         # Start with an empty set of locations
-#         events = set()
-#
-#         # Loop through the ofiles and add each location to the set
-#         for events in event_list:
-#             events.add(profile.events)
-#         # Pass the set of locations to Jinja
-#
-#         template_vars = {
-#             'event' : event,
-#             'user' : user,
-#             'author': author,
-#             'events' : events,
-#         }
-#         template = jinja_env.get_template('templates/mainFeed.html')
-#         self.response.write(template.render(template_vars))
 
 
 class collaborate(webapp2.RequestHandler):
@@ -363,7 +347,10 @@ class postComment(webapp2.RequestHandler):
             comment = Comment(commentText = commentText, author = user.key, event = item.key, time = str(time), date = str(date)).put()
         else:
             comment = Comment(commentText = commentText, author = user.key, post = item.key, time = str(time), date = str(date)).put()
-        if not(comment in item.allComments):
+        comment_records = []
+        for comment in item.allComments:
+            comment_records.append([comment.author, comment.commentText])
+        if not([comment.author, comment.commentText] in comment_records):
             if (item.allComments):
                 item.allComments.append(comment)
             else:
@@ -470,14 +457,11 @@ class addEvent(webapp2.RequestHandler):
         date = self.request.get("date")
         time = self.request.get("time")
         location = self.request.get("location")
-        logging.info("PHOTO HERE")
-        logging.info(self.request.get("photo"))
-        photo = images.resize(self.request.get("photo"), 650, 650)
         attendees = []
         donations = []
         collaborators = []
         allComments = []
-        event = Event(allComments = allComments, photo = photo, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
+        event = Event(allComments = allComments, author = authorKey, title = title, date = date, time = time, location = location, attendees = attendees, donations = donations, collaborators = collaborators)
         event.put()
         self.redirect('/mainFeed')
 
@@ -492,8 +476,10 @@ class OrgProfilePage(webapp2.RequestHandler):
             profile.isUser = True
         else:
             profile.isUser = False
+        signout_link = users.create_logout_url('/')
         template_vars = {
             'profile' : profile,
+            'signout_link' : signout_link
         }
         template = jinja_env.get_template('templates/organizationProfilePage.html')
         self.response.write(template.render(template_vars))

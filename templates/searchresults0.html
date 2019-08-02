@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="icon" href="images/icon.png">
+      <title>Search Results</title>
+  </head>
+
+  <div class="container-fluid">
+<h1 style="text-align:center;"><strong> Search Results</strong></h1>
+  <body>
+    <p style= "color: black;"> <strong> Sort Results: </strong> </p>
+    <form method= "GET" action= "/searchresults">
+      <div>
+        <label> Category:
+          <select class="" name="category" placeholder={{category}}>
+            <option class="" disabled="" value="-1">Choose a category</option>
+            <option value= "Accidents & Emergencies">Accidents &amp; Emergencies</option>
+            <option value= "Animals & Pets">Animals &amp; Pets</option>
+            <option value= "Children & Family">Children &amp; Family</option>
+            <option value= "Business & Entrepreneurs">Business &amp; Entrepreneurs</option>
+            <option value= "Community & Neighbours">Community &amp; Neighbours</option>
+            <option value= "Creative Arts, Music & Film">Creative Arts, Music &amp; Film</option>
+            <option value= "Volunteer & Service">Volunteer &amp; Service</option>
+            <option value= "Dreams, Hopes, & Wishes">Dreams, Hopes &amp; Wishes</option>
+            <option value= "Education & Learning">Education &amp; Learning</option>
+            <option value= "Medicak, Illness, & Healing">Medical, Illness &amp; Healing</option>
+            <option value= "Missions, Faith, & Church">Missions, Faith &amp; Church</option>
+            <option value= "Teams & Clib">Sports, Teams &amp; Clubs</option>
+            <option value= "Travel & Adventure">Travel &amp; Adventure</option>
+            <option value= "Other">Other</option>
+            <!-- VALUES -->
+          </select>
+        </label>
+      </div>
+        <div>
+          <label  style="color:black";> Location:
+            <select class="" name="location">
+              <option class="" disabled="" value="-1">Choose a Location</option>
+                {% for location in locations %}
+                  <option value= "{{location}}">{{location}}</option>
+                {% endfor %}
+            </select>
+          </label>
+        </div>
+      <div>
+          <input type= "hidden" name= "search_query" value="{{search_query}}"></input>
+          <input type= "submit" name= "submit"> </input>
+      </div>
+    </form>
+
+    <ul>
+    {% for profile in result_profiles %}
+        <li> {{profile.fullname}}
+        <br> - {{profile.category}}
+        <br> - {{profile.location}} <br>
+        <a href= "/profilePage?profile={{profile.key.urlsafe()}}" > View Profile
+        </a></li>
+    {% endfor %}
+  </ul>
+<!-- POSSIBLE FOR LOOP, LINK PROFILES -->
+
+
+  </body>
+
+  <br>
+
+</html>
